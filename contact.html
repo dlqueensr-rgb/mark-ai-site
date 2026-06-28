@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact Us — Mark AI</title>
+<meta name="description" content="Get in touch with Mark AI. Book a live demo or reach the team by email — we'll show you how Mark would answer your calls, book your jobs, and fill your slow days." />
+<link rel="icon" href="/assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brandmark" href="/"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/#how">How it works</a>
+      <a href="/#outbound">Outbound</a>
+      <a href="/#why">Why Mark</a>
+      <a href="/campaigns.html">Campaigns</a>
+      <a href="/#who">Who it's for</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hd">
+  <div class="wrap">
+    <span class="eyebrow">Contact us</span>
+    <h1>Let's talk.</h1>
+    <p class="kick">The fastest way to understand Mark is to hear him work. Book a fifteen-minute demo, or send us a note — we read every one.</p>
+  </div>
+</section>
+
+<section class="prose-wrap">
+  <div class="wrap" style="max-width:900px;">
+    <div class="contact-grid">
+
+      <div class="contact-card">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
+        <h3>Book a demo</h3>
+        <p>Fifteen minutes. We'll walk through how Mark would handle your calls, book your jobs, and fill your slow days — on your trade, with your pricing.</p>
+        <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Pick a time →</a>
+      </div>
+
+      <div class="contact-card">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+        <h3>Email us</h3>
+        <p>Questions about how Mark fits your shop or your network, partnership inquiries, or support — drop us a line and we'll get back to you.</p>
+        <a class="cval" href="mailto:support@markaioffice.com">support@markaioffice.com</a>
+      </div>
+
+    </div>
+
+    <div class="prose" style="max-width:none;margin-top:46px;">
+      <h2>Who we are</h2>
+      <p>Mark AI is operated by <strong>Mark The AI Office Manager, LLC</strong>, based in California and built for home-services businesses across the country. Whether you run a single shop or a national franchise network, we'd be glad to show you what Mark can do.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <a class="brandmark" href="/"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <div>The AI office manager for home services.</div>
+    <div>© 2026 Mark AI</div>
+  </div>
+  <div class="wrap foot-legal">
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/do-not-sell.html">Do Not Sell My Information</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
+</script>
+
+</body>
+</html>
