@@ -20,7 +20,7 @@
       <a href="#how">How it works</a>
       <a href="#outbound">Outbound</a>
       <a href="/campaigns.html">Campaigns</a>
-      <a href="#why">Why Mark</a
+      <a href="#why">Why Mark</a>
       <a href="#who">Who it's for</a>
     </nav>
     <div class="nav-right">
@@ -211,43 +211,42 @@
     </div>
   </div>
 </section>
-Automated Campaigns
-16 campaigns. Zero manual sends.
-Seasonal maintenance, holiday blasts, win-back sequences, and post-job follow-ups — all set up once and running every day. Every customer in your database gets reached on a schedule that fits your operation.
 
-🍂
-Seasonal campaigns — fall, winter, spring, summer fire on the right month, automatically.
-🎆
-Holiday blasts — six promotions armed for the full year. Window opens, it fires. Window closes, it stops.
-🔄
-Win-back and follow-up — lapsed customers and recent jobs get the right message at the right time.
-See all campaigns →
-Your campaign calendar
-J
-F
-M
-A
-M
-J
-J
-A
-S
-O
-N
-D
-❄ Winter
-🌱 Spring
-☀ Summer
-🍂 Fall
-WIN-BACK
-always on
-POST-JOB FOLLOW-UP
-always on
-NEW CUSTOMER WELCOME
-always on
-Seasonal
-Holiday blast
-Always-on
+<!-- AUTOMATED CAMPAIGNS SPOTLIGHT -->
+<section id="campaigns" style="background:var(--white);border-top:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow muted">Automated Campaigns</span>
+      <h2>16 campaigns. Zero manual sends.</h2>
+      <p>Seasonal maintenance, holiday blasts, win-back sequences, and post-job follow-ups — all set up once and running every day across every franchise location. Every customer in your database gets reached automatically.</p>
+    </div>
+    <div class="diff-grid" style="margin-bottom:40px;">
+      <div class="feat">
+        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
+        <h3>Seasonal Maintenance</h3>
+        <p>Fall, winter, spring, and summer campaigns activate on the right month and roll through your entire customer base — no scheduling, no reminders, no manual work.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
+        <h3>Holiday Blasts</h3>
+        <p>Six promotions armed for the full year. When the date window opens, the campaign fires to your entire base. When it closes, it stops. Owners set the offer once.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M17 2l4 4-4 4M7 22l-4-4 4-4M3 6h10a4 4 0 010 8H3M21 12H11"/></svg></div>
+        <h3>Win-Back &amp; Follow-Up</h3>
+        <p>Lapsed customers get a win-back offer at 6 months. Recent jobs get a thank-you within 14 days. New customers get a welcome after their first visit. All automatic.</p>
+      </div>
+    </div>
+    <div style="background:var(--navy);border-radius:16px;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'Source Serif 4',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">See every campaign — and the full year calendar.</div>
+        <div style="font-size:15px;color:#A9B6D0;">Holiday windows, seasonal dates, always-on campaigns, and the dashboard owners use to manage them.</div>
+      </div>
+      <a class="btn btn-primary" href="/campaigns.html" style="white-space:nowrap;flex:none;">See all campaigns →</a>
+    </div>
+  </div>
+</section>
+
 <!-- WHO IT'S FOR -->
 <section id="who" class="doors">
   <div class="wrap">
@@ -325,7 +324,6 @@ Always-on
   var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
   menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
   navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
-
 
   var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var lines=document.querySelectorAll('#transcript .line');
