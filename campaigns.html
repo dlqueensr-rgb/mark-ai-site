@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Automated Campaigns — Mark AI</title>
+<meta name="description" content="16 campaigns reach your entire customer base automatically — seasonal maintenance, holiday blasts, win-back sequences, and post-job follow-ups. Set up once. Runs every day." />
+<link rel="icon" href="/assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+/* ── page tokens ─────────────────────────────────────── */
+:root {
+  --camp-seasonal: #1E7A41;
+  --camp-seasonal-bg: rgba(30,122,65,.18);
+  --camp-promo: #C8A41F;
+  --camp-promo-bg: rgba(200,164,31,.22);
+  --camp-always: rgba(255,255,255,.12);
+  --camp-always-text: #8595B4;
+}
+
+/* ── hero ────────────────────────────────────────────── */
+.camp-hero {
+  background: var(--navy);
+  padding: 80px 0 0;
+  overflow: hidden;
+}
+.camp-hero .eyebrow { color: var(--gold-soft); }
+.camp-hero h1 {
+  font-size: clamp(36px, 5vw, 58px);
+  color: #fff;
+  margin: 18px 0 0;
+  max-width: 16em;
+}
+.camp-hero h1 em {
+  font-style: italic;
+  color: var(--gold-soft);
+  font-weight: 500;
+}
+.camp-hero .lead {
+  font-size: 18px;
+  color: #A9B6D0;
+  max-width: 34em;
+  margin: 20px 0 32px;
+  line-height: 1.65;
+}
+.hero-stat-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 44px;
+  flex-wrap: wrap;
+}
+.hero-stat .v {
+  font-family: "Source Serif 4", serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--gold-soft);
+  line-height: 1;
+}
+.hero-stat .k {
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #8595B4;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+/* ── year calendar ───────────────────────────────────── */
+.cal-panel {
+  margin-top: 60px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px 18px 0 0;
+  padding: 32px 32px 0;
+}
+.cal-label {
+  font-size: 11px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: #8595B4;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.cal-months {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.cal-month {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #8595B4;
+  text-align: center;
+  padding-bottom: 6px;
+}
+.cal-month.now {
+  color: var(--gold-soft);
+}
+.cal-row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+  align-items: center;
+  position: relative;
+}
+.cal-row-label {
+  font-size: 10px;
+  color: #8595B4;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.cal-cell {
+  height: 20px;
+  border-radius: 4px;
+  background: transparent;
+}
+.cal-cell.seasonal {
+  background: var(--camp-seasonal-bg);
+  border: 1px solid rgba(30,122,65,.4);
+  position: relative;
+}
+.cal-cell.promo {
+  background: var(--camp-promo-bg);
+  border: 1px solid rgba(200,164,31,.45);
+  position: relative;
+}
+.cal-cell.always {
+  background: var(--camp-always);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.cal-cell.start { border-radius: 6px 3px 3px 6px; }
+.cal-cell.end { border-radius: 3px 6px 6px 3px; }
+.cal-cell.mid { border-radius: 3px; }
+.cal-cell.solo { border-radius: 6px; }
+.cal-cell.empty {}
+.promo-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: 0 0 6px rgba(200,164,31,.6);
+  flex: none;
+}
+.cal-type-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.cal-type-row:first-child { border-top: 0; }
+.cal-type-name {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #8595B4;
+  white-space: nowrap;
+  min-width: 130px;
+}
+.cal-type-bar {
+  flex: 1;
+  height: 16px;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  gap: 3px;
+}
+.cal-segment {
+  height: 100%;
+  border-radius: 4px;
+}
+.cal-note {
+  font-size: 10.5px;
+  color: #8595B4;
+  white-space: nowrap;
+}
+.cal-grid-rows { padding-bottom: 32px; }
+
+/* promo dots row */
+.promo-bar-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex: 1;
+}
+.promo-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.promo-marker .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(200,164,31,.7);
+  flex: none;
+}
+.promo-marker .plabel {
+  font-size: 9px;
+  color: var(--gold-soft);
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: .05em;
+}
+.promo-spacer { flex: 1; }
+
+/* ── stat strip ──────────────────────────────────────── */
+.camp-stats {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line-soft);
+}
+.camp-stats .wrap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding: 0 28px;
+}
+.cstat {
+  padding: 36px 24px;
+  border-right: 1px solid var(--line-soft);
+}
+.cstat:last-child { border-right: 0; }
+.cstat .v {
+  font-family: "Source Serif 4", serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1;
+}
+.cstat .k {
+  font-size: 13px;
+  color: var(--slate);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ── campaign types ──────────────────────────────────── */
+.camp-types { background: var(--white); }
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.type-card {
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+  padding: 28px;
+  background: var(--paper);
+  transition: border-color .15s, transform .15s, box-shadow .15s;
+}
+.type-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px -20px rgba(19,36,64,.35);
+}
+.type-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  font-size: 20px;
+}
+.type-icon.seasonal { background: rgba(30,122,65,.12); }
+.type-icon.promo { background: rgba(200,164,31,.15); }
+.type-icon.winback { background: rgba(19,36,64,.08); }
+.type-icon.postjob { background: rgba(42,64,107,.1); }
+.type-icon.welcome { background: rgba(30,122,65,.08); }
+.type-card h3 { font-size: 20px; margin-bottom: 8px; }
+.type-card .sub {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.type-card .sub.seasonal { color: var(--green); }
+.type-card .sub.promo { color: var(--gold); }
+.type-card .sub.winback { color: var(--navy-2); }
+.type-card .sub.postjob { color: var(--navy-3); }
+.type-card .sub.welcome { color: var(--green); }
+.type-card p { font-size: 14.5px; color: var(--slate); margin: 0 0 16px; line-height: 1.6; }
+.type-pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.type-pill {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--panel);
+  color: var(--navy);
+  border: 1px solid var(--line-soft);
+}
+/* span second row for 5 cards */
+.type-grid .type-card:nth-child(4) { grid-column: 1; }
+.type-grid .type-card:nth-child(5) { grid-column: 2; }
+
+/* ── how it works ────────────────────────────────────── */
+.camp-how { background: var(--paper); }
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  position: relative;
+}
+.how-steps::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: calc(33% + 16px);
+  right: calc(33% + 16px);
+  height: 1px;
+  background: var(--line-soft);
+}
+.how-step { position: relative; }
+.step-num {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold-soft);
+  font-family: "Source Serif 4", serif;
+  font-size: 18px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.how-step h3 { font-size: 20px; margin-bottom: 10px; }
+.how-step p { font-size: 15px; color: var(--slate); margin: 0; line-height: 1.65; }
+
+/* ── owner controls ──────────────────────────────────── */
+.camp-controls { background: var(--navy); }
+.camp-controls .sec-head h2 { color: #fff; }
+.camp-controls .sec-head p { color: #A9B6D0; }
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.control-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  padding: 28px;
+  transition: background .15s, border-color .15s;
+}
+.control-card:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(200,164,31,.4);
+}
+.control-ico {
+  font-size: 22px;
+  margin-bottom: 16px;
+  display: block;
+}
+.control-card h3 { font-size: 19px; color: #fff; margin-bottom: 8px; }
+.control-card p { font-size: 14.5px; color: #A9B6D0; margin: 0; line-height: 1.6; }
+.control-example {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,.06);
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: var(--gold-soft);
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+/* ── holiday blasts ──────────────────────────────────── */
+.camp-blast { background: var(--white); }
+.blast-grid {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 60px;
+  align-items: center;
+}
+.blast-left h2 { font-size: clamp(28px, 3.5vw, 38px); margin-bottom: 18px; }
+.blast-left p { font-size: 16px; color: var(--slate); line-height: 1.7; margin-bottom: 18px; }
+.blast-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+}
+.blast-date {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: var(--paper);
+}
+.blast-date .bd-icon { font-size: 18px; flex: none; }
+.blast-date .bd-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy);
+}
+.blast-date .bd-window {
+  font-size: 12px;
+  color: var(--slate);
+  margin-top: 2px;
+}
+.blast-date .bd-status {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.bd-status.armed {
+  background: rgba(30,122,65,.1);
+  color: var(--green);
+  border: 1px solid rgba(30,122,65,.25);
+}
+.bd-status.scheduled {
+  background: rgba(19,36,64,.06);
+  color: var(--slate);
+  border: 1px solid var(--line-soft);
+}
+.blast-right {
+  background: var(--navy);
+  border-radius: 16px;
+  padding: 28px;
+  color: #DCE4F2;
+}
+.blast-right .br-label {
+  font-size: 10.5px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.blast-right .br-name {
+  font-family: "Source Serif 4", serif;
+  font-size: 22px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.blast-right .br-window {
+  font-size: 13px;
+  color: #8595B4;
+  margin-bottom: 20px;
+}
+.blast-note {
+  background: rgba(200,164,31,.12);
+  border: 1px solid rgba(200,164,31,.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: var(--gold-soft);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.blast-note strong { color: #fff; }
+.blast-tech-note {
+  background: rgba(30,122,65,.12);
+  border: 1px solid rgba(59,191,114,.25);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #A9E3C0;
+  line-height: 1.6;
+}
+
+/* ── ST trust strip ──────────────────────────────────── */
+.camp-st { background: var(--paper); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+.st-row {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 40px 0;
+  flex-wrap: wrap;
+}
+.st-badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: none;
+}
+.st-badge .sb-ico {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: var(--navy);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex: none;
+}
+.st-badge .sb-text strong {
+  display: block;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 700;
+}
+.st-badge .sb-text span {
+  font-size: 13px;
+  color: var(--slate);
+}
+.st-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--line-soft);
+  flex: none;
+}
+
+/* ── final cta ───────────────────────────────────────── */
+.camp-cta {
+  background: var(--navy);
+  text-align: center;
+  padding: 90px 0;
+}
+.camp-cta .eyebrow { color: var(--gold-soft); }
+.camp-cta h2 { color: #fff; font-size: clamp(28px, 4vw, 44px); margin: 16px auto 0; max-width: 18em; }
+.camp-cta p { color: #A9B6D0; font-size: 17px; margin: 18px auto 32px; max-width: 36em; }
+
+/* ── responsive ──────────────────────────────────────── */
+@media (max-width: 860px) {
+  .type-grid { grid-template-columns: 1fr 1fr; }
+  .type-grid .type-card:nth-child(4) { grid-column: auto; }
+  .type-grid .type-card:nth-child(5) { grid-column: auto; }
+  .how-steps { grid-template-columns: 1fr; gap: 28px; }
+  .how-steps::before { display: none; }
+  .controls-grid { grid-template-columns: 1fr; }
+  .blast-grid { grid-template-columns: 1fr; }
+  .camp-stats .wrap { grid-template-columns: repeat(2, 1fr); }
+  .cstat:nth-child(2) { border-right: 0; }
+  .cstat { border-bottom: 1px solid var(--line-soft); }
+}
+@media (max-width: 600px) {
+  .type-grid { grid-template-columns: 1fr; }
+  .camp-stats .wrap { grid-template-columns: 1fr 1fr; }
+  .cal-panel { padding: 20px 16px 0; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brandmark" href="/"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/#how">How it works</a>
+      <a href="/#outbound">Outbound</a>
+      <a href="/campaigns.html" style="color:#fff">Campaigns</a>
+      <a href="/#who">Who it's for</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="camp-hero">
+  <div class="wrap">
+    <span class="eyebrow">Automated Campaigns</span>
+    <h1>The marketing engine that <em>runs itself.</em></h1>
+    <p class="lead">16 campaigns reach your entire customer base automatically — seasonal maintenance reminders, holiday blasts, win-back sequences, and post-job follow-ups. Set up once. Running every day across every franchise location.</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="v">16</div><div class="k">Campaigns ready to run</div></div>
+      <div class="hero-stat"><div class="v">Thousands</div><div class="k">Customers in your pool</div></div>
+      <div class="hero-stat"><div class="v">0</div><div class="k">Manual sends ever</div></div>
+      <div class="hero-stat"><div class="v">100%</div><div class="k">Automated</div></div>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo →</a>
+    </div>
+
+    <!-- YEAR CALENDAR -->
+    <div class="cal-panel">
+      <div class="cal-label">Your full year — every campaign, every window</div>
+
+      <!-- Month headers -->
+      <div class="cal-months">
+        <div class="cal-month">Jan</div>
+        <div class="cal-month">Feb</div>
+        <div class="cal-month">Mar</div>
+        <div class="cal-month">Apr</div>
+        <div class="cal-month">May</div>
+        <div class="cal-month">Jun</div>
+        <div class="cal-month now">Jul ◀</div>
+        <div class="cal-month">Aug</div>
+        <div class="cal-month">Sep</div>
+        <div class="cal-month">Oct</div>
+        <div class="cal-month">Nov</div>
+        <div class="cal-month">Dec</div>
+      </div>
+
+      <div class="cal-grid-rows">
+        <!-- Seasonal row label -->
+        <div class="cal-row-label">Seasonal Maintenance (auto-fires each season)</div>
+
+        <!-- Winter: Dec+Jan+Feb -->
+        <div class="cal-row" style="margin-bottom:8px;">
+          <div class="cal-cell seasonal start" style="grid-column:1/3; height:22px; display:flex; align-items:center; padding:0 8px;"><span style="font-size:10px;color:#3BBF72;font-weight:700;white-space:nowrap;">❄ Winter</span></div>
+          <div class="cal-cell empty" style="grid-column:3/7;"></div>
+          <div class="cal-cell seasonal start" style="grid-column:7/10; height:22px; display:flex; align-items:center; padding:0 8px;"><span style="font-size:10px;color:#3BBF72;font-weight:700;">☀ Summer</span></div>
+          <div class="cal-cell empty" style="grid-column:10/12;"></div>
+          <div class="cal-cell seasonal solo" style="grid-column:12/13; height:22px; display:flex; align-items:center; padding:0 6px;"><span style="font-size:9px;color:#3BBF72;font-weight:700;">❄</span></div>
+        </div>
+        <div class="cal-row" style="margin-bottom:8px;">
+          <div class="cal-cell empty" style="grid-column:1/4;"></div>
+          <div class="cal-cell seasonal start" style="grid-column:4/7; height:22px; display:flex; align-items:center; padding:0 8px;"><span style="font-size:10px;color:#3BBF72;font-weight:700;">🌱 Spring</span></div>
+          <div class="cal-cell empty" style="grid-column:7/10;"></div>
+          <div class="cal-cell seasonal start" style="grid-column:10/13; height:22px; display:flex; align-items:center; padding:0 8px;"><span style="font-size:10px;color:#3BBF72;font-weight:700;">🍂 Fall</span></div>
+        </div>
+
+        <!-- Holiday row label -->
+        <div class="cal-row-label">Holiday Blasts (date-gated, fires automatically)</div>
+        <div class="cal-row" style="align-items:flex-end; margin-bottom:20px;">
+          <!-- New Year's Jan -->
+          <div style="grid-column:1/2; display:flex; flex-direction:column; align-items:center; gap:3px;">
+            <span style="font-size:9px;color:var(--gold-soft);font-weight:700;letter-spacing:.04em;">NYR</span>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,164,31,.7);"></div>
+          </div>
+          <!-- Presidents Feb -->
+          <div style="grid-column:2/3; display:flex; flex-direction:column; align-items:center; gap:3px;">
+            <span style="font-size:9px;color:var(--gold-soft);font-weight:700;letter-spacing:.04em;">PRES</span>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,164,31,.7);"></div>
+          </div>
+          <!-- Empty Mar/Apr -->
+          <div style="grid-column:3/4;"></div><div style="grid-column:4/5;"></div>
+          <!-- Memorial May -->
+          <div style="grid-column:5/6; display:flex; flex-direction:column; align-items:center; gap:3px;">
+            <span style="font-size:9px;color:var(--gold-soft);font-weight:700;letter-spacing:.04em;">MEM</span>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,164,31,.7);"></div>
+          </div>
+          <div style="grid-column:6/7;"></div>
+          <!-- July 4th -->
+          <div style="grid-column:7/8; display:flex; flex-direction:column; align-items:center; gap:3px;">
+            <span style="font-size:9px;color:var(--gold-soft);font-weight:700;letter-spacing:.04em;">JUL 4</span>
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(200,164,31,.9);"></div>
+          </div>
+          <!-- Labor Day Aug/Sep boundary -->
+          <div style="grid-column:8/9;"></div>
+          <div style="grid-column:9/10; display:flex; flex-direction:column; align-items:center; gap:3px;">
+            <span style="font-size:9px;color:var(--gold-soft);font-weight:700;letter-spacing:.04em;">LABOR</span>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,164,31,.7);"></div>
+          </div>
+          <div style="grid-column:10/11;"></div>
+          <!-- Black Friday Nov -->
+          <div style="grid-column:11/12; display:flex; flex-direction:column; align-items:center; gap:3px;">
+            <span style="font-size:9px;color:var(--gold-soft);font-weight:700;letter-spacing:.04em;">BLK</span>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,164,31,.7);"></div>
+          </div>
+          <!-- New Year's Dec -->
+          <div style="grid-column:12/13; display:flex; flex-direction:column; align-items:center; gap:3px;">
+            <span style="font-size:9px;color:var(--gold-soft);font-weight:700;letter-spacing:.04em;">NYR</span>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(200,164,31,.7);"></div>
+          </div>
+        </div>
+
+        <!-- Always-on label -->
+        <div class="cal-row-label">Always-on (continuous, new customers auto-enrolled)</div>
+        <div class="cal-row" style="margin-bottom:6px;">
+          <div class="cal-cell always start" style="grid-column:1/13; height:22px; display:flex; align-items:center; padding:0 14px; border-radius:6px; justify-content:space-between;">
+            <span style="font-size:10px;color:#8595B4;font-weight:700;letter-spacing:.07em;">WIN-BACK — RESIDENTIAL &amp; COMMERCIAL</span>
+            <span style="font-size:10px;color:#8595B4;">Rolling 200/day</span>
+          </div>
+        </div>
+        <div class="cal-row" style="margin-bottom:6px;">
+          <div class="cal-cell always start" style="grid-column:1/13; height:22px; display:flex; align-items:center; padding:0 14px; border-radius:6px; justify-content:space-between;">
+            <span style="font-size:10px;color:#8595B4;font-weight:700;letter-spacing:.07em;">POST-JOB FOLLOW-UP — 14-DAY WINDOW</span>
+            <span style="font-size:10px;color:#8595B4;">Rolling 200/day</span>
+          </div>
+        </div>
+        <div class="cal-row" style="margin-bottom:6px;">
+          <div class="cal-cell always start" style="grid-column:1/13; height:22px; display:flex; align-items:center; padding:0 14px; border-radius:6px; justify-content:space-between;">
+            <span style="font-size:10px;color:#8595B4;font-weight:700;letter-spacing:.07em;">NEW CUSTOMER WELCOME — RESIDENTIAL &amp; COMMERCIAL</span>
+            <span style="font-size:10px;color:#8595B4;">Rolling 200/day</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div style="display:flex;gap:24px;padding:16px 0 20px;border-top:1px solid rgba(255,255,255,.07);">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:14px;height:14px;border-radius:3px;background:var(--camp-seasonal-bg);border:1px solid rgba(30,122,65,.4);"></div>
+          <span style="font-size:11.5px;color:#8595B4;font-weight:600;">Seasonal maintenance</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></div>
+          <span style="font-size:11.5px;color:#8595B4;font-weight:600;">Holiday blast</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:14px;height:14px;border-radius:3px;background:var(--camp-always);border:1px solid rgba(255,255,255,.1);"></div>
+          <span style="font-size:11.5px;color:#8595B4;font-weight:600;">Always-on</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="camp-stats">
+  <div class="wrap">
+    <div class="cstat">
+      <div class="v">Set your pace</div>
+      <div class="k">each franchise controls their own daily send rate — 50/day or 9,999/day blast</div>
+    </div>
+    <div class="cstat">
+      <div class="v">14 days</div>
+      <div class="k">post-job follow-up window — strikes while the iron is hot</div>
+    </div>
+    <div class="cstat">
+      <div class="v">6 months</div>
+      <div class="k">lapse window before win-back campaigns kick in automatically</div>
+    </div>
+    <div class="cstat">
+      <div class="v">6</div>
+      <div class="k">holiday blasts armed and date-gated for the full year</div>
+    </div>
+  </div>
+</div>
+
+<!-- CAMPAIGN TYPES -->
+<section class="camp-types">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow muted">Campaign types</span>
+      <h2>Every stage of the customer relationship — automated.</h2>
+      <p>Five campaign types cover the full lifecycle: from a customer's first job to their sixth. Each type runs independently, targets the right segment, and fires without anyone touching a button.</p>
+    </div>
+
+    <div class="type-grid">
+
+      <div class="type-card">
+        <div class="type-icon seasonal">🍂</div>
+        <div class="sub seasonal">Seasonal Maintenance</div>
+        <h3>Your customers hear from you every season</h3>
+        <p>Fall, winter, spring, and summer campaigns reach every dialable residential customer with a tiered labor savings offer. Campaigns activate on the first day of each season and roll at 200 customers per day until everyone's reached.</p>
+        <div class="type-pill-row">
+          <span class="type-pill">🍂 Fall — Sep to Nov</span>
+          <span class="type-pill">❄ Winter — Dec to Feb</span>
+          <span class="type-pill">🌱 Spring — Mar to May</span>
+          <span class="type-pill">☀ Summer — Jun to Aug</span>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-icon promo">🎆</div>
+        <div class="sub promo">Holiday Blasts</div>
+        <h3>Date-gated promotions that send themselves</h3>
+        <p>Six holiday campaigns are armed and ready for the full year. When the promotion window opens, Mark blasts your entire customer base — SMS first, email 24 hours later. When the window closes, it stops automatically. You set the offer once.</p>
+        <div class="type-pill-row">
+          <span class="type-pill">🎆 July 4th</span>
+          <span class="type-pill">🏖 Labor Day</span>
+          <span class="type-pill">🦃 Black Friday</span>
+          <span class="type-pill">🎉 New Year's</span>
+          <span class="type-pill">🇺🇸 Presidents Day</span>
+          <span class="type-pill">✿ Memorial Day</span>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-icon winback">🔄</div>
+        <div class="sub winback">Win-Back</div>
+        <h3>Lapsed customers don't stay lapsed</h3>
+        <p>Customers who haven't booked in 6+ months automatically enter the win-back sequence. Mark reaches out with a discount offer and a direct path back to the schedule. Separate campaigns for residential and commercial so the message fits the customer.</p>
+        <div class="type-pill-row">
+          <span class="type-pill">Residential win-back</span>
+          <span class="type-pill">Commercial win-back</span>
+          <span class="type-pill">6-month lapse trigger</span>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-icon postjob">📋</div>
+        <div class="sub postjob">Post-Job Follow-Up</div>
+        <h3>Strike while the iron is hot</h3>
+        <p>Within 14 days of a completed job, every customer gets a thank-you message and a discount offer for their next visit. The 14-day window keeps the message timely — not a generic blast months later when the job is forgotten.</p>
+        <div class="type-pill-row">
+          <span class="type-pill">Residential follow-up</span>
+          <span class="type-pill">Commercial follow-up</span>
+          <span class="type-pill">14-day window</span>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="type-icon welcome">👋</div>
+        <div class="sub welcome">New Customer Welcome</div>
+        <h3>First job done — relationship started</h3>
+        <p>Every first-time customer gets a branded welcome message after their job closes. It introduces your business, provides your direct line, and sets the tone for the relationship — without anyone on your team sending a single text.</p>
+        <div class="type-pill-row">
+          <span class="type-pill">Residential welcome</span>
+          <span class="type-pill">Commercial welcome</span>
+          <span class="type-pill">One per customer</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="camp-how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow muted">How it works</span>
+      <h2>Set it up in an afternoon. Run it for years.</h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>Set your offer and pace</h3>
+        <p>Choose your discount amount, expiry window, and how many customers to contact per day. Flat dollar, percentage, or tiered by job size — the offer editor handles all of it. Blast your whole base at once for holiday promos, or drip 200 a day for seasonal campaigns.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Mark handles everything</h3>
+        <p>Campaigns enroll new customers automatically every morning. SMS goes first, email 24 hours later — both with your tracking number and your offer. Holiday blasts fire when the window opens and stop when it closes. Seasonal campaigns activate on the right month without you touching anything.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Watch results in your dashboard</h3>
+        <p>Every campaign shows live enrollment counts, SMS and email sent, opens, and bookings attributed back to the campaign. When you want to reach your base again, hit Re-enroll and the entire cycle runs again — fresh pool, same campaign, zero setup.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OWNER CONTROLS -->
+<section class="camp-controls">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Owner controls</span>
+      <h2>You set the rules. Mark follows them.</h2>
+      <p>Every campaign is fully editable from your dashboard — no support ticket, no waiting. Change the offer, the pace, or the window. Re-enroll your customer base anytime you want to run the campaign again.</p>
+    </div>
+    <div class="controls-grid">
+
+      <div class="control-card">
+        <span class="control-ico">💸</span>
+        <h3>Offer editor</h3>
+        <p>Set a flat dollar amount, a percentage off, a tiered discount by job size, or a threshold amount. Change it anytime — the next send picks up the new offer automatically.</p>
+        <div class="control-example">$50 off · valid within 30 days ✎</div>
+      </div>
+
+      <div class="control-card">
+        <span class="control-ico">⏱</span>
+        <h3>Daily limit</h3>
+        <p>Control how many customers you contact per day. Small operation with a new board? Drop it to 50. Ready to fill the whole schedule? Crank it to 9999 for a same-day blast. You decide the pace.</p>
+        <div class="control-example">200/day → change to 50/day ✎</div>
+      </div>
+
+      <div class="control-card">
+        <span class="control-ico">🔁</span>
+        <h3>Re-enroll on demand</h3>
+        <p>Once a campaign cycle completes, every customer stays marked "done" until you re-enroll them. One button resets the pool — active enrollments keep running, everyone else is ready to receive the campaign again.</p>
+        <div class="control-example">Re-enroll completed (847) →</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOLIDAY BLASTS FEATURE -->
+<section class="camp-blast">
+  <div class="wrap">
+    <div class="blast-grid">
+      <div class="blast-left">
+        <span class="eyebrow muted">Holiday blasts</span>
+        <h2>Six promotions set up for the full year — armed and waiting.</h2>
+        <p>Each holiday campaign has a precise date window. When the window opens, the campaign fires to your entire customer base. When it closes, it stops. You don't manage any of it — just keep your offer current and Mark handles the rest.</p>
+        <p>Every booking made during a promotion window gets a pinned note on the ServiceTitan job telling your tech exactly which discount applies, what the qualification requirement is, and which pricebook SKU to add when building the estimate on-site.</p>
+
+        <div class="blast-dates">
+          <div class="blast-date">
+            <div class="bd-icon">🎆</div>
+            <div>
+              <div class="bd-name">July 4th Sale</div>
+              <div class="bd-window">Jun 30 – Jul 6, 2026</div>
+            </div>
+            <div class="bd-status armed">Armed</div>
+          </div>
+          <div class="blast-date">
+            <div class="bd-icon">🏖</div>
+            <div>
+              <div class="bd-name">Labor Day Sale</div>
+              <div class="bd-window">Aug 29 – Sep 7, 2026</div>
+            </div>
+            <div class="bd-status armed">Armed</div>
+          </div>
+          <div class="blast-date">
+            <div class="bd-icon">🦃</div>
+            <div>
+              <div class="bd-name">Black Friday Sale</div>
+              <div class="bd-window">Nov 25 – Dec 1, 2026</div>
+            </div>
+            <div class="bd-status scheduled">Scheduled</div>
+          </div>
+          <div class="blast-date">
+            <div class="bd-icon">🎉</div>
+            <div>
+              <div class="bd-name">New Year's Sale</div>
+              <div class="bd-window">Dec 30 – Jan 5, 2027</div>
+            </div>
+            <div class="bd-status scheduled">Scheduled</div>
+          </div>
+          <div class="blast-date">
+            <div class="bd-icon">🇺🇸</div>
+            <div>
+              <div class="bd-name">Presidents Day Sale</div>
+              <div class="bd-window">Feb 12 – 16, 2027</div>
+            </div>
+            <div class="bd-status scheduled">Scheduled</div>
+          </div>
+          <div class="blast-date">
+            <div class="bd-icon">✿</div>
+            <div>
+              <div class="bd-name">Memorial Day Sale</div>
+              <div class="bd-window">May 28 – Jun 1, 2027</div>
+            </div>
+            <div class="bd-status scheduled">Scheduled</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="blast-right">
+        <div class="br-label">What your tech sees in ServiceTitan</div>
+        <div class="br-name">⭐ Promo Discount — Read Before Estimating</div>
+        <div class="br-window">Pinned note · July 4th Sale (Residential)</div>
+
+        <div class="blast-note">
+          <strong>Discount:</strong> $250 OFF LABOR
+        </div>
+
+        <div style="background:rgba(30,122,65,.12);border:1px solid rgba(59,191,114,.25);border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+          <div style="font-size:13px;color:#A9E3C0;margin-bottom:6px;">✅ <strong style="color:#fff;">APPLY IF:</strong> Job requires 8+ hours of labor</div>
+          <div style="font-size:13px;color:#A9E3C0;">❌ <strong style="color:#fff;">DO NOT APPLY:</strong> Job requires less than 8 hours</div>
+        </div>
+
+        <div style="background:rgba(200,164,31,.1);border:1px solid rgba(200,164,31,.25);border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+          <div style="font-size:12px;color:#8595B4;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;">SKU to add</div>
+          <div style="font-size:14px;color:var(--gold-soft);font-weight:700;">PROMO-LABOR-25PCT</div>
+          <div style="font-size:12px;color:#8595B4;margin-top:3px;">Discounts &amp; Fees in pricebook</div>
+        </div>
+
+        <div style="font-size:12.5px;color:#8595B4;line-height:1.6;">
+          Full terms: On 8+ hours labor. Offer ends Mon Jul 13, 2026. Labor only. Cannot be combined with membership pricing.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ST TRUST STRIP -->
+<div class="camp-st">
+  <div class="wrap">
+    <div class="st-row">
+      <div class="st-badge">
+        <div class="sb-ico">🔗</div>
+        <div class="sb-text">
+          <strong>Works with ServiceTitan</strong>
+          <span>No additional add-ons required. Connects to your existing subscription.</span>
+        </div>
+      </div>
+      <div class="st-divider"></div>
+      <div class="st-badge">
+        <div class="sb-ico">📌</div>
+        <div class="sb-text">
+          <strong>Jobs tagged automatically</strong>
+          <span>Promo notes stamped on every ST job during active promotion windows.</span>
+        </div>
+      </div>
+      <div class="st-divider"></div>
+      <div class="st-badge">
+        <div class="sb-ico">👥</div>
+        <div class="sb-text">
+          <strong>Multi-franchise ready</strong>
+          <span>Each location runs its own campaigns with its own customer pool and offers.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="camp-cta">
+  <div class="wrap">
+    <span class="eyebrow">Book a demo</span>
+    <h2>See the campaigns running on a real franchise.</h2>
+    <p>We'll walk through the full campaign dashboard, show you a live seasonal or holiday campaign, and talk about how it would run on your customer base.</p>
+    <div class="hero-cta" style="justify-content:center;">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo →</a>
+      <a class="btn btn-on-dark" href="/">← Back to Mark AI</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <a class="brandmark" href="/"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <div>The AI office manager for home services.</div>
+    <div>© 2026 Mark AI</div>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
+</script>
+
+</body>
+</html>
