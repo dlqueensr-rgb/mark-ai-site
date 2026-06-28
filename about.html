@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About Us — Mark AI</title>
+<meta name="description" content="Mark AI is the AI office manager for home services — built and run by a working franchise owner, proven live on real calls and real jobs before it was ever sold to anyone else." />
+<link rel="icon" href="/assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brandmark" href="/"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/#how">How it works</a>
+      <a href="/#outbound">Outbound</a>
+      <a href="/#why">Why Mark</a>
+      <a href="/campaigns.html">Campaigns</a>
+      <a href="/#who">Who it's for</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hd">
+  <div class="wrap">
+    <span class="eyebrow">About us</span>
+    <h1>Built by an operator, not a vendor.</h1>
+    <p class="kick">Mark AI is the AI office manager for home services — engineered, tested, and proven inside a real, working franchise before it was ever offered to anyone else.</p>
+  </div>
+</section>
+
+<section class="prose-wrap">
+  <div class="wrap about-grid">
+    <div class="prose">
+      <h2>Why Mark exists</h2>
+      <p>Most software built for the trades is dreamed up by people who have never run a dispatch board, never lost a job to a missed call, and never watched a slow week wreck a month. Mark AI started from the opposite place — inside the daily reality of a home-services business, where every unanswered call is a job that went to a competitor.</p>
+      <p>Mark was created by <strong>David Queen</strong>, a working home-services franchise owner, to do the one thing an owner can never fully cover: answer every call, capture every lead, book the job, and keep the schedule full even when the phones go quiet. It wasn't built in a lab and pointed at the trades afterward. It was built from the inside of the work it does.</p>
+
+      <h2>Proven before it was sold</h2>
+      <p>Before Mark was offered to a single outside business, it was put to work in a live franchise — answering real calls, building real estimates in the field, booking real jobs, and running real outbound campaigns that win back old customers and land new commercial accounts. Every feature exists because the business needed it, not because it demoed well.</p>
+      <p>That's the difference you can hear in every call. Mark knows what a dispatch looks like, why an onsite estimate matters, and how a slow Tuesday turns into a full board. It's not a generic chatbot wearing a hard hat — it's one brain that runs inbound, outbound, texts, and memberships across every channel.</p>
+
+      <h2>What we believe</h2>
+      <p><strong>Every call is revenue.</strong> A missed call isn't a missed call — it's a job a competitor just booked. Mark answers 24/7 so that never happens.</p>
+      <p><strong>Owners shouldn't have to choose between growth and payroll.</strong> Mark does the work of a full front office and an outside sales rep without adding headcount, so the cost of answering and selling stays flat as the business grows.</p>
+      <p><strong>Software for the trades should be built by the trades.</strong> The person who built Mark runs the same kind of business you do — and that's never going to change.</p>
+    </div>
+
+    <aside class="about-aside">
+      <h3>What makes Mark different</h3>
+      <div class="pt"><span class="tk">✓</span><span>Built and run by a fellow home-services owner</span></div>
+      <div class="pt"><span class="tk">✓</span><span>Proven on real calls and real jobs in a live operation</span></div>
+      <div class="pt"><span class="tk">✓</span><span>One brain for inbound, outbound, texts, and memberships</span></div>
+      <div class="pt"><span class="tk">✓</span><span>Answers every call 24/7 — no voicemail, no missed leads</span></div>
+      <div class="pt"><span class="tk">✓</span><span>Books and dispatches without anyone picking up the phone</span></div>
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener" style="margin-top:8px;width:100%;justify-content:center;">Book a demo →</a>
+    </aside>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <a class="brandmark" href="/"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <div>The AI office manager for home services.</div>
+    <div>© 2026 Mark AI</div>
+  </div>
+  <div class="wrap foot-legal">
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/do-not-sell.html">Do Not Sell My Information</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
+</script>
+
+</body>
+</html>
