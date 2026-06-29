@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mark Mentor — Call Coaching | Mark AI</title>
+<meta name="description" content="Mark Mentor scores every call against your brand's playbook and shows your team exactly where to improve — no listening to hours of recordings. Built for franchise networks." />
+<link rel="icon" href="/assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.men-hero{background:var(--navy);padding:80px 0 90px;overflow:hidden;}
+.men-hero .eyebrow{color:var(--gold-soft);}
+.men-hero .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+.men-hero h1{font-size:clamp(36px,5vw,58px);color:#fff;margin:18px 0 0;max-width:13em;line-height:1.05;}
+.men-hero h1 em{font-style:italic;color:var(--gold-soft);font-weight:500;}
+.men-hero .lead{font-size:18px;color:#A9B6D0;max-width:32em;margin:20px 0 30px;line-height:1.65;}
+.hero-stat-row{display:flex;gap:36px;margin:34px 0 0;flex-wrap:wrap;}
+.hero-stat .v{font-family:"Source Serif 4",serif;font-size:34px;font-weight:600;color:var(--gold-soft);line-height:1;}
+.hero-stat .k{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:#8595B4;margin-top:6px;font-weight:600;max-width:11em;}
+
+/* Hero scorecard mock */
+.scorecard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:24px;}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.sc-label{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;}
+.sc-date{font-size:12px;color:#8595B4;}
+.sc-rep{display:flex;align-items:baseline;gap:12px;margin:14px 0 4px;}
+.sc-rep .name{font-family:"Source Serif 4",serif;font-size:24px;font-weight:600;color:#fff;}
+.sc-rep .overall{font-family:"Source Serif 4",serif;font-size:34px;font-weight:700;color:#3BBF72;line-height:1;margin-left:auto;}
+.sc-tag{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:rgba(30,122,65,.15);color:#3BBF72;border:1px solid rgba(30,122,65,.3);}
+.sc-meta{font-size:12.5px;color:#8595B4;margin-bottom:18px;}
+.sc-dims{display:flex;flex-direction:column;gap:9px;margin-bottom:18px;}
+.sc-dim{display:grid;grid-template-columns:84px 1fr 30px;align-items:center;gap:10px;}
+.sc-dim .dl{font-size:11.5px;color:#A9B6D0;font-weight:600;}
+.sc-track{height:7px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;}
+.sc-fill{height:100%;border-radius:4px;}
+.sc-fill.hi{background:#3BBF72;}
+.sc-fill.mid{background:var(--gold);}
+.sc-fill.lo{background:#E0654E;}
+.sc-dim .dv{font-size:12px;font-weight:700;text-align:right;}
+.dv.hi{color:#3BBF72;}.dv.mid{color:var(--gold-soft);}.dv.lo{color:#E8836E;}
+.sc-tip{background:rgba(200,164,31,.1);border:1px solid rgba(200,164,31,.25);border-radius:10px;padding:12px 14px;}
+.sc-tip .tl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;margin-bottom:4px;}
+.sc-tip .tt{font-size:13px;color:#DCE4F2;line-height:1.5;}
+
+.men-stats{background:var(--paper);border-bottom:1px solid var(--line-soft);}
+.men-stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
+.mstat{padding:36px 24px;border-right:1px solid var(--line-soft);}
+.mstat:last-child{border-right:0;}
+.mstat .v{font-family:"Source Serif 4",serif;font-size:34px;font-weight:600;color:var(--navy);line-height:1.05;}
+.mstat .k{font-size:13px;color:var(--slate);margin-top:8px;font-weight:500;line-height:1.5;}
+
+.men-features{background:var(--white);}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.feat-card{border:1px solid var(--line-soft);border-radius:14px;padding:28px;background:var(--paper);transition:border-color .15s,transform .15s,box-shadow .15s;}
+.feat-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 14px 32px -20px rgba(19,36,64,.35);}
+.feat-ico{font-size:26px;margin-bottom:14px;display:block;}
+.feat-card h3{font-size:19px;margin-bottom:9px;}
+.feat-card p{font-size:14.5px;color:var(--slate);margin:0;line-height:1.6;}
+
+.men-how{background:var(--paper);}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;position:relative;}
+.how-steps::before{content:"";position:absolute;top:22px;left:calc(33% + 16px);right:calc(33% + 16px);height:1px;background:var(--line-soft);}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--navy);color:var(--gold-soft);font-family:"Source Serif 4",serif;font-size:18px;font-weight:600;display:grid;place-items:center;margin-bottom:20px;position:relative;z-index:1;}
+.how-step h3{font-size:20px;margin-bottom:10px;}
+.how-step p{font-size:15px;color:var(--slate);margin:0;line-height:1.65;}
+
+/* Leaderboard mock */
+.men-board{background:var(--white);}
+.board-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:60px;align-items:center;}
+.board-left h2{font-size:clamp(28px,3.5vw,38px);margin-bottom:18px;}
+.board-left p{font-size:16px;color:var(--slate);line-height:1.7;margin-bottom:16px;}
+.board-card{border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;box-shadow:0 24px 50px -28px rgba(19,36,64,.4);}
+.board-head{background:var(--navy);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
+.board-head .t{color:#fff;font-weight:700;font-size:14px;}
+.board-head .d{color:#8595B4;font-size:12px;}
+.board-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;}
+.board-table th{text-align:left;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-2);font-weight:600;padding:12px 14px;border-bottom:1px solid var(--line-soft);}
+.board-table td{padding:12px 14px;border-bottom:1px solid var(--line-soft);color:var(--navy);}
+.board-table tr:last-child td{border-bottom:0;}
+.board-table .rk{color:var(--slate-2);font-weight:600;margin-right:8px;}
+.board-table .nm{font-weight:600;}
+.board-table .sc{font-weight:700;text-align:center;}
+.board-table .focus{color:var(--slate);font-size:12px;}
+.sc.hi{color:var(--green);}.sc.mid{color:#B8902A;}.sc.lo{color:#C0392B;}
+
+.men-benefits{background:var(--navy);}
+.men-benefits .sec-head h2{color:#fff;}
+.men-benefits .sec-head p{color:#A9B6D0;}
+.ben-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+.ben-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px 26px;display:flex;gap:16px;align-items:flex-start;}
+.ben-card .bi{font-size:22px;flex:none;}
+.ben-card h3{font-size:17px;color:#fff;margin:0 0 6px;}
+.ben-card p{font-size:14px;color:#A9B6D0;margin:0;line-height:1.6;}
+
+/* Comparison */
+.men-compare{background:var(--white);}
+.cmp-wrap{border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;}
+.cmp-table{width:100%;border-collapse:collapse;}
+.cmp-table th{padding:20px 22px;text-align:left;font-size:14px;vertical-align:bottom;}
+.cmp-table th.feature-col{width:30%;background:var(--paper);}
+.cmp-table th.mark-col{background:var(--navy);color:#fff;font-family:"Source Serif 4",serif;font-size:18px;font-weight:600;width:35%;}
+.cmp-table th.other-col{background:var(--paper);color:var(--slate);font-size:16px;font-weight:600;width:35%;}
+.cmp-table th .badge{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;margin-bottom:4px;font-family:"Source Sans 3",sans-serif;}
+.cmp-table td{padding:18px 22px;border-top:1px solid var(--line-soft);font-size:14.5px;line-height:1.55;vertical-align:top;}
+.cmp-table td.rowlabel{background:var(--paper);font-weight:700;color:var(--navy);font-size:13.5px;}
+.cmp-table td.mark{color:var(--navy);}
+.cmp-table td.mark .chk{color:var(--green);font-weight:700;margin-right:7px;}
+.cmp-table td.other{color:var(--slate);}
+.cmp-table td.other .dash{color:var(--slate-2);margin-right:7px;}
+
+.men-st{background:var(--paper);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+.st-row{display:flex;align-items:center;gap:48px;padding:40px 0;flex-wrap:wrap;}
+.st-badge{display:flex;align-items:center;gap:14px;flex:none;}
+.st-badge .sb-ico{width:48px;height:48px;border-radius:12px;background:var(--navy);display:grid;place-items:center;font-size:22px;flex:none;}
+.st-badge .sb-text strong{display:block;color:var(--navy);font-size:15px;font-weight:700;}
+.st-badge .sb-text span{font-size:13px;color:var(--slate);}
+.st-divider{width:1px;height:40px;background:var(--line-soft);flex:none;}
+
+.men-cta{background:var(--navy);text-align:center;padding:90px 0;}
+.men-cta .eyebrow{color:var(--gold-soft);}
+.men-cta h2{color:#fff;font-size:clamp(28px,4vw,44px);margin:16px auto 0;max-width:17em;}
+.men-cta p{color:#A9B6D0;font-size:17px;margin:18px auto 32px;max-width:36em;}
+
+@media(max-width:860px){
+  .men-hero .hero-grid,.feat-grid,.how-steps,.board-grid,.ben-grid{grid-template-columns:1fr;}
+  .how-steps::before{display:none;}
+  .men-stats .wrap{grid-template-columns:repeat(2,1fr);}
+  .mstat{border-bottom:1px solid var(--line-soft);}
+  .mstat:nth-child(2){border-right:0;}
+  .cmp-table th.feature-col{display:none;}
+  .cmp-table td.rowlabel{display:block;border-top:1px solid var(--line-soft);}
+  .cmp-table th,.cmp-table td{font-size:13px;padding:14px 16px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brandmark" href="/"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/#how">How it works</a>
+      <a href="/#outbound">Outbound</a>
+      <a href="/#why">Why Mark</a>
+      <a href="/campaigns.html">Campaigns</a>
+      <a href="/features/mentor.html" style="color:#fff">Mentor</a>
+      <a href="/#who">Who it's for</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="men-hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Mark Mentor</span>
+        <h1>Every call, <em>coached.</em></h1>
+        <p class="lead">Mark Mentor scores your team's calls against your brand's playbook and shows exactly where to improve — without anyone listening to hours of recordings. One standard, every rep, every location.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo →</a>
+        </div>
+        <div class="hero-stat-row">
+          <div class="hero-stat"><div class="v">7</div><div class="k">Dimensions scored on every call</div></div>
+          <div class="hero-stat"><div class="v">Every call</div><div class="k">Reviewed, not sampled</div></div>
+          <div class="hero-stat"><div class="v">0 hrs</div><div class="k">Of recordings to listen to</div></div>
+        </div>
+      </div>
+
+      <!-- SCORECARD MOCK -->
+      <div class="scorecard">
+        <div class="sc-top">
+          <span class="sc-label">★ Call Scored</span>
+          <span class="sc-date">Today · 9:42 AM</span>
+        </div>
+        <div class="sc-rep">
+          <span class="name">Tanya</span>
+          <span class="sc-tag">Booked</span>
+          <span class="overall">8.7</span>
+        </div>
+        <div class="sc-meta">Garbage disposal · 2m 14s · membership offered</div>
+        <div class="sc-dims">
+          <div class="sc-dim"><span class="dl">Objections</span><div class="sc-track"><div class="sc-fill hi" style="width:87%"></div></div><span class="dv hi">8.7</span></div>
+          <div class="sc-dim"><span class="dl">Empathy</span><div class="sc-track"><div class="sc-fill hi" style="width:94%"></div></div><span class="dv hi">9.4</span></div>
+          <div class="sc-dim"><span class="dl">Discovery</span><div class="sc-track"><div class="sc-fill hi" style="width:84%"></div></div><span class="dv hi">8.4</span></div>
+          <div class="sc-dim"><span class="dl">Pricing</span><div class="sc-track"><div class="sc-fill hi" style="width:90%"></div></div><span class="dv hi">9.0</span></div>
+          <div class="sc-dim"><span class="dl">Brand</span><div class="sc-track"><div class="sc-fill hi" style="width:90%"></div></div><span class="dv hi">9.0</span></div>
+          <div class="sc-dim"><span class="dl">Holds</span><div class="sc-track"><div class="sc-fill mid" style="width:76%"></div></div><span class="dv mid">7.6</span></div>
+          <div class="sc-dim"><span class="dl">Turn-taking</span><div class="sc-track"><div class="sc-fill hi" style="width:83%"></div></div><span class="dv hi">8.3</span></div>
+        </div>
+        <div class="sc-tip">
+          <div class="tl">Coaching tip</div>
+          <div class="tt">Keep holds tight — tell the caller exactly how long you'll be and why, so the pause feels purposeful.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="men-stats">
+  <div class="wrap">
+    <div class="mstat"><div class="v">No more sampling</div><div class="k">Every human-answered call is scored — not the handful a manager has time to review</div></div>
+    <div class="mstat"><div class="v">One fix per rep</div><div class="k">The single weakest area is surfaced for each person, so coaching is specific</div></div>
+    <div class="mstat"><div class="v">ServiceTitan-true</div><div class="k">Booking outcomes come from the CRM, not guessed from the transcript</div></div>
+    <div class="mstat"><div class="v">Every location</div><div class="k">The same standard applied across every franchise, on one dashboard</div></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="men-features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow muted">What it does</span>
+      <h2>A scorecard for every call — and the one thing to fix.</h2>
+      <p>Mark Mentor reviews each call after it's handled, grades it against the standards that matter for your brand, and turns it into coaching your managers can act on in seconds.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <span class="feat-ico">📊</span>
+        <h3>Seven-dimension scoring</h3>
+        <p>Every call is graded on objection handling, empathy, discovery, pricing framing, brand adherence, holds and dead air, and turn-taking — for one overall score that reflects how the call actually went.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-ico">🏆</span>
+        <h3>Team leaderboard</h3>
+        <p>See every rep ranked by average score, with a per-dimension breakdown and the one area to focus on for each person. Strong closers and reps who need help are obvious at a glance.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-ico">🔍</span>
+        <h3>Call-by-call breakdown</h3>
+        <p>Open any call to see the coaching tip, what the rep did well, and the exact coachable moments — with the real quotes and a severity flag. No guessing what to bring to the one-on-one.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-ico">🔗</span>
+        <h3>Grounded in ServiceTitan</h3>
+        <p>Whether a call booked is taken from the real job in your CRM — not inferred from what was said. The booking number on the scorecard matches the booking number on your board.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-ico">🎯</span>
+        <h3>An honest book rate</h3>
+        <p>Wrong numbers, vendors, and out-of-area calls are kept out of the denominator, so the booking rate reflects real opportunities — and a missed bookable lead can't hide as a "not interested."</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-ico">🏷️</span>
+        <h3>Tuned to your brand</h3>
+        <p>The rubric isn't a generic call-quality score. It's set to your jobs, your pricing conversation, and your membership pitch — so a great call by your standard scores like one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="men-how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow muted">How it works</span>
+      <h2>From call to coaching — automatically.</h2>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>The call happens</h3>
+        <p>A customer calls and one of your reps answers. The call is recorded in ServiceTitan the same way it already is today — nothing changes about how your team works.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Mark scores it</h3>
+        <p>After the call, Mark reviews the conversation against your rubric, scores all seven dimensions, pulls the real booking outcome from ServiceTitan, and writes a coaching tip with the specific moments to work on.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Managers coach</h3>
+        <p>Scores roll up into the leaderboard and a recent-calls feed. A manager sees who's strong, who needs help, and the one thing to fix per rep — without listening to a single recording.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERBOARD MOCK -->
+<section class="men-board">
+  <div class="wrap">
+    <div class="board-grid">
+      <div class="board-left">
+        <span class="eyebrow muted">The team view</span>
+        <h2>See your whole team at a glance — and exactly where to coach.</h2>
+        <p>The leaderboard ranks every rep by average score and breaks down each dimension, so the gaps are obvious. A rep can book at a great rate and still have a clear thing to work on — and a rep with a decent score but a low book rate tells you something's off before it costs you jobs.</p>
+        <p>The "focus on" column does the manager's homework: it surfaces each rep's single weakest area, so every one-on-one starts with the one change that moves the number.</p>
+      </div>
+      <div class="board-card">
+        <div class="board-head">
+          <span class="t">Team leaderboard</span>
+          <span class="d">Last 30 days</span>
+        </div>
+        <table class="board-table">
+          <thead>
+            <tr><th>Rep</th><th style="text-align:center">Avg</th><th style="text-align:center">Book</th><th>Focus on</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="rk">1</span><span class="nm">Tanya</span></td><td class="sc hi">8.7</td><td style="text-align:center;color:var(--slate)">75%</td><td class="focus">Holds</td></tr>
+            <tr><td><span class="rk">2</span><span class="nm">Carlos</span></td><td class="sc mid">7.6</td><td style="text-align:center;color:var(--slate)">91%</td><td class="focus">Turn-taking</td></tr>
+            <tr><td><span class="rk">3</span><span class="nm">Maria</span></td><td class="sc mid">6.7</td><td style="text-align:center;color:var(--slate)">45%</td><td class="focus">Objections</td></tr>
+            <tr><td><span class="rk">4</span><span class="nm">Derek</span></td><td class="sc mid">6.7</td><td style="text-align:center;color:var(--slate)">33%</td><td class="focus">Pricing</td></tr>
+            <tr><td><span class="rk">5</span><span class="nm">Priya</span></td><td class="sc lo">5.8</td><td style="text-align:center;color:var(--slate)">38%</td><td class="focus">Brand</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="men-benefits">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Why it matters</span>
+      <h2>Coaching that scales without a coach.</h2>
+      <p>A great CSR is the difference between a booked job and a lost lead. Mentor makes that coachable across the whole network — without anyone living in the call recordings.</p>
+    </div>
+    <div class="ben-grid">
+      <div class="ben-card"><span class="bi">⏱️</span><div><h3>Coach without listening to a thousand calls</h3><p>Managers get the score, the moments, and the fix — instead of spending their week scrubbing recordings.</p></div></div>
+      <div class="ben-card"><span class="bi">📈</span><div><h3>Find the fix that moves booking rate</h3><p>One weak area per rep, named clearly, so coaching time goes to the change that actually converts more calls.</p></div></div>
+      <div class="ben-card"><span class="bi">🧭</span><div><h3>One standard across every location</h3><p>Every rep, at every franchise, is held to the same rubric — so quality doesn't depend on who's managing that office.</p></div></div>
+      <div class="ben-card"><span class="bi">💧</span><div><h3>Catch the quiet revenue leaks</h3><p>The warm lead nobody asked for the booking, the price stated apologetically — the misses that never show up on a report, surfaced.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="men-compare">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow muted">How Mark Mentor compares</span>
+      <h2>Same caliber of coaching — built differently.</h2>
+      <p>Call-scoring tools exist. Here's what sets Mentor apart from the standalone options.</p>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th class="feature-col"></th>
+            <th class="mark-col"><span class="badge">Mark AI</span>Mark Mentor</th>
+            <th class="other-col">Other call-coaching tools</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rowlabel">Built for your brand</td>
+            <td class="mark"><span class="chk">✓</span>Tuned to your franchise's jobs, pricing, and membership plans</td>
+            <td class="other"><span class="dash">–</span>Generic across trades, configured per customer</td>
+          </tr>
+          <tr>
+            <td class="rowlabel">Part of your office system</td>
+            <td class="mark"><span class="chk">✓</span>The same system books the call, runs campaigns, and manages memberships</td>
+            <td class="other"><span class="dash">–</span>A standalone tool bolted on alongside the rest</td>
+          </tr>
+          <tr>
+            <td class="rowlabel">Booking outcome</td>
+            <td class="mark"><span class="chk">✓</span>Pulled straight from ServiceTitan, never guessed from the transcript</td>
+            <td class="other"><span class="dash">–</span>Often inferred from what was said on the call</td>
+          </tr>
+          <tr>
+            <td class="rowlabel">Coaching rubric</td>
+            <td class="mark"><span class="chk">✓</span>Seven dimensions, including pricing framing and membership offers</td>
+            <td class="other"><span class="dash">–</span>Usually general call-quality scoring</td>
+          </tr>
+          <tr>
+            <td class="rowlabel">Pricing</td>
+            <td class="mark"><span class="chk">✓</span>Transparent and tiered, set for the network</td>
+            <td class="other"><span class="dash">–</span>Demo-and-quote, priced for enterprise</td>
+          </tr>
+          <tr>
+            <td class="rowlabel">Who built it</td>
+            <td class="mark"><span class="chk">✓</span>Built by an operator who runs a live franchise</td>
+            <td class="other"><span class="dash">–</span>Built by software vendors</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ST TRUST -->
+<div class="men-st">
+  <div class="wrap">
+    <div class="st-row">
+      <div class="st-badge"><div class="sb-ico">🔗</div><div class="sb-text"><strong>Works with ServiceTitan</strong><span>Reads call recordings and job outcomes from your existing subscription.</span></div></div>
+      <div class="st-divider"></div>
+      <div class="st-badge"><div class="sb-ico">👥</div><div class="sb-text"><strong>Multi-franchise ready</strong><span>Each location scored on the same rubric, in one place.</span></div></div>
+      <div class="st-divider"></div>
+      <div class="st-badge"><div class="sb-ico">🔒</div><div class="sb-text"><strong>Turn it on per location</strong><span>Run Mentor where you keep human CSRs — leave it off where Mark answers the phones.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="men-cta">
+  <div class="wrap">
+    <span class="eyebrow">Book a demo</span>
+    <h2>See Mentor scoring real calls.</h2>
+    <p>We'll walk through the leaderboard, open a scored call end to end, and show how it would run across your locations.</p>
+    <div class="hero-cta" style="justify-content:center;">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo →</a>
+      <a class="btn btn-on-dark" href="/">← Back to Mark AI</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <a class="brandmark" href="/"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <div>The AI office manager for home services.</div>
+    <div>© 2026 Mark AI</div>
+  </div>
+  <div class="wrap foot-legal">
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/do-not-sell.html">Do Not Sell or Share My Personal Information</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
+</script>
+</body>
+</html>
