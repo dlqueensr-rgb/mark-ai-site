@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hear Mark work — Live demo | Mark AI</title>
+<meta name="description" content="Listen to Mark handle a real home-services call end to end — schedules a crew, checks the weather, books around parts, quotes on the phone, and sells a membership with real savings math." />
+<link rel="icon" href="/assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  /* demo-page-only helpers, built on the site tokens */
+  .demo-hero{padding:52px 0 60px;}
+  .demo-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:54px;align-items:center;}
+  .demo-hero h1{font-size:clamp(34px,5vw,54px);font-weight:600;margin-top:16px;}
+  .demo-hero h1 .accent{color:var(--navy-3);font-style:italic;font-weight:500;}
+  .demo-hero .lead{font-size:19px;color:var(--slate);max-width:31em;margin:20px 0 26px;}
+  .listen-list{list-style:none;padding:0;margin:0 0 4px;display:flex;flex-direction:column;gap:12px;}
+  .listen-list li{display:flex;gap:12px;align-items:flex-start;font-size:16px;color:var(--slate);}
+  .listen-list li b{color:var(--navy);font-weight:600;}
+  .listen-list .tk{color:var(--gold);font-weight:700;flex:none;margin-top:1px;}
+
+  /* console skin — ported from mark_demo_console.html, namespaced to .mk-console */
+  .mk-console{background:var(--navy);border-radius:18px;overflow:hidden;box-shadow:0 24px 56px -22px rgba(19,36,64,.5);border:1px solid rgba(255,255,255,.06);}
+  .mk-toggle{display:flex;gap:8px;margin:0 auto 16px;width:max-content;background:var(--panel);padding:5px;border-radius:999px;border:1px solid var(--line-soft);}
+  .mk-toggle button{font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:14px;border:0;background:transparent;color:var(--slate);padding:8px 18px;border-radius:999px;cursor:pointer;transition:all .18s;}
+  .mk-toggle button.active{background:var(--navy);color:#fff;}
+  .mk-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--navy-2);border-bottom:1px solid rgba(255,255,255,.06);}
+  .mk-live{display:flex;align-items:center;gap:8px;color:#cdd8ec;font-size:13px;font-weight:600;}
+  .mk-livedot{width:8px;height:8px;border-radius:50%;background:#5b6b86;}
+  .mk-livedot.active{background:var(--gold);animation:mkpulse 1.6s infinite;}
+  @keyframes mkpulse{0%{box-shadow:0 0 0 0 rgba(217,164,65,.55)}70%{box-shadow:0 0 0 9px rgba(217,164,65,0)}100%{box-shadow:0 0 0 0 rgba(217,164,65,0)}}
+  .mk-num{color:#8ea2c4;font-size:12.5px;}
+  .mk-transcript{padding:18px;min-height:460px;max-height:56vh;overflow-y:auto;scroll-behavior:smooth;position:relative;}
+  .mk-transcript::-webkit-scrollbar{width:6px}.mk-transcript::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+  .mk-line{display:flex;margin-bottom:12px;opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease;}
+  .mk-line.show{opacity:1;transform:none;}
+  .mk-line.mark{justify-content:flex-start;}.mk-line.caller{justify-content:flex-end;}
+  .mk-who{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;opacity:.85;}
+  .mk-who.mark{color:var(--gold-soft);}.mk-who.caller{color:#9db0d2;text-align:right;}
+  .mk-bwrap{max-width:82%;}
+  .mk-bubble{padding:10px 14px;border-radius:14px;font-size:14.5px;line-height:1.45;}
+  .mk-line.mark .mk-bubble{background:var(--navy-2);color:#eaf0fb;border:1px solid rgba(232,201,135,.18);border-bottom-left-radius:4px;}
+  .mk-line.caller .mk-bubble{background:#e8edf6;color:#1a2740;border-bottom-right-radius:4px;}
+  .mk-line.speaking .mk-bubble{box-shadow:0 0 0 2px rgba(217,164,65,.5);}
+  .mk-booked{margin:6px 18px 0;padding:14px 16px;background:linear-gradient(135deg,#15633a,#1f7a3d);border-radius:12px;display:flex;align-items:center;gap:12px;color:#fff;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s;}
+  .mk-booked.show{opacity:1;transform:none;}
+  .mk-booked .check{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:16px;flex:none;}
+  .mk-booked strong{display:block;font-size:14px;}.mk-booked .det{font-size:12.5px;color:#d7ecdd;}
+  .mk-controls{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--navy-2);border-top:1px solid rgba(255,255,255,.06);}
+  .mk-play{width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;flex:none;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:16px;transition:transform .12s,background .2s;}
+  .mk-play:hover{transform:scale(1.06);background:var(--gold-soft);}
+  .mk-progress{flex:1;}
+  .mk-track{height:6px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;}
+  .mk-fill{height:100%;width:0%;background:var(--gold);transition:width .25s linear;}
+  .mk-status{color:#8ea2c4;font-size:12px;min-width:74px;text-align:right;font-variant-numeric:tabular-nums;}
+  .mk-cap{text-align:center;color:var(--slate);font-size:13px;margin-top:14px;}
+  .mk-cap b{color:var(--ink);}
+  .mk-cta{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px 20px;}
+  .mk-cta.hidden{display:none;}
+  .mk-cta-avatar{width:260px;height:260px;border-radius:50%;object-fit:cover;animation:mkfloat 3.4s ease-in-out infinite;}
+  @keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .mk-cta-bubble{position:relative;background:var(--gold);color:var(--navy);font-family:'Source Serif 4',serif;font-weight:600;font-size:18px;padding:9px 18px;border-radius:14px;}
+  .mk-cta-bubble:after{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:9px solid var(--gold);}
+
+  /* "what you didn't hear" reveal band */
+  .unheard{background:var(--navy);}
+  .unheard .sec-head h2{color:#fff;}
+  .unheard .sec-head p{color:#A9B6D0;}
+  .unheard-card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.13);border-radius:16px;padding:34px 36px;}
+  .unheard-card .u-lead{font-family:'Source Serif 4',serif;font-weight:500;font-size:clamp(20px,2.6vw,26px);color:#fff;line-height:1.45;margin:0 0 18px;}
+  .unheard-card .u-lead em{color:var(--gold-soft);font-style:italic;}
+  .unheard-card p{color:#C6D2EA;font-size:16px;margin:0;line-height:1.6;}
+  .unheard-note{margin-top:22px;font-size:13px;color:#8595B4;border-top:1px solid rgba(255,255,255,.1);padding-top:16px;}
+
+  @media(max-width:920px){
+    .demo-grid{grid-template-columns:1fr;gap:40px;}
+  }
+  @media(max-width:560px){
+    .mk-cta-avatar{width:200px;height:200px;}
+    .demo-hero{padding:36px 0 44px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brandmark" href="/#top"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/#how">How it works</a>
+      <a href="/#outbound">Outbound</a>
+      <a href="/#why">Why Mark</a>
+      <a href="/#campaigns">Campaigns</a>
+      <a href="/#mentor">Mentor</a>
+      <a href="/#who">Who it's for</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- HERO + CONSOLE -->
+<section class="demo-hero">
+  <div class="wrap demo-grid">
+    <div>
+      <span class="eyebrow">The live demo</span>
+      <h1>Don't take our word for it. <span class="accent">Hear Mark work.</span></h1>
+      <p class="lead">This is a full call, start to finish — no edits, no script-reading. Press play and listen for how Mark handles the parts a basic answering bot can't.</p>
+      <ul class="listen-list">
+        <li><span class="tk">✓</span><span><b>Schedules more than one technician</b> when a job needs a crew</span></li>
+        <li><span class="tk">✓</span><span><b>Checks the weather</b> before booking outdoor work</span></li>
+        <li><span class="tk">✓</span><span><b>Schedules around parts availability</b> — books for after materials arrive</span></li>
+        <li><span class="tk">✓</span><span><b>Estimates a job</b> right over the phone</span></li>
+        <li><span class="tk">✓</span><span><b>Sells memberships</b> with real savings math</span></li>
+      </ul>
+    </div>
+
+    <!-- CONSOLE -->
+    <div>
+      <div class="mk-toggle" role="tablist">
+        <button id="tab-handyman" class="active" role="tab" aria-selected="true">Handyman call</button>
+        <button id="tab-hvac" role="tab" aria-selected="false">HVAC install call</button>
+      </div>
+      <div class="mk-console">
+        <div class="mk-top">
+          <div class="mk-live"><span class="mk-livedot" id="dot"></span> <span id="callState">Ready to play</span></div>
+          <div class="mk-num">Summit Home Services · (555) 555‑0100</div>
+        </div>
+        <div class="mk-transcript" id="transcript"></div>
+        <div class="mk-booked" id="booked">
+          <div class="check">✓</div>
+          <div><strong id="bookedTitle"></strong><span class="det" id="bookedDet"></span></div>
+        </div>
+        <div class="mk-controls">
+          <button class="mk-play" id="play" aria-label="Play demo">▶</button>
+          <div class="mk-progress"><div class="mk-track"><div class="mk-fill" id="fill"></div></div></div>
+          <div class="mk-status" id="status">0 / 0</div>
+        </div>
+      </div>
+      <p class="mk-cap">Simulated call for demonstration. <b>Summit Home Services</b> is an example business.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU DIDN'T HEAR -->
+<section class="unheard">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The part you can't hear</span>
+      <h2>And here's what was happening behind the call.</h2>
+      <p>The conversation is only half of it. While Mark was talking, it was working.</p>
+    </div>
+    <div class="unheard-card">
+      <p class="u-lead">Behind that smooth call, Mark <em>checked local store pricing</em>, found the smoke detectors weren't in stock, figured out they needed to be ordered — and the moment the job was booked, <em>texted the owner to order those parts</em>.</p>
+      <p>None of that surfaced to the caller. They just heard a fast, confident booking. Mark handled the logistics — pricing, stock, sequencing, and the hand-off to the owner — silently, in the background, the way a great office manager would.</p>
+      <p class="unheard-note">Every capability shown here runs in the production Mark. Features are added and hardened continuously — the live system is the source of truth.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow">Book a live demo</span>
+    <h2>Now hear Mark do it on your trade.</h2>
+    <p>Thirty minutes. We'll walk through how Mark would answer your calls, book your jobs, and fill your slow days — on your trade, with your pricing.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a live demo →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <a class="brandmark" href="/#top"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <div>The AI office manager for home services.</div>
+    <div>© 2026 Mark AI</div>
+  </div>
+  <div class="wrap foot-legal">
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/do-not-sell.html">Do Not Sell or Share My Personal Information</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  /* nav toggle (matches index.html) */
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
+</script>
+
+<script>
+/* ===== CONSOLE ENGINE — verbatim logic from mark_demo_console.html =====
+   Only changes vs. source:
+     - CLIP_BASE points at /demo_clips/ (Vercel static) so clips load from the site origin
+     - class names namespaced (mk-line / mk-who / mk-bubble) to avoid colliding with site .line/.who/.bubble
+   Playback logic (advanceGuard, stall guard, turnGap, onended chaining) is UNCHANGED. */
+const CLIP_BASE = "/demo_clips/";
+
+const DEMOS = {
+  handyman: {
+    folder: "handyman",
+    booked: { title:"Job booked & dispatched", det:"Mon 9:00 AM · Smoke detectors · Tech: Jordan" },
+    turns: [
+      ["mark_01","Thanks for calling Summit Home Services. I'm Mark — who am I speaking with?"],
+      ["caller_02","Hi, this is David. How are you?"],
+      ["mark_03","Hey David! I'm doing great, thanks. Is this for your home or a business today?"],
+      ["caller_04","It's for my home."],
+      ["mark_05","Got it, a home. What needs fixing or installing?"],
+      ["caller_06","I want to get some smoke detectors installed."],
+      ["mark_07","Sounds good. Just so you know — Summit's been in business for years, our techs carry a decade-plus of experience, full background checks, and we're licensed, bonded, and insured. Are we replacing existing detectors, adding new ones, or installing a smart detector like a Nest Protect?"],
+      ["caller_08","Replacing existing ones."],
+      ["mark_09","Got it. How many total?"],
+      ["caller_10","Six total."],
+      ["mark_11","Are these hardwired and interconnected, or battery-only?"],
+      ["caller_12","They're hardwired."],
+      ["mark_13","Smoke only, carbon monoxide only, or a combo?"],
+      ["caller_14","Smoke only."],
+      ["mark_15","Do you have the detectors already, or would you like us to supply them?"],
+      ["caller_16","I'd like you to supply them."],
+      ["mark_17","Perfect. Let me calculate the cost for that."],
+      ["mark_18","Our tech installs six smoke detectors. He'll verify the scope on arrival — if it matches, no change in price. The estimate is around $529, including all materials and labor."],
+      ["caller_19","Okay, sounds good."],
+      ["mark_20","Since we need to order the detectors, the soonest is after materials arrive — Monday at 9 AM. Would that work?"],
+      ["caller_21","Yeah, that'll work fine."],
+      ["mark_22","Perfect — Monday, 9 to 11 AM. Want me to lock that in?"],
+      ["caller_23","Yes please."],
+      ["mark_24","You're all set, David. Monday 9–11 AM, your technician is Jordan. Text confirmation coming shortly."],
+      ["mark_25","By the way — would you like to save some money on this job? I have a way you could save quite a bit."],
+      ["caller_26","Tell me about it."],
+      ["mark_27","Our Home Care Membership is $149 a month — six visits a year starting today, two hours each, 10% off extra labor and materials, and your $70 service fee always waived. Today would be $265 instead of $529 — saving you $264. Want me to set that up?"],
+      ["caller_28","Yeah, that sounds good."],
+      ["mark_29","Great choice, David! I'll send the agreement to your email to review and sign. Anything else?"],
+      ["caller_30","No, that'll do it. Thank you!"],
+      ["mark_31","Perfect! Thanks for calling Summit Home Services, David. See you Monday — have a great day!"]
+    ]
+  },
+  hvac: {
+    folder: "hvac",
+    booked: { title:"Install booked · 2-tech crew", det:"Wed 8:00 AM · A/C system install · Lead: Sam" },
+    turns: [
+      ["mark_01","Thanks for calling Summit Home Services! Hi Kim, thanks for calling back — I see you're in our system and we gave you an estimate last week for a new central A/C system. Is that what you're calling about?"],
+      ["caller_02","Yeah, exactly — I'm ready to move forward and get it installed."],
+      ["mark_03","Perfect. The pricing's already set from that estimate, so there's nothing to re-quote — I just need to get your install scheduled and your equipment ordered."],
+      ["caller_04","Sounds good."],
+      ["mark_05","Since it's a new system, we'll order your unit and have it delivered before the install — so I'll schedule after it arrives, so the crew has everything on hand for a single visit. Let me check the timeline."],
+      ["mark_06","Your equipment should be in by early next week. And because a full replacement is a bigger job, I'm scheduling a two-technician crew so it's done in one day."],
+      ["mark_07","One moment — let me check the weather too, since this includes rooftop work and I don't want the crew out there in bad conditions."],
+      ["mark_08","The forecast's clear Wednesday, but rain's moving in Thursday and Friday — so I'd recommend Wednesday. I have a two-tech crew available Wednesday at 8 AM. Would that work?"],
+      ["caller_09","Wednesday morning is perfect."],
+      ["mark_10","Excellent — Wednesday, 8 AM, two-technician crew for your A/C install. Want me to lock it in?"],
+      ["caller_11","Yes, please."],
+      ["mark_12","Done. Is the number you're calling from good for confirmations and for the crew to reach you?"],
+      ["caller_13","Yep, that's the best number."],
+      ["mark_14","Perfect. You're all set, Kim. Wednesday 8 AM, two-tech crew, your lead technician is Sam. They'll confirm the scope matches your estimate on arrival — as long as it lines up, your pricing stays exactly as quoted. Text confirmation coming shortly."],
+      ["caller_15","Awesome. Thanks for making that easy, Mark."],
+      ["mark_16","My pleasure, Kim — glad you're going with us. We'll get your new system in Wednesday. Talk to you then!"]
+    ]
+  }
+};
+
+const $ = s => document.querySelector(s);
+function makeCTA(){
+  const c=document.createElement("div"); c.className="mk-cta"; c.id="cta";
+  c.innerHTML=''
+    +'<img class="mk-cta-avatar" src="/demo_clips/mark-avatar.png" alt="Mark, your AI office manager" />'
+    +'<div class="mk-cta-bubble">Hear me work for you</div>';
+  return c;
+}
+const transcript=$("#transcript"), booked=$("#booked"), playBtn=$("#play"),
+      fill=$("#fill"), statusEl=$("#status"), callState=$("#callState"), dot=$("#dot");
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let current="handyman", idx=0, playing=false, audio=new Audio(), rows=[];
+let advanceGuard = 0, nextTimer = null;
+function turnGap(){ return 120 + Math.floor(Math.random()*180); }
+
+function clipURL(demo, label){ return CLIP_BASE + demo.folder + "/" + label + ".mp3"; }
+
+function reset(){
+  advanceGuard++;
+  if(nextTimer){ clearTimeout(nextTimer); nextTimer=null; }
+  try{ audio.pause(); audio.onended=null; audio.onerror=null; }catch(e){}
+  audio = new Audio();
+  transcript.innerHTML=""; transcript.appendChild(makeCTA()); booked.classList.remove("show");
+  idx=0; playing=false; playBtn.textContent="▶"; fill.style.width="0%";
+  dot.classList.remove("active"); callState.textContent="Ready to play";
+  rows=[]; const d=DEMOS[current];
+  $("#bookedTitle").textContent=d.booked.title; $("#bookedDet").textContent=d.booked.det;
+  statusEl.textContent = "0 / "+d.turns.length;
+}
+
+function addBubble(label, text){
+  const who = label.startsWith("mark") ? "mark" : "caller";
+  const row=document.createElement("div"); row.className="mk-line "+who;
+  const wrap=document.createElement("div"); wrap.className="mk-bwrap";
+  const w=document.createElement("div"); w.className="mk-who "+who; w.textContent=who==="mark"?"Mark":"Caller";
+  const b=document.createElement("div"); b.className="mk-bubble"; b.textContent=text;
+  wrap.appendChild(w); wrap.appendChild(b); row.appendChild(wrap);
+  transcript.appendChild(row); rows.push(row);
+  requestAnimationFrame(()=>row.classList.add("show"));
+  transcript.scrollTop=transcript.scrollHeight;
+  return row;
+}
+
+function finish(){
+  playing=false; playBtn.textContent="▶"; dot.classList.remove("active");
+  callState.textContent="Call complete"; fill.style.width="100%";
+  booked.classList.add("show");
+  rows.forEach(r=>r.classList.remove("speaking"));
+}
+
+function playCurrent(){
+  const _cta=document.getElementById("cta"); if(_cta) _cta.classList.add("hidden");
+  const d=DEMOS[current];
+  if(idx>=d.turns.length){ finish(); return; }
+
+  const myTurn = ++advanceGuard;
+  const [label,text]=d.turns[idx];
+  const row=addBubble(label,text);
+  rows.forEach(r=>r.classList.remove("speaking")); row.classList.add("speaking");
+  statusEl.textContent = (idx+1)+" / "+d.turns.length;
+  fill.style.width = ((idx+1)/d.turns.length*100)+"%";
+
+  let advanced=false;
+  function advance(delay){
+    if(advanced) return;
+    if(myTurn!==advanceGuard) return;
+    advanced=true;
+    row.classList.remove("speaking");
+    idx++;
+    if(!playing) return;
+    if(nextTimer) clearTimeout(nextTimer);
+    nextTimer = setTimeout(()=>{ if(playing && myTurn===advanceGuard) playCurrent(); }, delay);
+  }
+
+  audio = new Audio(clipURL(d,label));
+  audio.volume = 1.0;
+  let stallTimer = setTimeout(()=>{ advance(0); }, 30000);
+  const clearStall = ()=>{ if(stallTimer){ clearTimeout(stallTimer); stallTimer=null; } };
+  audio.onended = ()=>{ clearStall(); advance(reduce?0:turnGap()); };
+  audio.onerror = ()=>{ clearStall(); advance(reduce?0:900); };
+  audio.play().catch(()=>{ clearStall(); advance(reduce?0:900); });
+}
+
+function togglePlay(){
+  if(playing){
+    playing=false; playBtn.textContent="▶"; try{audio.pause();}catch(e){}
+    dot.classList.remove("active"); callState.textContent="Paused";
+    rows.forEach(r=>r.classList.remove("speaking"));
+    return;
+  }
+  const d=DEMOS[current];
+  if(idx>=d.turns.length) reset();
+  playing=true; playBtn.textContent="❚❚"; dot.classList.add("active");
+  callState.textContent="Call in progress";
+  if(audio.src && !audio.ended && audio.currentTime>0 && audio.currentTime<audio.duration){
+    audio.play().catch(()=>playCurrent());
+  } else {
+    playCurrent();
+  }
+}
+
+function switchDemo(name){
+  current=name;
+  $("#tab-handyman").classList.toggle("active", name==="handyman");
+  $("#tab-hvac").classList.toggle("active", name==="hvac");
+  $("#tab-handyman").setAttribute("aria-selected", name==="handyman");
+  $("#tab-hvac").setAttribute("aria-selected", name==="hvac");
+  reset();
+}
+
+$("#tab-handyman").addEventListener("click", ()=>switchDemo("handyman"));
+$("#tab-hvac").addEventListener("click", ()=>switchDemo("hvac"));
+playBtn.addEventListener("click", togglePlay);
+reset();
+</script>
+
+</body>
+</html>
