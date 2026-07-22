@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>In-Field Agent — Estimate, finance, and book on the visit | Mark AI</title>
+<meta name="description" content="Mark's in-field agent turns a tech's photos into a priced Good/Better/Best estimate — checking weather, material availability, and crew size — then presents financing, offers real open slots, and books the crew into ServiceTitan. All on the visit, before the tech leaves the driveway." />
+<link rel="icon" href="/assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  /* page-specific, built on site tokens */
+  .ifa-hero{padding:34px 0 30px;}
+  .ifa-hero .eyebrow{display:block;margin-bottom:16px;}
+  .ifa-hero h1{font-size:clamp(34px,5.4vw,60px);max-width:15em;}
+  .ifa-hero .sub{font-size:20px;color:var(--slate);max-width:34em;margin:22px 0 30px;line-height:1.5;}
+
+  /* the orchestrated stack — the signature element */
+  .stack{background:var(--navy);border-radius:20px;padding:44px 40px;margin:8px 0 12px;position:relative;overflow:hidden;}
+  .stack::before{content:"";position:absolute;top:0;right:0;width:340px;height:340px;background:radial-gradient(circle at center,rgba(200,164,31,.10),transparent 70%);pointer-events:none;}
+  .stack-head{position:relative;z-index:1;margin-bottom:34px;}
+  .stack-head .k{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+  .stack-head h2{color:#fff;font-size:clamp(24px,3vw,34px);margin:12px 0 0;max-width:16em;}
+  .stack-head p{color:#A9B6D0;font-size:16px;margin:12px 0 0;max-width:38em;}
+
+  .flow-track{position:relative;z-index:1;display:flex;flex-direction:column;gap:0;}
+  .step{display:grid;grid-template-columns:56px 1fr;gap:20px;padding:18px 0;border-top:1px solid rgba(255,255,255,.09);align-items:start;}
+  .step:first-child{border-top:0;}
+  .step .node{width:44px;height:44px;border-radius:12px;background:rgba(200,164,31,.14);border:1px solid rgba(200,164,31,.4);display:grid;place-items:center;flex:none;}
+  .step .node svg{width:22px;height:22px;stroke:var(--gold-soft);fill:none;stroke-width:1.7;}
+  .step .body h3{color:#fff;font-size:19px;font-family:"Source Serif 4",serif;font-weight:600;margin:2px 0 5px;}
+  .step .body p{color:#C6D2EA;font-size:15px;margin:0;line-height:1.5;}
+  .step .body .live{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:#A9E3C0;}
+  .step .body .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green-bright);}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:16px 0;}
+  .halfcard{background:var(--white);border:1px solid var(--line-soft);border-radius:16px;padding:30px;}
+  .halfcard .tag{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+  .halfcard h3{font-size:22px;margin:12px 0 10px;}
+  .halfcard p{color:var(--slate);font-size:15.5px;margin:0 0 8px;line-height:1.55;}
+  .halfcard ul{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-direction:column;gap:10px;}
+  .halfcard li{position:relative;padding-left:24px;font-size:15px;color:var(--slate);}
+  .halfcard li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:var(--gold);}
+
+  .contrast{background:var(--panel);border-radius:16px;padding:34px 36px;margin:12px 0;}
+  .contrast h2{font-size:clamp(23px,3vw,30px);margin:0 0 8px;}
+  .contrast p.lead{color:var(--slate);font-size:16.5px;margin:0 0 24px;max-width:42em;}
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .vs .col{background:var(--white);border:1px solid var(--line-soft);border-radius:13px;padding:24px;}
+  .vs .col.mark{border-color:rgba(200,164,31,.55);background:var(--gold-tint);}
+  .vs .col h4{font-family:"Source Serif 4",serif;font-weight:600;font-size:17px;margin:0 0 14px;color:var(--navy);}
+  .vs .col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
+  .vs .col li{font-size:14px;color:var(--slate);line-height:1.4;padding-left:22px;position:relative;}
+  .vs .col li::before{content:"–";position:absolute;left:0;color:var(--slate-2);}
+  .vs .col.mark li::before{content:"✓";color:#1E7A41;font-weight:700;}
+
+  /* sample estimate embed */
+  .est-wrap{display:grid;grid-template-columns:1.35fr 1fr;gap:34px;align-items:start;margin-top:10px;}
+  .est-img{background:var(--white);border:1px solid var(--line-soft);border-radius:14px;padding:14px;box-shadow:0 18px 44px -20px rgba(19,36,64,.35);}
+  .est-img img{width:100%;height:auto;display:block;border-radius:6px;}
+  .est-notes{display:flex;flex-direction:column;gap:18px;position:sticky;top:88px;}
+  .est-note{border-left:3px solid var(--gold);padding:4px 0 4px 16px;}
+  .est-note-k{font-family:"Source Serif 4",serif;font-weight:600;font-size:17px;color:var(--navy);margin-bottom:4px;}
+  .est-note p{color:var(--slate);font-size:14.5px;margin:0;line-height:1.5;}
+  @media(max-width:860px){
+    .est-wrap{grid-template-columns:1fr;}
+    .est-notes{position:static;}
+  }
+
+  @media(max-width:860px){
+    .split,.vs{grid-template-columns:1fr;}
+    .stack{padding:32px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brandmark" href="/#top"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/#how">How it works</a>
+      <a href="/#outbound">Outbound</a>
+      <a href="/#why">Why Mark</a>
+      <a href="/features/in-field-agent.html">In-Field Agent</a>
+      <a href="/#campaigns">Campaigns</a>
+      <a href="/#mentor">Mentor</a>
+      <a href="/#who">Who it's for</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap subnav">
+  <a class="backlink" href="/#why">← Back to home</a>
+</div>
+
+<!-- HERO -->
+<section class="ifa-hero">
+  <div class="wrap col">
+    <span class="eyebrow">Why Mark · In-Field Agent</span>
+    <h1>The whole job — priced, financed, and booked before the tech leaves.</h1>
+    <p class="sub">Your tech photographs the work. Mark checks the weather, checks whether the parts are in stock, sizes the crew, prices it live, lays out financing, offers real open times, and books the crew into ServiceTitan — on the visit, while the customer is standing right there. Your tech signs it off and gets to work.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo →</a>
+      <a class="btn btn-ghost" href="/#demo">Hear a live call</a>
+    </div>
+  </div>
+</section>
+
+<!-- THE ORCHESTRATED STACK -->
+<section style="padding:20px 0 40px;">
+  <div class="wrap">
+    <div class="stack">
+      <div class="stack-head">
+        <span class="k">One sequence, on site</span>
+        <h2>Most estimating tools stop at a number. Mark runs the whole decision.</h2>
+        <p>Every step below happens on the visit — not back at the office, not the next day. Mark makes the calls a great office manager would make, in order, before it ever offers the customer a time.</p>
+      </div>
+
+      <div class="flow-track">
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.5-2h5L16 5"/></svg></div>
+          <div class="body">
+            <h3>1 · The tech snaps the photos</h3>
+            <p>Pictures of the actual work, right on site — no special app, just a phone.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><path d="M4 17l5-5-5-5M12 19h8"/></svg></div>
+          <div class="body">
+            <h3>2 · Mark reads and prices it — Good / Better / Best</h3>
+            <p>Vision AI identifies the work and builds three priced options against live material costs, so nobody's guessing or underbidding.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6 6l1.5 1.5M16.5 16.5L18 18"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="body">
+            <h3>3 · It checks the weather</h3>
+            <p>For outdoor and rooftop work, Mark pulls the forecast and avoids booking the crew into rain or unsafe conditions.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></div>
+          <div class="body">
+            <h3>4 · It checks material availability</h3>
+            <p>Mark confirms whether the parts are in stock. If they need to be ordered, it schedules the job for after materials arrive — so the crew shows up to a job they can finish.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13l2 2 4-4"/></svg></div>
+          <div class="body">
+            <h3>5 · It pulls the permit — and prices it</h3>
+            <p>Mark knows which work needs a permit in that jurisdiction, pulls the current City fee, and builds it right into the estimate — so the quote reflects the real, permitted cost, not a surprise later.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M16 11h5M18.5 8.5v5"/></svg></div>
+          <div class="body">
+            <h3>6 · It sizes the crew</h3>
+            <p>Mark works out how many techs the job needs and across how many days — then only offers times it can actually staff.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
+          <div class="body">
+            <h3>7 · It presents financing</h3>
+            <p>On bigger jobs, Mark lays out the financing options so the budget doesn't kill the deal — the customer can say yes to the work they actually want.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18M8 14h3M8 17h6"/></svg></div>
+          <div class="body">
+            <h3>8 · It offers three real open times</h3>
+            <p>Mark texts three day-and-time options that reflect true availability. The customer picks the one that works.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="node"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="body">
+            <h3>9 · The customer signs — and Mark books the crew into ServiceTitan</h3>
+            <p>One choice locks it in. Mark books the right crew directly into ServiceTitan on the spot. The tech converts the signed estimate to an invoice in ServiceTitan and gets to work — no back-office handoff, no waiting.</p>
+            <span class="live">Live</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE ESTIMATE — PROOF -->
+<section style="padding:20px 0 40px;">
+  <div class="wrap">
+    <div class="sec-head" style="text-align:left;max-width:none;">
+      <span class="eyebrow muted">The output</span>
+      <h2 style="font-size:clamp(26px,3.4vw,38px);">This is what your customer sees — built in the field, in seconds.</h2>
+      <p style="max-width:44em;">A real Mark-generated estimate. Live labor and material pricing, the permit already pulled and priced for the jurisdiction, financing laid out, tax and fees totaled — everything the customer needs to say yes, on the spot. Example business shown; the numbers are the real thing.</p>
+    </div>
+
+    <div class="est-wrap">
+      <div class="est-img">
+        <img src="/assets/sample-estimate.jpg" alt="Sample estimate generated by Mark's in-field agent for Summit Home Services, showing labor, materials, a pulled permit fee, financing options, and totals." loading="lazy">
+      </div>
+      <aside class="est-notes">
+        <div class="est-note">
+          <div class="est-note-k">Permit — pulled and priced</div>
+          <p>Mark identified that the job needs a City permit, pulled the current fee, and built it into the estimate. No surprise at invoicing.</p>
+        </div>
+        <div class="est-note">
+          <div class="est-note-k">Financing — laid out automatically</div>
+          <p>The financing terms and monthly payment are presented right on the estimate, so the budget doesn't kill the deal.</p>
+        </div>
+        <div class="est-note">
+          <div class="est-note-k">Live pricing — labor + materials</div>
+          <p>Real labor hours, real material costs, service fee, tax, and card fee — priced against current numbers, consistent across every tech.</p>
+        </div>
+        <a class="btn btn-primary" href="/assets/sample-estimate.pdf" target="_blank" rel="noopener" style="margin-top:6px;">See the sample estimate (PDF) →</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- IT SCHEDULES THE WHOLE JOB / IT CLOSES ON SITE -->
+<section style="padding:20px 0 40px;">
+  <div class="wrap">
+    <div class="split">
+      <div class="halfcard">
+        <span class="tag">Not one slot — the whole job</span>
+        <h3>It schedules the work the way it actually runs</h3>
+        <p>Mark doesn't drop a single appointment and hope. It books for the real shape of the job.</p>
+        <ul>
+          <li>Assigns as many techs as the project needs — not one body for a multi-person job.</li>
+          <li>Schedules across however many days the work takes, instead of forcing it into one visit.</li>
+          <li>Books after materials arrive, so the crew never shows up to a job it can't finish.</li>
+          <li>Offers only times you can staff — what the customer picks is a slot that's real.</li>
+        </ul>
+      </div>
+      <div class="halfcard">
+        <span class="tag">Closed on the visit</span>
+        <h3>Why it closes more work</h3>
+        <p>The job gets booked at peak interest — on site, the moment the customer says yes.</p>
+        <ul>
+          <li>Good / Better / Best lets the customer choose up, not just yes-or-no.</li>
+          <li>Financing turns a "too expensive" into a booked job.</li>
+          <li>Pricing is consistent and current across every tech — no guessing, no underbidding.</li>
+          <li>Signed and booked on the spot — no "we'll email you a quote," no job that dies waiting to get scheduled.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VS ESTIMATING TOOLS -->
+<section style="padding:10px 0 50px;">
+  <div class="wrap">
+    <div class="contrast">
+      <h2>An estimate is where other tools stop. It's where Mark gets started.</h2>
+      <p class="lead">Estimating software gives your tech a number and sends the customer home to think about it. Mark's in-field agent takes the job all the way to priced, financed, staffed, and booked — before anyone leaves the driveway.</p>
+      <div class="vs">
+        <div class="col">
+          <h4>A typical estimating tool</h4>
+          <ul>
+            <li>Builds a number or a proposal</li>
+            <li>Customer reviews it later, off site</li>
+            <li>You follow up to schedule</li>
+            <li>No weather or parts-availability logic</li>
+            <li>No financing at the point of sale</li>
+            <li>Scheduling and invoicing live somewhere else</li>
+          </ul>
+        </div>
+        <div class="col mark">
+          <h4>Mark's in-field agent</h4>
+          <ul>
+            <li>Prices Good / Better / Best on live costs</li>
+            <li>Checks weather before booking outdoor work</li>
+            <li>Pulls and prices the permit for the jurisdiction</li>
+            <li>Books around parts availability</li>
+            <li>Sizes the crew and staffs multi-day jobs</li>
+            <li>Presents financing on the visit</li>
+            <li>Books the crew into ServiceTitan on the visit</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:0 0 64px;">
+  <div class="wrap">
+    <div class="fcta">
+      <h2>Turn every tech into a closer.</h2>
+      <p>See the in-field agent estimate, finance, and book a job for your team — start to finish, on the visit.</p>
+      <a class="btn btn-light" href="https://calendly.com/dlqueensr/30min" target="_blank" rel="noopener">Book a demo →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <a class="brandmark" href="/#top"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <div>The AI office manager for home services.</div>
+    <div>© 2026 Mark AI</div>
+  </div>
+  <div class="wrap foot-legal">
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/do-not-sell.html">Do Not Sell or Share My Personal Information</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
+</script>
+
+</body>
+</html>
