@@ -1,419 +1,968 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mark AI — The AI office manager for home services</title>
-<meta name="description" content="Mark answers every call, books the job, and dials out to fill the board. An AI voice receptionist and outbound calling engine built for home-services businesses — proven live in a real franchise." />
-<link rel="icon" href="/assets/favicon.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Mark — AI Office Manager</title>
+<meta name="description" content="Mark is one AI that runs the whole home-services front office — answering, booking, in-field estimating, memberships, outbound, campaigns, bookkeeping and collections — built on ServiceTitan by an operator.">
+<style>
+:root{
+  --bg:#FBFAF5; --surface:#FFFFFF; --surface-2:#F4F1E8;
+  --navy:#0F1A33; --navy-2:#16233F; --navy-3:#1E2D4D;
+  --gold:#E5B842; --gold-deep:#B88A12; --gold-soft:#F6E9C2;
+  --fg:#151D30; --muted:#5B6578; --muted-2:#8A93A3;
+  --border:#E8E3D6; --border-2:#DED8C8;
+  --green:#2E9E6B; --green-soft:#E6F3EC;
+  --radius:18px; --radius-sm:12px;
+  --maxw:1200px;
+  --ff-sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --ff-serif:'Fraunces',Georgia,'Times New Roman',serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1324; --surface:#111C33; --surface-2:#15213B;
+  --navy:#0A1222; --navy-2:#111C33; --navy-3:#1A2745;
+  --fg:#EAEEF6; --muted:#A9B3C6; --muted-2:#7F8AA0;
+  --border:#22304C; --border-2:#2A3A58;
+  --green-soft:#12301F;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0B1324; --surface:#111C33; --surface-2:#15213B;
+  --navy:#0A1222; --navy-2:#111C33; --navy-3:#1A2745;
+  --fg:#EAEEF6; --muted:#A9B3C6; --muted-2:#7F8AA0;
+  --border:#22304C; --border-2:#2A3A58;
+  --green-soft:#12301F;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--ff-sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{margin:0;line-height:1.1;text-wrap:balance;font-weight:600}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:24px}
+.serif{font-family:var(--ff-serif)}
+.italic{font-style:italic}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+.muted{color:var(--muted)}
+
+/* nav */
+header.nav{position:sticky;top:0;z-index:50;background:var(--navy);color:#F7F4EC;border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 24px;max-width:var(--maxw);margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:-.01em}
+.logo .mk{font-family:var(--ff-serif);font-weight:600}
+.logo .bars{color:var(--gold);letter-spacing:-2px;font-size:22px}
+.logo small{display:block;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#AEB8CC;margin-top:-2px}
+.nav-links{display:flex;gap:22px;font-size:14.5px;font-weight:500;color:#D7DDEA}
+.nav-links a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;cursor:pointer;border:1px solid transparent;transition:transform .12s ease,background .12s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:#1a1405}
+.btn-gold:hover{background:#efc659}
+.btn-ghost{background:transparent;border-color:var(--border-2);color:var(--fg)}
+.btn-ghost-light{background:transparent;border-color:rgba(255,255,255,.25);color:#F7F4EC}
+.nav-cta{white-space:nowrap}
+.menu-btn{display:none;background:none;border:0;color:#F7F4EC;font-size:26px;cursor:pointer;line-height:1}
+
+/* hero */
+.hero{background:linear-gradient(90deg,rgba(10,16,30,.55),rgba(10,16,30,.22) 52%,rgba(10,16,30,.10)),url('/assets/mark-hero.jpg') center/cover}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start;padding:64px 0 0}
+.hero-copy{color:#F7F4EC}
+.hero h1{font-family:var(--ff-serif);font-size:clamp(40px,5.6vw,72px);font-weight:500;letter-spacing:-.01em;margin-bottom:22px}
+.hero h1 .accent{font-style:italic}
+.hero-sub{font-size:clamp(17px,2vw,20px);color:#C3CAD9;max-width:33ch;margin-bottom:30px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.hero-note{font-size:14px;color:#AEB8CC;display:flex;align-items:center;gap:8px}
+.hero-note .ck{color:var(--gold)}
+
+/* call card */
+.callcard{background:var(--navy-2);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:24px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6);color:#EAEEF6}
+.callcard-top{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:18px}
+.live{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9fb0c9;font-size:11.5px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(46,158,107,.2)}
+.ph{color:#AEB8CC;font-variant-numeric:tabular-nums}
+.bubble{margin-bottom:12px;display:flex;flex-direction:column;gap:5px}
+.tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;width:fit-content;padding:3px 8px;border-radius:6px}
+.tag.caller{background:#24324F;color:#AEB8CC}
+.tag.mark{background:var(--gold-soft);color:#6b5207}
+.bubble p{font-size:14.5px;color:#DCE2EE;line-height:1.45}
+.booked{margin-top:16px;background:rgba(46,158,107,.12);border:1px solid rgba(46,158,107,.4);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.booked .ic{color:var(--green);font-size:18px;line-height:1.3}
+.booked b{display:block;font-size:14.5px;color:#EAF5EE}
+.booked span{font-size:13px;color:#9fc7b2;font-variant-numeric:tabular-nums}
+.callstats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1)}
+.callstats .n{font-family:var(--ff-serif);font-size:26px;color:var(--gold);font-weight:600}
+.callstats .l{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:#8da0bd;margin-top:2px}
+
+/* trust strip */
+.strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface-2);margin-top:56px}
+.strip-inner{display:flex;flex-wrap:wrap;gap:12px 40px;align-items:center;justify-content:space-between;padding:20px 24px;max-width:var(--maxw);margin:0 auto;font-size:14.5px;color:var(--muted)}
+.strip b{color:var(--fg);font-weight:600}
+.trades b{color:var(--gold-deep)}
+
+/* sections */
+section{padding:84px 0}
+.sec-head{max-width:760px;margin-bottom:48px}
+.sec-head h2{font-family:var(--ff-serif);font-size:clamp(30px,4vw,46px);font-weight:500;margin:14px 0 16px;letter-spacing:-.01em}
+.sec-head h2 .accent{font-style:italic}
+.sec-head p{font-size:18px;color:var(--muted)}
+.center{margin-inline:auto;text-align:center}
+
+/* problem */
+.problem{background:var(--surface-2);border-block:1px solid var(--border)}
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.prob-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.prob-card h3{font-size:19px;margin-bottom:10px}
+.prob-card p{font-size:15px;color:var(--muted)}
+.prob-foot{font-family:var(--ff-serif);font-size:clamp(20px,2.6vw,28px);font-style:italic;color:var(--fg);margin-top:34px;text-align:center}
+.prob-foot b{font-style:normal;color:var(--gold-deep)}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:border-color .15s ease,transform .15s ease}
+.pillar:hover{border-color:var(--gold);transform:translateY(-3px)}
+.pillar .pic{width:46px;height:46px;border-radius:12px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:22px;margin-bottom:18px}
+.pillar h3{font-size:20px;margin-bottom:8px}
+.pillar p{font-size:15px;color:var(--muted);margin-bottom:14px}
+.pillar ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.pillar li{font-size:14px;color:var(--fg);padding-left:22px;position:relative}
+.pillar li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+
+/* feature deep rows */
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:28px 0}
+.feat.rev .feat-media{order:-1}
+.feat-copy .eyebrow{margin-bottom:12px;display:block}
+.feat-copy h3{font-family:var(--ff-serif);font-size:clamp(26px,3vw,36px);font-weight:500;margin-bottom:16px;letter-spacing:-.01em}
+.feat-copy>p{font-size:17px;color:var(--muted);margin-bottom:20px}
+.feat-list{display:grid;gap:12px}
+.feat-list .row{display:flex;gap:12px;align-items:flex-start}
+.feat-list .ck{color:var(--green);font-weight:800;margin-top:1px}
+.feat-list .row span{font-size:15px}
+.feat-list .row b{font-weight:600}
+.divider{height:1px;background:var(--border);max-width:var(--maxw);margin:0 auto}
+
+/* media panels */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px;box-shadow:0 24px 50px -34px rgba(15,26,51,.35)}
+.panel.dark{background:var(--navy-2);border-color:rgba(255,255,255,.1);color:#EAEEF6}
+.est-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:13px}
+.est-head .id{font-weight:700;letter-spacing:.05em;color:var(--gold)}
+.est-head .pill{background:var(--green-soft);color:var(--green);font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
+.gbb{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tier{border:1px solid var(--border);border-radius:12px;padding:16px;background:var(--surface-2)}
+.tier.best{border-color:var(--gold);background:var(--gold-soft)}
+.tier .t{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tier .v{font-family:var(--ff-serif);font-size:24px;font-weight:600;margin:6px 0 2px}
+.tier .mo{font-size:12px;color:var(--muted)}
+.tier .spec{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4}
+.est-note{font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center}
+
+/* chat panel (outbound) */
+.thread{display:flex;flex-direction:column;gap:10px}
+.msg{max-width:82%;padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.4}
+.msg.out{align-self:flex-end;background:var(--navy);color:#EAEEF6;border-bottom-right-radius:4px}
+.msg.in{align-self:flex-start;background:var(--surface-2);border:1px solid var(--border);border-bottom-left-radius:4px}
+.msg .who{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:3px;display:block}
+
+/* dashboard tiles */
+.dash{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.dtile{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:16px}
+.dtile .n{font-family:var(--ff-serif);font-size:28px;font-weight:600;color:var(--navy)}
+:root[data-theme="dark"] .dtile .n,
+:root:not([data-theme="light"]) .dtile .n{color:#EAEEF6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dtile .n{color:#EAEEF6}}
+.dtile .l{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* collections cadence */
+.cadence{display:flex;flex-direction:column;gap:0}
+.cstep{display:flex;gap:16px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed var(--border)}
+.cstep:last-child{border-bottom:0}
+.cstep .day{font-family:var(--ff-serif);font-weight:600;color:var(--gold-deep);min-width:64px;font-size:15px}
+.cstep .what{font-size:14.5px}
+.cstep .what b{font-weight:600}
+
+/* why / differentiators */
+.why{background:var(--navy);color:#F7F4EC;border-block:1px solid var(--navy-3)}
+.why .sec-head h2{color:#fff}
+.why .sec-head p{color:#AEB8CC}
+.why .sec-head .eyebrow{color:var(--gold)}
+.diff{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.dcard{background:var(--navy-2);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:24px}
+.dcard .nn{font-family:var(--ff-serif);font-size:30px;color:var(--gold);font-weight:600;margin-bottom:10px}
+.dcard h3{font-size:18px;margin-bottom:8px}
+.dcard p{font-size:14px;color:#AEB8CC}
+
+/* comparison */
+.cmp-wrap{overflow-x:auto}
+table.cmp{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+table.cmp th,table.cmp td{text-align:left;padding:15px 18px;border-bottom:1px solid var(--border)}
+table.cmp thead th{background:var(--navy);color:#F7F4EC;font-size:14px;font-weight:600}
+table.cmp thead th.mk{color:var(--gold)}
+table.cmp tbody td{color:var(--fg)}
+table.cmp .yes{color:var(--green);font-weight:700}
+table.cmp .no{color:#c0632f;font-weight:600}
+table.cmp tbody tr:nth-child(odd){background:var(--surface-2)}
+.cmp-note{font-size:12.5px;color:var(--muted-2);margin-top:14px}
+
+/* who for */
+.who-for{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.wtile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;text-align:center}
+.wtile .ic{font-size:24px}
+.wtile .nm{font-weight:600;margin-top:8px;font-size:15px}
+.wtile .sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+
+/* membership */
+.member{background:var(--surface-2);border-block:1px solid var(--border)}
+.arrowline{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin:10px 0 26px}
+.arrowline .a{font-family:var(--ff-serif);font-weight:600;font-size:clamp(30px,5vw,56px);color:var(--muted-2)}
+.arrowline .b{font-family:var(--ff-serif);font-weight:600;font-size:clamp(30px,5vw,56px);color:var(--gold-deep)}
+.arrowline .ar{color:var(--gold);font-size:34px}
+
+/* final cta */
+.final{background:var(--navy);color:#F7F4EC;text-align:center}
+.final h2{font-family:var(--ff-serif);font-size:clamp(32px,4.4vw,52px);font-weight:500;margin-bottom:18px}
+.final h2 .accent{font-style:italic;color:var(--gold)}
+.final p{font-size:18px;color:#C3CAD9;max-width:52ch;margin:0 auto 30px}
+.final .hero-cta{justify-content:center}
+
+/* footer */
+footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px solid rgba(255,255,255,.08)}
+.foot-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+.foot-inner .logo{color:#F7F4EC}
+.foot-links{display:flex;gap:22px;font-size:14px;flex-wrap:wrap}
+.foot-links a:hover{color:#fff}
+.foot-copy{font-size:12.5px;color:#73809a;margin-top:18px}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .hero{}
+  .prob-grid,.pillars,.diff,.who-for{grid-template-columns:1fr 1fr}
+  .feat{grid-template-columns:1fr;gap:28px}
+  .feat.rev .feat-media{order:0}
+  .nav-links{display:none}
+  .menu-btn{display:block}
+  .nav-links.open{display:flex;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--navy);padding:16px 24px;gap:16px;border-bottom:1px solid rgba(255,255,255,.1)}
+}
+@media (max-width:620px){
+  .prob-grid,.pillars,.diff,.who-for,.gbb,.dash{grid-template-columns:1fr}
+  .callstats{grid-template-columns:repeat(3,1fr)}
+  section{padding:60px 0}
+  .nav-cta{padding:10px 16px;font-size:14px}
+}
+.final h2,.final p{text-shadow:0 2px 18px rgba(0,0,0,.7)}
+.hero h1{text-shadow:0 2px 22px rgba(0,0,0,.85),0 1px 4px rgba(0,0,0,.7)}
+.hero-sub{text-shadow:0 1px 12px rgba(0,0,0,.78)}
+
+/* live demo console */
+.mk-wrap{display:grid;grid-template-columns:1.02fr .98fr;gap:48px;align-items:center}
+.mk-left h2{color:var(--fg)}
+.mk-listen{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.mk-listen li{display:flex;gap:12px;font-size:16px;color:var(--muted)}
+.mk-listen li b{color:var(--fg);font-weight:600}
+.mk-listen .tk{color:var(--green);font-weight:800;flex:none}
+.mk-toggle{display:flex;gap:8px;margin:0 0 16px;width:max-content;background:var(--surface);padding:5px;border-radius:999px;border:1px solid var(--border)}
+.mk-toggle button{font-family:var(--ff-sans);font-weight:600;font-size:14px;border:0;background:transparent;color:var(--muted);padding:8px 18px;border-radius:999px;cursor:pointer;transition:all .18s}
+.mk-toggle button.active{background:var(--navy);color:#fff}
+.mk-console{background:var(--navy);border-radius:18px;overflow:hidden;box-shadow:0 24px 56px -22px rgba(15,26,51,.5);border:1px solid rgba(255,255,255,.06)}
+.mk-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--navy-2);border-bottom:1px solid rgba(255,255,255,.06)}
+.mk-live{display:flex;align-items:center;gap:8px;color:#cdd8ec;font-size:13px;font-weight:600}
+.mk-livedot{width:8px;height:8px;border-radius:50%;background:#5b6b86}
+.mk-livedot.active{background:var(--gold);animation:mkpulse 1.6s infinite}
+@keyframes mkpulse{0%{box-shadow:0 0 0 0 rgba(229,184,66,.55)}70%{box-shadow:0 0 0 9px rgba(229,184,66,0)}100%{box-shadow:0 0 0 0 rgba(229,184,66,0)}}
+.mk-num{color:#8ea2c4;font-size:12.5px}
+.mk-transcript{padding:18px;min-height:430px;max-height:60vh;overflow-y:auto;scroll-behavior:smooth;position:relative}
+.mk-line{display:flex;margin-bottom:12px;opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease}
+.mk-line.show{opacity:1;transform:none}
+.mk-line.mark{justify-content:flex-start}.mk-line.caller{justify-content:flex-end}
+.mk-who{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;opacity:.85}
+.mk-who.mark{color:var(--gold-soft)}.mk-who.caller{color:#9db0d2;text-align:right}
+.mk-bwrap{max-width:82%}
+.mk-bubble{padding:10px 14px;border-radius:14px;font-size:14.5px;line-height:1.45}
+.mk-line.mark .mk-bubble{background:var(--navy-2);color:#eaf0fb;border:1px solid rgba(229,184,66,.18);border-bottom-left-radius:4px}
+.mk-line.caller .mk-bubble{background:#e8edf6;color:#1a2740;border-bottom-right-radius:4px}
+.mk-line.speaking .mk-bubble{box-shadow:0 0 0 2px rgba(229,184,66,.5)}
+.mk-booked{margin:6px 18px 0;padding:14px 16px;background:linear-gradient(135deg,#15633a,#1f7a3d);border-radius:12px;display:flex;align-items:center;gap:12px;color:#fff;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .4s}
+.mk-booked.show{opacity:1;transform:none}
+.mk-booked .check{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:16px;flex:none}
+.mk-booked strong{display:block;font-size:14px}.mk-booked .det{font-size:12.5px;color:#d7ecdd}
+.mk-controls{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--navy-2);border-top:1px solid rgba(255,255,255,.06)}
+.mk-play{width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;flex:none;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:16px;transition:transform .12s,background .2s}
+.mk-play:hover{transform:scale(1.06)}
+.mk-progress{flex:1}
+.mk-track{height:6px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+.mk-fill{height:100%;width:0%;background:var(--gold);transition:width .25s linear}
+.mk-status{color:#8ea2c4;font-size:12px;min-width:66px;text-align:right;font-variant-numeric:tabular-nums}
+.mk-cap{text-align:center;color:var(--muted);font-size:13px;margin-top:14px}
+.mk-cap b{color:var(--fg)}
+.mk-cta{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px 20px}
+.mk-cta.hidden{display:none}
+.mk-cta-avatar{width:240px;height:240px;border-radius:50%;object-fit:cover;animation:mkfloat 3.4s ease-in-out infinite}
+@keyframes mkfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.mk-cta-bubble{position:relative;background:var(--gold);color:var(--navy);font-family:var(--ff-serif);font-weight:600;font-size:18px;padding:9px 18px;border-radius:14px}
+.mk-cta-bubble:after{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:9px solid var(--gold)}
+/* in-field flow */
+.ifa-flow{background:var(--navy);border-radius:20px;padding:40px 36px;margin-bottom:30px;position:relative;overflow:hidden}
+.ifa-step{display:grid;grid-template-columns:48px 1fr;gap:18px;padding:15px 0;border-top:1px solid rgba(255,255,255,.09);align-items:start}
+.ifa-step:first-child{border-top:0}
+.ifa-n{width:40px;height:40px;border-radius:11px;background:rgba(229,184,66,.14);border:1px solid rgba(229,184,66,.4);display:grid;place-items:center;color:var(--gold-soft);font-family:var(--ff-serif);font-weight:600;font-size:18px}
+.ifa-step h3{color:#fff;font-family:var(--ff-serif);font-weight:600;font-size:18px;margin:2px 0 5px}
+.ifa-step p{color:#C6D2EA;font-size:14.5px;margin:0;line-height:1.5}
+.ifa-live{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:#8ee6b0}
+.ifa-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+.ifa-est{display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center}
+.ifa-est img{width:100%;border-radius:14px;border:1px solid var(--border);box-shadow:0 20px 44px -28px rgba(15,26,51,.4)}
+.ifa-call{display:flex;flex-direction:column;gap:12px}
+.ifa-cco{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 18px}
+.ifa-cco b{display:block;font-size:15px;margin-bottom:3px}
+.ifa-cco span{font-size:13.5px;color:var(--muted)}
+@media(max-width:920px){.mk-wrap{grid-template-columns:1fr;gap:34px}}
+@media(max-width:820px){.ifa-est{grid-template-columns:1fr}.ifa-flow{padding:30px 22px}}
+
+
+.mktg-stats{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:34px}
+.mktg-stat{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
+.mktg-stat .v{font-family:var(--ff-serif);font-size:34px;font-weight:600;color:var(--fg)}
+.mktg-stat .k{font-size:13px;color:var(--muted);margin-top:4px}
+.mktg-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:12px}
+.mktg-tile{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)}
+.mktg-tile img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.mktg-tile .cap{font-size:12.5px;font-weight:600;color:var(--fg);padding:9px 12px;text-align:center}
+.mktg-note{font-size:13px;color:var(--muted-2);text-align:center;margin-bottom:40px}
+@media(max-width:860px){.mktg-gallery{grid-template-columns:repeat(2,1fr)}}
+
+</style>
 </head>
 <body>
 
-<header>
-  <div class="wrap nav">
-    <a class="brandmark" href="#top"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
-    <nav class="nav-links" id="navLinks">
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo">
+      <span class="bars">॥</span>
+      <span>
+        <span class="mk">Mark</span>
+        <small>AI Office Manager</small>
+      </span>
+    </a>
+    <nav class="nav-links" id="navlinks">
       <a href="#how">How it works</a>
-      <a href="#outbound">Outbound</a>
-      <a href="#why">Why Mark</a>
-      <a href="/features/in-field-agent.html">In-Field Agent</a>
-      <a href="#campaigns">Campaigns</a>
-      <a href="#mentor">Mentor</a>
       <a href="#demo">Demo</a>
+      <a href="#infield">In-Field Agent</a>
+      <a href="#outbound">Outbound</a>
+      <a href="#marketing">Campaigns</a>
+      <a href="#bookkeeper">Bookkeeper</a>
+      <a href="#coaching">Coaching</a>
+      <a href="#control">Control</a>
+      <a href="#why">Why Mark</a>
       <a href="#who">Who it's for</a>
     </nav>
-    <div class="nav-right">
-      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/mark-ai-demo-clone" target="_blank" rel="noopener">Book a demo</a>
-      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
+    <a href="https://bookings.cloud.microsoft/bookwithme/user/a3dada838ecf42aea1520e2a140fb444@mrhandyman.com/meetingtype/-UB3LWS1GUGy3yBY772OgQ2?anonymous&ismsaljsauthenabled&ep=mcard" target="_blank" rel="noopener" class="btn btn-gold nav-cta">Book a demo</a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
   </div>
 </header>
 
 <a id="top"></a>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Mark — the AI office manager</span>
-      <h1>Your whole front office. <span class="accent">One AI. Built by an operator.</span></h1>
-      <p class="lead">Mark answers every call, builds estimates in the field, and runs the outbound that wins back old customers and lands brand-new commercial accounts — the work of a full front office and an outside sales rep, without the payroll.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="https://calendly.com/dlqueensr/mark-ai-demo-clone" target="_blank" rel="noopener">Book a demo →</a>
-        <a class="btn btn-ghost" href="#how">See how it works</a>
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1>Your whole front office.<br><span class="accent serif">One AI. Built by an operator.</span></h1>
+        <p class="hero-sub">Mark answers every call, builds estimates in the field, sells memberships, runs the outbound that wins back old customers, and even keeps the books — the work of a full office and an outside sales rep, without the payroll.</p>
+        <div class="hero-cta">
+          <a href="https://bookings.cloud.microsoft/bookwithme/user/a3dada838ecf42aea1520e2a140fb444@mrhandyman.com/meetingtype/-UB3LWS1GUGy3yBY772OgQ2?anonymous&ismsaljsauthenabled&ep=mcard" target="_blank" rel="noopener" class="btn btn-gold">Book a demo →</a>
+          <a href="#how" class="btn btn-ghost-light">See how it works</a>
+        </div>
+        <p class="hero-note"><span class="ck">✓</span> Built and run by a fellow home-services owner — proven on real calls and real jobs.</p>
       </div>
-      <div class="hero-note"><span class="tick">✓</span> Built and run by a fellow home-services owner — proven on real calls and real jobs</div>
     </div>
-
-    <div class="console" id="console" aria-label="Live call console demonstration">
-      <div class="console-top">
-        <div class="live"><span class="live-dot"></span> Call in progress</div>
-        <div class="num">+1 (916) 555&#8209;0148</div>
-      </div>
-      <div class="transcript" id="transcript">
-        <div class="line" data-i="0"><span class="who caller">Caller</span><span class="bubble">Hey, my garbage disposal just stopped working and it's leaking under the sink.</span></div>
-        <div class="line" data-i="1"><span class="who mark">Mark</span><span class="bubble">Sorry to hear that — I can get a tech out for that. Is it humming, or totally dead?</span></div>
-        <div class="line" data-i="2"><span class="who caller">Caller</span><span class="bubble">Totally dead. And there's water on the cabinet floor.</span></div>
-        <div class="line" data-i="3"><span class="who mark">Mark</span><span class="bubble">Got it. I have tomorrow at 9:00 AM open with Jeremy. Want me to lock that in?</span></div>
-        <div class="line" data-i="4"><span class="who caller">Caller</span><span class="bubble">Yes, perfect.</span></div>
-      </div>
-      <div class="booked" id="booked">
-        <div class="check">✓</div>
-        <div class="b-text"><strong>Job booked &amp; dispatched</strong><span class="det">Tue 9:00 AM · Disposal repair · Assigned: Jeremy</span></div>
-      </div>
-      <div class="console-foot">
-        <div class="stat"><div class="v">100%</div><div class="k">Calls answered</div></div>
-        <div class="stat"><div class="v">&lt;1 ring</div><div class="k">Pickup speed</div></div>
-        <div class="stat"><div class="v">24/7</div><div class="k">On the phones</div></div>
-      </div>
+  </div>
+  <div class="strip">
+    <div class="strip-inner">
+      <span class="trades">Built for <b>plumbing · HVAC · electrical · handyman · restoration · roofing · garage</b> — every trade that runs on the phone</span>
+      <span>Answers every call <b>24/7</b> — no voicemail, no missed leads</span>
     </div>
   </div>
 </section>
 
-<div class="trust">
-  <div class="wrap trust-row">
-    <span>Built for <b>plumbing · HVAC · electrical · handyman · restoration</b> and every trade that runs on the phone</span>
-    <span class="sep"></span>
-    <span>Answers every call <b>24/7</b> — no voicemail, no missed leads</span>
-    <span class="sep"></span>
-    <span><b>One brain.</b> Inbound, outbound, texts, and memberships — every channel, one system.</span>
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">The problem</span>
+      <h2>Every owner becomes <span class="accent serif">the office.</span></h2>
+      <p class="muted" style="margin-inline:auto">The business stalls at a ceiling — and so does the owner.</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card"><h3>You do everything</h3><p>Answering phones, booking jobs, chasing quotes, running the books — instead of being in the field growing the business.</p></div>
+      <div class="prob-card"><h3>Missed calls are lost jobs</h3><p>After-hours and overflow calls go to voicemail. The customer just calls the next shop. That revenue never shows up.</p></div>
+      <div class="prob-card"><h3>The office is the cost</h3><p>A full front office — CSR, dispatcher, office manager — runs <b>$115K–$255K a year</b>, and turns over constantly.</p></div>
+    </div>
+    <p class="prob-foot">Mark is <b>not an answering service.</b> Mark is the whole office — built on ServiceTitan.</p>
   </div>
-</div>
+</section>
 
+<!-- LIVE DEMO -->
+<section id="demo" style="background:var(--surface-2);border-block:1px solid var(--border)">
+  <div class="wrap">
+    <div class="mk-wrap">
+      <div class="mk-left">
+        <span class="eyebrow">The live demo</span>
+        <h2 class="serif" style="font-size:clamp(30px,4vw,46px);font-weight:500;margin:12px 0 14px">Don't take our word for it. <span class="accent italic">Hear Mark work.</span></h2>
+        <p class="muted" style="font-size:18px;margin-bottom:22px;max-width:34ch">A full call, start to finish — no edits, no script-reading. Press play and listen for the parts a basic answering bot can't do.</p>
+        <ul class="mk-listen">
+          <li><span class="tk">✓</span><span><b>Schedules a crew</b> when a job needs more than one tech</span></li>
+          <li><span class="tk">✓</span><span><b>Checks the weather</b> before booking outdoor work</span></li>
+          <li><span class="tk">✓</span><span><b>Books around parts</b> — schedules after materials arrive</span></li>
+          <li><span class="tk">✓</span><span><b>Estimates the job</b> right over the phone</span></li>
+          <li><span class="tk">✓</span><span><b>Sells a membership</b> with real savings math</span></li>
+        </ul>
+      </div>
+      <div class="mk-right">
+        <div class="mk-toggle" role="tablist">
+          <button id="tab-handyman" class="active">Handyman call</button>
+          <button id="tab-hvac">HVAC install call</button>
+        </div>
+        <div class="mk-console">
+          <div class="mk-top">
+            <div class="mk-live"><span class="mk-livedot" id="dot"></span> <span id="callState">Ready to play</span></div>
+            <div class="mk-num">Summit Home Services · (555) 555-0100</div>
+          </div>
+          <div class="mk-transcript" id="transcript"></div>
+          <div class="mk-booked" id="booked"><div class="check">✓</div><div><strong id="bookedTitle"></strong><span class="det" id="bookedDet"></span></div></div>
+          <div class="mk-controls">
+            <button class="mk-play" id="play" aria-label="Play demo">▶</button>
+            <div class="mk-progress"><div class="mk-track"><div class="mk-fill" id="fill"></div></div></div>
+            <div class="mk-status" id="status">0 / 0</div>
+          </div>
+        </div>
+        <p class="mk-cap">Simulated call for demonstration. <b>Summit Home Services</b> is an example business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  const AUDIO={};
+  const AVATAR="/demo_clips/mark-avatar.png";
+  const DEMOS={"handyman": {"folder": "handyman", "booked": {"title": "Job booked & dispatched", "det": "Mon 9:00 AM \u00b7 Smoke detectors \u00b7 Tech: Jordan"}, "turns": [["mark_01", "Thanks for calling Summit Home Services. I'm Mark \u2014 who am I speaking with?"], ["caller_02", "Hi, this is David. How are you?"], ["mark_03", "Hey David! I'm doing great, thanks. Is this for your home or a business today?"], ["caller_04", "It's for my home."], ["mark_05", "Got it, a home. What needs fixing or installing?"], ["caller_06", "I want to get some smoke detectors installed."], ["mark_07", "Sounds good. Just so you know \u2014 Summit's been in business for years, our techs carry a decade-plus of experience, full background checks, and we're licensed, bonded, and insured. Are we replacing existing detectors, adding new ones, or installing a smart detector like a Nest Protect?"], ["caller_08", "Replacing existing ones."], ["mark_09", "Got it. How many total?"], ["caller_10", "Six total."], ["mark_11", "Are these hardwired and interconnected, or battery-only?"], ["caller_12", "They're hardwired."], ["mark_13", "Smoke only, carbon monoxide only, or a combo?"], ["caller_14", "Smoke only."], ["mark_15", "Do you have the detectors already, or would you like us to supply them?"], ["caller_16", "I'd like you to supply them."], ["mark_17", "Perfect. Let me calculate the cost for that."], ["mark_18", "Our tech installs six smoke detectors. He'll verify the scope on arrival \u2014 if it matches, no change in price. The estimate is around $529, including all materials and labor."], ["caller_19", "Okay, sounds good."], ["mark_20", "Since we need to order the detectors, the soonest is after materials arrive \u2014 Monday at 9 AM. Would that work?"], ["caller_21", "Yeah, that'll work fine."], ["mark_22", "Perfect \u2014 Monday, 9 to 11 AM. Want me to lock that in?"], ["caller_23", "Yes please."], ["mark_24", "You're all set, David. Monday 9\u201311 AM, your technician is Jordan. Text confirmation coming shortly."], ["mark_25", "By the way \u2014 would you like to save some money on this job? I have a way you could save quite a bit."], ["caller_26", "Tell me about it."], ["mark_27", "Our Home Care Membership is $149 a month \u2014 six visits a year starting today, two hours each, 10% off extra labor and materials, and your $70 service fee always waived. Today would be $265 instead of $529 \u2014 saving you $264. Want me to set that up?"], ["caller_28", "Yeah, that sounds good."], ["mark_29", "Great choice, David! I'll send the agreement to your email to review and sign. Anything else?"], ["caller_30", "No, that'll do it. Thank you!"], ["mark_31", "Perfect! Thanks for calling Summit Home Services, David. See you Monday \u2014 have a great day!"]]}, "hvac": {"folder": "hvac", "booked": {"title": "Install booked \u00b7 2-tech crew", "det": "Wed 8:00 AM \u00b7 A/C system install \u00b7 Lead: Sam"}, "turns": [["mark_01", "Thanks for calling Summit Home Services! Hi Kim, thanks for calling back \u2014 I see you're in our system and we gave you an estimate last week for a new central A/C system. Is that what you're calling about?"], ["caller_02", "Yeah, exactly \u2014 I'm ready to move forward and get it installed."], ["mark_03", "Perfect. The pricing's already set from that estimate, so there's nothing to re-quote \u2014 I just need to get your install scheduled and your equipment ordered."], ["caller_04", "Sounds good."], ["mark_05", "Since it's a new system, we'll order your unit and have it delivered before the install \u2014 so I'll schedule after it arrives, so the crew has everything on hand for a single visit. Let me check the timeline."], ["mark_06", "Your equipment should be in by early next week. And because a full replacement is a bigger job, I'm scheduling a two-technician crew so it's done in one day."], ["mark_07", "One moment \u2014 let me check the weather too, since this includes rooftop work and I don't want the crew out there in bad conditions."], ["mark_08", "The forecast's clear Wednesday, but rain's moving in Thursday and Friday \u2014 so I'd recommend Wednesday. I have a two-tech crew available Wednesday at 8 AM. Would that work?"], ["caller_09", "Wednesday morning is perfect."], ["mark_10", "Excellent \u2014 Wednesday, 8 AM, two-technician crew for your A/C install. Want me to lock it in?"], ["caller_11", "Yes, please."], ["mark_12", "Done. Is the number you're calling from good for confirmations and for the crew to reach you?"], ["caller_13", "Yep, that's the best number."], ["mark_14", "Perfect. You're all set, Kim. Wednesday 8 AM, two-tech crew, your lead technician is Sam. They'll confirm the scope matches your estimate on arrival \u2014 as long as it lines up, your pricing stays exactly as quoted. Text confirmation coming shortly."], ["caller_15", "Awesome. Thanks for making that easy, Mark."], ["mark_16", "My pleasure, Kim \u2014 glad you're going with us. We'll get your new system in Wednesday. Talk to you then!"]]}};
+  const $=s=>document.querySelector(s);
+  function makeCTA(){const c=document.createElement("div");c.className="mk-cta";c.id="cta";
+    c.innerHTML='<img class="mk-cta-avatar" src="'+AVATAR+'" alt="Mark, your AI office manager"/><div class="mk-cta-bubble">Hear me work for you</div>';return c;}
+  const transcript=$("#transcript"),booked=$("#booked"),playBtn=$("#play"),fill=$("#fill"),statusEl=$("#status"),callState=$("#callState"),dot=$("#dot");
+  const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let current="handyman",idx=0,playing=false,audio=new Audio(),rows=[],advanceGuard=0,nextTimer=null;
+  function turnGap(){return 120+Math.floor(Math.random()*180);}
+  function clipData(demo,label){return "/demo_clips/"+demo.folder+"/"+label+".mp3";}
+  function reset(){advanceGuard++;if(nextTimer){clearTimeout(nextTimer);nextTimer=null;}
+    try{audio.pause();audio.onended=null;audio.onerror=null;}catch(e){}
+    audio=new Audio();transcript.innerHTML="";transcript.appendChild(makeCTA());booked.classList.remove("show");
+    idx=0;playing=false;playBtn.textContent="▶";fill.style.width="0%";dot.classList.remove("active");callState.textContent="Ready to play";
+    rows=[];const d=DEMOS[current];$("#bookedTitle").textContent=d.booked.title;$("#bookedDet").textContent=d.booked.det;
+    statusEl.textContent="0 / "+d.turns.length;}
+  function addBubble(label,text){const who=label.startsWith("mark")?"mark":"caller";
+    const row=document.createElement("div");row.className="mk-line "+who;
+    const wrap=document.createElement("div");wrap.className="mk-bwrap";
+    const w=document.createElement("div");w.className="mk-who "+who;w.textContent=who==="mark"?"Mark":"Caller";
+    const b=document.createElement("div");b.className="mk-bubble";b.textContent=text;
+    wrap.appendChild(w);wrap.appendChild(b);row.appendChild(wrap);transcript.appendChild(row);rows.push(row);
+    requestAnimationFrame(()=>row.classList.add("show"));transcript.scrollTop=transcript.scrollHeight;return row;}
+  function finish(){playing=false;playBtn.textContent="▶";dot.classList.remove("active");callState.textContent="Call complete";fill.style.width="100%";booked.classList.add("show");rows.forEach(r=>r.classList.remove("speaking"));}
+  function playCurrent(){const _cta=document.getElementById("cta");if(_cta)_cta.classList.add("hidden");
+    const d=DEMOS[current];if(idx>=d.turns.length){finish();return;}
+    const myTurn=++advanceGuard;const t=d.turns[idx];const label=t[0],text=t[1];const row=addBubble(label,text);
+    rows.forEach(r=>r.classList.remove("speaking"));row.classList.add("speaking");
+    statusEl.textContent=(idx+1)+" / "+d.turns.length;fill.style.width=((idx+1)/d.turns.length*100)+"%";
+    let advanced=false;function advance(delay){if(advanced)return;if(myTurn!==advanceGuard)return;advanced=true;row.classList.remove("speaking");idx++;if(!playing)return;if(nextTimer)clearTimeout(nextTimer);nextTimer=setTimeout(()=>{if(playing&&myTurn===advanceGuard)playCurrent();},delay);}
+    audio=new Audio(clipData(d,label));audio.volume=1.0;
+    let stallTimer=setTimeout(()=>{advance(0);},30000);const clearStall=()=>{if(stallTimer){clearTimeout(stallTimer);stallTimer=null;}};
+    audio.onended=()=>{clearStall();advance(reduce?0:turnGap());};
+    audio.onerror=()=>{clearStall();advance(reduce?0:900);};
+    audio.play().catch(()=>{clearStall();advance(reduce?0:900);});}
+  function togglePlay(){if(playing){playing=false;playBtn.textContent="▶";try{audio.pause();}catch(e){}dot.classList.remove("active");callState.textContent="Paused";rows.forEach(r=>r.classList.remove("speaking"));return;}
+    const d=DEMOS[current];if(idx>=d.turns.length)reset();playing=true;playBtn.textContent="❚❚";dot.classList.add("active");callState.textContent="Call in progress";
+    if(audio.src&&!audio.ended&&audio.currentTime>0&&audio.currentTime<audio.duration){audio.play().catch(()=>playCurrent());}else{playCurrent();}}
+  function switchDemo(name){current=name;$("#tab-handyman").classList.toggle("active",name==="handyman");$("#tab-hvac").classList.toggle("active",name==="hvac");reset();}
+  $("#tab-handyman").addEventListener("click",()=>switchDemo("handyman"));
+  $("#tab-hvac").addEventListener("click",()=>switchDemo("hvac"));
+  playBtn.addEventListener("click",togglePlay);reset();
+})();
+</script>
+
+<!-- HOW IT WORKS / PILLARS -->
 <section id="how">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow muted">How it works</span>
-      <h2>Two jobs, one system: answer the phone, and work the phone.</h2>
-      <p>Most AI tools just pick up calls. Mark runs both directions — inbound and outbound — off the same brain that already knows your pricing, your schedule, and your trade.</p>
+      <span class="eyebrow">One brain · every department</span>
+      <h2>Six departments. <span class="accent serif">One flat price.</span></h2>
+      <p>Inbound, in-field, outbound, memberships, the dashboard and the books — one AI that reasons through every call, text and email in its own words. No per-minute. No per-seat. No metering.</p>
     </div>
-    <div class="duo">
-      <div class="panel-card">
-        <span class="tag">Inbound</span>
-        <h3>Never miss another call</h3>
-        <p>Every ring is answered, triaged, and turned into a booked job on the calendar.</p>
-        <ul class="flow">
-          <li><span class="n">01</span><span class="t"><b>Answers instantly</b> — every call, every hour, no voicemail, no hold music.</span></li>
-          <li><span class="n">02</span><span class="t"><b>Triages the job</b> — asks the right questions for the trade and the problem.</span></li>
-          <li><span class="n">03</span><span class="t"><b>Quotes or estimates</b> — gives a price, or books an onsite estimate when one's needed.</span></li>
-          <li><span class="n">04</span><span class="t"><b>Books &amp; dispatches</b> — drops the job on the schedule and assigns the right tech.</span></li>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pic">☎</div>
+        <h3>Answering &amp; Booking</h3>
+        <p>Answers every call 24/7 and books straight into ServiceTitan — record complete when the call ends.</p>
+        <ul>
+          <li>Recognizes returning callers by number, greets by name, pulls job history</li>
+          <li>Runs discovery off your entire ServiceTitan pricebook</li>
+          <li>Right-sizes the crew and checks the 7-day forecast before booking outdoor work</li>
+          <li>Five languages — English, Spanish, French, German, Portuguese</li>
         </ul>
       </div>
-      <div class="panel-card">
-        <span class="tag">Outbound</span>
-        <h3>Fill the board on slow days</h3>
-        <p>When the phones are quiet, Mark goes to work — calling and texting to create jobs, not wait for them.</p>
-        <ul class="flow">
-          <li><span class="n">01</span><span class="t"><b>Reactivates customers</b> — reaches back out to past clients who've gone quiet.</span></li>
-          <li><span class="n">02</span><span class="t"><b>Sells memberships</b> — enrolls residential and commercial recurring plans.</span></li>
-          <li><span class="n">03</span><span class="t"><b>Works commercial leads</b> — multi-touch campaigns with agreements built in.</span></li>
-          <li><span class="n">04</span><span class="t"><b>Books the result</b> — every interested call lands back on your schedule.</span></li>
+      <div class="pillar">
+        <div class="pic">🛠</div>
+        <h3>The In-Field Agent</h3>
+        <p>Your tech speaks a voice note from the customer's house — Mark builds a signed estimate in seconds. The role nobody else has built.</p>
+        <ul>
+          <li>Good / Better / Best from one voice note, each spec'd to local code</li>
+          <li>Permits priced by jurisdiction, financing on every estimate</li>
+          <li>Books multi-day jobs and full crews from the field</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pic">★</div>
+        <h3>Quoting &amp; Memberships</h3>
+        <p>Real quotes on the phone — priced off your own numbers — and memberships sold and signed live on the call.</p>
+        <ul>
+          <li>Uses your pricebook hours × your rate + your fees; live local material pricing</li>
+          <li>Pitches memberships on every qualifying call</li>
+          <li>Sends the agreement for e-signature before the caller hangs up</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pic">➤</div>
+        <h3>The Outbound Engine</h3>
+        <p>Works leads, lapsed customers and unsold estimates day and night — booking jobs a busy office would never get to.</p>
+        <ul>
+          <li>Speed-to-lead: calls and texts in under a minute, hands you a live lead</li>
+          <li>Reactivation, unsold-estimate recovery, post-job review requests</li>
+          <li>Recurring email &amp; SMS campaigns on autopilot, auto-segmented</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pic">▦</div>
+        <h3>The Bookkeeper</h3>
+        <p>Keeps QuickBooks clean and chases every dollar you're owed — by text, email and phone — until it's paid.</p>
+        <ul>
+          <li>Catches miscategorized transactions, preps reconciliation, rolls up sales tax</li>
+          <li>Buckets every open invoice by age, self-updating</li>
+          <li>Escalates gentle → firmer → final notice; stops the second they pay</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pic">◱</div>
+        <h3>Your Dashboard</h3>
+        <p>Every call recorded, transcribed and tagged — plus owner self-serve control over everything Mark does.</p>
+        <ul>
+          <li>Texts &amp; follow-up tabs, analytics, your colors and logo</li>
+          <li>Pick Mark's voice and personality per location</li>
+          <li>Train Mark: edit your services &amp; FAQs yourself — live instantly</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
+<!-- DEEP: ANSWERING -->
+<div class="divider"></div>
+<section id="answering" style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="feat">
+      <div class="feat-copy">
+        <span class="eyebrow">Answering &amp; booking</span>
+        <h3>The same quality at 2 AM Sunday as 10 AM Tuesday.</h3>
+        <p>No voicemail, no abandoned calls, no overflow going to a competitor. Mark picks up every time and turns the call into a completed ServiceTitan job.</p>
+        <div class="feat-list">
+          <div class="row"><span class="ck">✓</span><span><b>Knows your customers.</b> Recognizes returning callers by number, confirms the address, has job history ready.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Trade-skill matching.</b> Knows which trades each tech actually does — offers the job only to qualified techs. Skill beats proximity.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Closest-tech routing, live on the call.</b> Real drive distances, before the job even exists — not after.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Photos mid-call.</b> The caller texts photos to the number they just called; Mark attaches them to the job and quotes off them.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Service-area gating.</b> Politely declines or refers out-of-territory work; handles cancellations and reschedules.</span></div>
+        </div>
+      </div>
+      <div class="feat-media">
+        <div class="panel dark">
+          <div class="callcard-top"><span class="live"><span class="dot"></span> Returning caller</span><span class="ph">Known · Rancho Cordova</span></div>
+          <div class="bubble"><span class="tag mark">Mark</span><p>Hi Kelly, welcome back! Is this about the kitchen sink we looked at in July, or something new?</p></div>
+          <div class="bubble"><span class="tag caller">Caller</span><p>Something new — can I text you a photo?</p></div>
+          <div class="bubble"><span class="tag mark">Mark</span><p>Please do, right to this number. …Got it — under-sink supply line. I'll attach it to your job and send the appointment confirmation here.</p></div>
+          <div class="booked"><span class="ic">✓</span><div><b>2 photos attached to job</b><span>Synced to ServiceTitan · confirmation texted</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP: IN-FIELD -->
+<section id="infield">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The in-field agent · the role nobody else has built</span>
+      <h2>The whole job — <span class="accent serif">priced, financed, and booked before the tech leaves.</span></h2>
+      <p>Your tech tells Mark what the job is — by voice or text, with photos — and Mark prices it, checks the weather, confirms parts are in stock, pulls the permit fee, sizes and skill-matches the crew, lays out financing, and books it into ServiceTitan. On the visit, while the customer is standing right there.</p>
+    </div>
+    <div class="ifa-flow">
+      <div class="ifa-step"><span class="ifa-n">1</span><div><h3>The tech tells Mark what the job is</h3><p>By voice or text, right on site — with photos so Mark can see wood rot, mold or water damage. Got a product to assemble, like a pergola kit? Give Mark the model number and it looks it up. No special app — just the tech's phone.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">2</span><div><h3>Mark prices it — one price, or Good / Better / Best</h3><p>Mark combines the description, photos and any product lookup to identify the work, figure the techs and hours, and build the estimate against live material costs — so nobody's guessing or underbidding.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">3</span><div><h3>It checks the weather</h3><p>For outdoor and rooftop work, Mark pulls the forecast and won't book the crew into rain or unsafe conditions.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">4</span><div><h3>It checks material availability</h3><p>Mark confirms the parts are in stock. If they need ordering, it schedules the job for after materials arrive — so the crew shows up to a job they can finish.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">5</span><div><h3>It pulls the permit fee — and prices it</h3><p>Mark knows which work needs a permit in that jurisdiction, pulls the current city fee, and builds it into the estimate — no surprise at invoicing.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">6</span><div><h3>It sizes the crew — and skill-matches techs</h3><p>Mark works out how many techs across how many days, then picks the right ones — skill levels sync from ServiceTitan, so the right trade shows up. It only offers times it can genuinely staff.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">7</span><div><h3>It presents financing</h3><p>On bigger jobs Mark lays out the financing options so the budget doesn't kill the deal — the customer can say yes to the work they actually want.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">8</span><div><h3>It offers five real open times</h3><p>Mark texts five day-and-time options that reflect true availability. The customer picks the one that works.</p><span class="ifa-live">Live</span></div></div>
+      <div class="ifa-step"><span class="ifa-n">9</span><div><h3>The customer signs — Mark books the crew into ServiceTitan</h3><p>One choice locks it in. Mark books the right crew directly into ServiceTitan on the spot — no back-office handoff, no waiting.</p><span class="ifa-live">Live</span></div></div>
+    </div>
+    <div class="sec-head" style="margin-bottom:24px"><span class="eyebrow">The output</span><h2 style="font-size:clamp(26px,3vw,36px)">What your customer sees — <span class="accent serif">built in the field, in seconds.</span></h2></div>
+    <div class="ifa-est">
+      <img src="/assets/sample-estimate.jpg" alt="Sample estimate generated by Mark's in-field agent — labor, materials, permit fee, financing and totals.">
+      <div class="ifa-call">
+        <div class="ifa-cco"><b>Permit fee — pulled &amp; priced</b><span>Mark flagged the permit, pulled the current jurisdiction fee, and built it into the estimate. No surprise at invoicing.</span></div>
+        <div class="ifa-cco"><b>Financing — laid out automatically</b><span>Terms and the monthly payment sit right on the estimate, so the budget doesn't kill the deal.</span></div>
+        <div class="ifa-cco"><b>Live pricing — labor + materials</b><span>Real labor hours, real local material costs, service fee, tax and card fee — consistent across every tech.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP: QUOTING/PRICING -->
+<div class="divider"></div>
+<section id="pricing-engine">
+  <div class="wrap">
+    <div class="feat">
+      <div class="feat-copy">
+        <span class="eyebrow">Quoting, selling &amp; memberships</span>
+        <h3>Priced off <span class="serif italic">your</span> numbers — never ours.</h3>
+        <p>"We don't use the pricing in ServiceTitan" is the most common objection we hear. Good — neither does Mark. He uses the <b>hours</b> on each job, then runs your own math.</p>
+        <div class="feat-list">
+          <div class="row"><span class="ck">✓</span><span><b>Your formula:</b> (your hourly rate × the job's hours) + your service fee. If a job isn't in your book, Mark uses the average pro time for your area and runs the same math.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Materials folded in live</b> from the customer's local stores, with your markup applied — a real total, not labor-only.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Your rules, automatically:</b> markup tiers, van-stock %, card fees, service fee.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Memberships sold &amp; e-signed on the call</b> — residential and commercial — then auto-scheduled across the year.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Handles objections like a closer</b> — reframes price around the monthly payment and membership savings.</span></div>
+        </div>
+      </div>
+      <div class="feat-media">
+        <div class="panel">
+          <div class="est-head"><span class="id">How Mark prices a job</span></div>
+          <div class="dash">
+            <div class="dtile"><div class="n">Hours</div><div class="l">pulled from your pricebook (the time, not the price)</div></div>
+            <div class="dtile"><div class="n">× Rate</div><div class="l">your hourly rate, from your dashboard</div></div>
+            <div class="dtile"><div class="n">+ Fee</div><div class="l">your service fee + pricing rules</div></div>
+            <div class="dtile"><div class="n">+ Materials</div><div class="l">live local pricing, your markup</div></div>
+          </div>
+          <p class="est-note">Every number comes from your dashboard — nothing is hardcoded, nothing is borrowed from another shop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEEP: OUTBOUND -->
+<div class="divider"></div>
 <section id="outbound">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow muted">The outbound engine</span>
-      <h2>Mark doesn't wait for the phone to ring.</h2>
-      <p>Most AI just answers calls. Mark works the phone in the other direction too — running a full slate of outbound campaigns that win back old customers, grow memberships, and bring in brand-new commercial business. All at once. All automatically. No one to manage.</p>
-    </div>
-
-    <div class="sales-band">
-      <div class="sales-copy">
-        <div class="label">New commercial prospecting</div>
-        <h3>Your outside sales team, without the salary.</h3>
-        <p>An outside commercial rep costs a salary, a truck, and commission — and still only dials so many businesses a day. Mark prospects new commercial accounts around the clock: it works your target list, gets past the gatekeeper, captures the decision-maker, runs a multi-touch follow-up cadence, and closes the enrollment — then hands you a booked relationship. It also re-engages commercial accounts that have gone cold. No salary. No draw. No days off.</p>
-        <a class="band-link" href="/features/commercial-prospecting.html">See how prospecting works →</a>
-      </div>
-      <div class="sales-compare">
-        <div class="cmp">
-          <div class="cmp-h">An outside sales rep</div>
-          <ul>
-            <li>Salary plus commission, every month</li>
-            <li>One person, about eight hours a day</li>
-            <li>A few dozen calls on a good day</li>
-            <li>Sick days, turnover, slow ramp-up</li>
-          </ul>
+    <div class="feat rev">
+      <div class="feat-copy">
+        <span class="eyebrow">The outbound engine</span>
+        <h3>The revenue a busy office never gets to.</h3>
+        <p>Mark works leads, lapsed customers, unsold estimates and follow-ups — day and night, unattended — and runs your marketing campaigns on autopilot.</p>
+        <div class="feat-list">
+          <div class="row"><span class="ck">✓</span><span><b>Speed-to-lead under a minute.</b> Calls and texts the moment a lead lands, then hands a live, warm lead to your cell.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Reactivation &amp; recovery.</b> Wakes up dormant residential and commercial customers; chases unsold estimates on cadence.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Marketing on autopilot.</b> Win-back, thank-you, seasonal, holiday and welcome campaigns — auto-segmented, with send caps and open/reply tracking.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Text-first, real conversation.</b> Escalates to a call only once the thread is warm.</span></div>
         </div>
-        <div class="cmp gold">
-          <div class="cmp-h">Mark</div>
-          <ul>
-            <li>No salary, no commission</li>
-            <li>Every commercial lead, 24/7</li>
-            <li>Multi-touch on the whole list at once</li>
-            <li>Never quits, never forgets a follow-up</li>
-          </ul>
+      </div>
+      <div class="feat-media">
+        <div class="panel">
+          <div class="est-head"><span class="id">Speed-to-lead · 42 seconds after the form</span><span class="pill">Live lead</span></div>
+          <div class="thread">
+            <div class="msg out"><span class="who">Mark</span>Hi Dana — saw your request for an AC tune-up. I can get someone out this week. Mornings or afternoons better?</div>
+            <div class="msg in"><span class="who">Dana</span>Afternoons. How soon?</div>
+            <div class="msg out"><span class="who">Mark</span>Thursday 2 PM works and it's close to you. Want me to book it and text you the confirmation?</div>
+            <div class="msg in"><span class="who">Dana</span>Yes please!</div>
+          </div>
+          <div class="booked" style="background:var(--green-soft);border-color:#bfe3cd"><span class="ic" style="color:var(--green)">✓</span><div><b style="color:var(--fg)">Booked + owner pinged</b><span style="color:var(--muted)">Thu 2:00 PM · AC tune-up · live lead sent to your cell</span></div></div>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="sec-head" style="margin-bottom:32px;">
-      <span class="eyebrow muted">Always-on</span>
-      <h2 style="font-size:clamp(24px,3vw,32px);">And it works the rest of your list, too.</h2>
-      <p>Every campaign below runs on its own cadence, in the background, without anyone lifting a finger.</p>
+<div class="divider"></div>
+<a id="campaigns"></a>
+<!-- AUTOMATED MARKETING -->
+<section id="marketing" style="background:var(--surface-2);border-block:1px solid var(--border)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Automated marketing</span>
+      <h2>The marketing engine <span class="accent serif">that runs itself.</span></h2>
+      <p>Sixteen campaigns reach your entire customer base automatically — seasonal maintenance reminders, holiday blasts, win-back sequences, welcome series, and post-job follow-ups. Set up once. Running every day, across every location, with zero manual sends.</p>
     </div>
-    <div class="campaign-grid">
-      <a class="camp" href="/features/speed-to-lead.html"><div class="clabel">Lead capture</div><h4>Speed-to-lead</h4><p>Calls or texts a fresh lead within the minute — before a competitor can pick it up.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/unsold-estimate.html"><div class="clabel">Lead capture</div><h4>Unsold estimate follow-up</h4><p>Chases estimates that didn't close and turns the maybes into booked jobs.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/customer-reactivation.html"><div class="clabel">Win-back</div><h4>Customer reactivation</h4><p>Reaches back out to past residential customers who've gone quiet.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/commercial-reactivation.html"><div class="clabel">Win-back</div><h4>Commercial reactivation</h4><p>Re-engages commercial accounts that haven't called in a while.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/post-job-followup.html"><div class="clabel">Retention</div><h4>Post-job follow-up</h4><p>Follows up after the work to earn reviews, repeat jobs, and referrals.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/membership.html"><div class="clabel">Recurring revenue</div><h4>Membership sales</h4><p>Calls customers to enroll them in recurring service plans.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/membership-by-text.html"><div class="clabel">Recurring revenue</div><h4>Membership by text</h4><p>SMS-first membership campaigns for the customers who'd rather text.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/member-onboarding.html"><div class="clabel">Recurring revenue</div><h4>Member onboarding</h4><p>Welcomes and activates new members so the plans they bought actually get used.</p><span class="learn">Learn more →</span></a>
-      <a class="camp" href="/features/tech-reschedule.html"><div class="clabel">Scheduling</div><h4>Tech reschedule</h4><p>Proactively reworks the day when the route changes, saving appointments that would otherwise fall through.</p><span class="learn">Learn more →</span></a>
+    <div class="mktg-stats">
+      <div class="mktg-stat"><div class="v">16</div><div class="k">campaigns ready to run</div></div>
+      <div class="mktg-stat"><div class="v">Thousands</div><div class="k">of customers reached per location</div></div>
+      <div class="mktg-stat"><div class="v">0</div><div class="k">manual sends, ever</div></div>
+      <div class="mktg-stat"><div class="v">100%</div><div class="k">automated</div></div>
+    </div>
+    <div class="mktg-gallery">
+      <div class="mktg-tile"><img src="/assets/SEASON-SPRING-HERO.jpg" alt="Spring tune-up campaign creative"><div class="cap">Spring tune-up</div></div>
+      <div class="mktg-tile"><img src="/assets/SEASON-SUMMER-HERO.jpg" alt="Summer maintenance campaign creative"><div class="cap">Summer maintenance</div></div>
+      <div class="mktg-tile"><img src="/assets/SEASON-FALL-HERO.jpg" alt="Fall prep campaign creative"><div class="cap">Fall prep</div></div>
+      <div class="mktg-tile"><img src="/assets/SEASON-WINTER-HERO.jpg" alt="Winter check campaign creative"><div class="cap">Winter check</div></div>
+      <div class="mktg-tile"><img src="/assets/PROMO-JULY4-BANNER.jpg" alt="July 4th promo campaign creative"><div class="cap">July 4th promo</div></div>
+      <div class="mktg-tile"><img src="/assets/PROMO-BLACKFRIDAY-BANNER.jpg" alt="Black Friday campaign creative"><div class="cap">Black Friday</div></div>
+      <div class="mktg-tile"><img src="/assets/WELCOME-RES-HERO.jpg" alt="Welcome · residential campaign creative"><div class="cap">Welcome · residential</div></div>
+      <div class="mktg-tile"><img src="/assets/WELCOME-COM-HERO.jpg" alt="Welcome · commercial campaign creative"><div class="cap">Welcome · commercial</div></div>
+    </div>
+    <p class="mktg-note">Real campaign creative — designed, branded, and sent automatically on your schedule.</p>
+    <div class="pillars">
+      <div class="pillar"><div class="pic">☀</div><h3>Seasonal maintenance</h3><p>Tune-up reminders that fire each season on their own.</p><ul><li>Spring, Summer, Fall &amp; Winter campaigns</li><li>Auto-timed to the season, every year</li></ul></div>
+      <div class="pillar"><div class="pic">★</div><h3>Holiday blasts</h3><p>Date-gated promotions that send themselves.</p><ul><li>New Year, Presidents, Memorial, July 4th</li><li>Labor Day, Black Friday &amp; more</li></ul></div>
+      <div class="pillar"><div class="pic">↺</div><h3>Win-back</h3><p>Brings back customers who've gone quiet.</p><ul><li>Lapsed residential sequences</li><li>Dormant commercial reactivation</li></ul></div>
+      <div class="pillar"><div class="pic">✉</div><h3>Welcome series</h3><p>Greets every new customer and starts the relationship.</p><ul><li>Residential &amp; commercial tracks</li><li>Sets up reviews and repeat visits</li></ul></div>
+      <div class="pillar"><div class="pic">✓</div><h3>Post-job follow-up</h3><p>Thanks the customer and asks for the review.</p><ul><li>Review requests that lift your rating</li><li>Surfaces the next project they mentioned</li></ul></div>
+      <div class="pillar"><div class="pic">⚙</div><h3>You stay in control</h3><p>Flip any campaign on or off from your dashboard.</p><ul><li>Auto-segmented: lapsed / recent / residential / commercial</li><li>Daily send caps + open &amp; reply tracking</li></ul></div>
     </div>
   </div>
 </section>
 
-<section id="why" style="background:var(--panel);">
+<!-- DEEP: BOOKKEEPER -->
+<div class="divider"></div>
+<section id="bookkeeper">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow muted">Why Mark, not a basic answering bot</span>
-      <h2>The difference is what Mark knows about the actual job.</h2>
-      <p>Anyone can build an AI that takes a message. Mark prices, scopes, and schedules real work the way your best office manager would.</p>
-    </div>
-    <div class="diff-grid">
-      <a class="feat" href="/features/live-material-pricing.html"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/></svg></div>
-        <h3>Live material pricing</h3>
-        <p>Pulls real-time material costs so quotes reflect today's prices, not last year's.</p><span class="learn">Learn more →</span></a>
-      <a class="feat" href="/features/in-field-agent.html">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 17l5-5-5-5M12 19h8"/></svg></div>
-        <h3>In-field agent</h3>
-        <p>Builds a Good / Better / Best estimate from field photos — then books the job, right from the driveway.</p>
-      <span class="learn">Learn more →</span></a>
-      <a class="feat" href="/features/crew-sizing.html"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M16 11h5M18.5 8.5v5"/></svg></div>
-        <h3>Crew sizing</h3>
-        <p>Figures out how many techs a job needs before it ever hits the schedule.</p><span class="learn">Learn more →</span></a>
-      <a class="feat" href="/features/weather-aware-scheduling.html"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6 6l1.5 1.5M16.5 16.5L18 18"/><circle cx="12" cy="12" r="4"/></svg></div>
-        <h3>Weather-aware scheduling</h3>
-        <p>Books outdoor and seasonal work around the forecast, not against it.</p><span class="learn">Learn more →</span></a>
-      <a class="feat" href="/features/membership.html">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></div>
-        <h3>Membership engine</h3>
-        <p>Sells, enrolls, and renews recurring plans — the revenue that compounds.</p>
-      <span class="learn">Learn more →</span></a>
-      <a class="feat" href="/features/speed-to-lead.html">
-        <div class="ico"><svg viewBox="0 0 24 24"><path d="M13 2L5 13h6l-1 9 9-12h-6z"/></svg></div>
-        <h3>Instant speed-to-lead</h3>
-        <p>Spots a fresh lead and calls or texts back before it goes cold — often within the minute.</p>
-      <span class="learn">Learn more →</span></a>
+    <div class="feat">
+      <div class="feat-copy">
+        <span class="eyebrow">The bookkeeper</span>
+        <h3>Keeps the books clean — and chases every dollar you're owed.</h3>
+        <p>Mark knows exactly who owes you, buckets it by age, and works each overdue invoice by text, email and phone until it's paid. He never touches a card — when a customer's ready to pay, he hands them to you to send the link.</p>
+        <div class="feat-list">
+          <div class="row"><span class="ck">✓</span><span><b>QuickBooks, clean.</b> Catches miscategorized transactions, preps reconciliation, rolls up sales tax by quarter and jurisdiction.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Knows who owes you.</b> Every open invoice bucketed current / 1–30 / 31–60 / 60+, self-updating.</span></div>
+          <div class="row"><span class="ck">✓</span><span><b>Transparent.</b> Read the exact text and email Mark sent, plus a recovery scoreboard: collected, still owed, collection rate.</span></div>
+        </div>
+      </div>
+      <div class="feat-media">
+        <div class="panel">
+          <div class="est-head"><span class="id">The chase · all inside legal calling hours</span></div>
+          <div class="cadence">
+            <div class="cstep"><span class="day">Day 0</span><span class="what"><b>Friendly text</b> — quick reminder with the balance</span></div>
+            <div class="cstep"><span class="day">Day 3</span><span class="what"><b>Email</b> — invoice re-sent, polite nudge</span></div>
+            <div class="cstep"><span class="day">Day 7</span><span class="what"><b>Phone call</b> — Mark calls and talks it through</span></div>
+            <div class="cstep"><span class="day">Day 14–21</span><span class="what"><b>Text, then firmer call</b></span></div>
+            <div class="cstep"><span class="day">Day 30</span><span class="what"><b>Final notice</b>, then a call — stops the second they pay</span></div>
+          </div>
+          <p class="est-note">Ready to pay? Mark flags them and queues a one-tap handoff — <b>you</b> send the link from ServiceTitan. Mark never sends a link or touches a card.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="campaigns" style="background:var(--white);border-top:1px solid var(--line-soft);">
+<a id="mentor"></a>
+<!-- COACHING: MENTOR + RIDE-ALONG -->
+<div class="divider"></div>
+<section id="coaching">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow muted">Feature spotlight</span>
-      <h2 style="font-size:clamp(40px,5.5vw,60px);">Automated Campaigns</h2>
-      <p style="font-size:18px;font-weight:600;color:var(--navy);margin:10px 0 14px;">16 campaigns. Zero manual sends.</p>
-      <p>Seasonal maintenance, holiday blasts, and always-on retention campaigns — all firing on their own schedule, to your entire customer base, without anyone lifting a finger.</p>
+      <span class="eyebrow">Coaching, built in</span>
+      <h2>Mark coaches your people, too.</h2>
+      <p>The sales-coaching tools shops pay hundreds per tech for — bundled in, at no extra per-seat cost.</p>
     </div>
-    <div class="diff-grid" style="margin-bottom:40px;">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></div>
-        <h3>Seasonal Maintenance</h3>
-        <p>Fall, winter, spring, and summer campaigns activate on the right month and roll through your entire customer base — no scheduling, no reminders, no manual work.</p>
+    <div class="pillars" style="grid-template-columns:1fr 1fr">
+      <div class="pillar">
+        <div class="pic">🎧</div>
+        <h3>Mark Mentor — CSR coaching</h3>
+        <p>Scores and coaches your phone team on every call, so booking rates climb.</p>
+        <ul>
+          <li>Reviews each inbound call against your standards</li>
+          <li>Surfaces missed bookings and coaching moments</li>
+          <li>Powers a performance-based CSR spiff program</li>
+        </ul>
       </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
-        <h3>Holiday Blasts</h3>
-        <p>Six promotions armed for the full year. When the date window opens, the campaign fires to your entire base. When it closes, it stops. Owners set the offer once.</p>
+      <div class="pillar">
+        <div class="pic">📍</div>
+        <h3>Ride-Along — field coaching</h3>
+        <p>Records in-person tech visits, transcribes, and gives AI sales coaching — a built-in alternative to the $300/tech tools.</p>
+        <ul>
+          <li>Scores the in-home sales conversation</li>
+          <li>GPS-verifies the visit happened at the real job</li>
+          <li>Runs on iPad and Android — no new hardware</li>
+        </ul>
       </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M17 2l4 4-4 4M7 22l-4-4 4-4M3 6h10a4 4 0 010 8H3M21 12H11"/></svg></div>
-        <h3>Win-Back &amp; Follow-Up</h3>
-        <p>Lapsed customers get a win-back offer at 6 months. Recent jobs get a thank-you within 14 days. New customers get a welcome after their first visit. All automatic.</p>
-      </div>
-    </div>
-    <div style="background:var(--navy);border-radius:16px;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Source Serif 4',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">See every campaign — and the full year calendar.</div>
-        <div style="font-size:15px;color:#A9B6D0;">Holiday windows, seasonal dates, always-on campaigns, and the dashboard owners use to manage them.</div>
-      </div>
-      <a class="btn btn-primary" href="/campaigns.html" style="white-space:nowrap;flex:none;">See all campaigns →</a>
     </div>
   </div>
 </section>
 
-<section id="mentor" style="background:var(--panel);border-top:1px solid var(--line-soft);">
+<!-- BRAND BAND -->
+<section style="position:relative;min-height:460px;display:grid;place-items:center;text-align:center;background:linear-gradient(180deg,rgba(11,17,31,.16),rgba(11,17,31,.32)),url('/assets/mark-band.jpg') center/cover;color:#F7F4EC;padding:96px 24px">
+  <div style="max-width:860px;text-shadow:0 2px 18px rgba(0,0,0,.72)">
+    <span class="eyebrow" style="color:var(--gold)">One AI · the whole office</span>
+    <h2 class="serif" style="font-size:clamp(32px,5vw,56px);font-weight:500;margin:14px 0 16px;color:#fff">Your front office — <span class="italic">running itself.</span></h2>
+    <p style="font-size:18px;color:#EAEEF6;max-width:62ch;margin:0 auto">Every call answered, every job booked, every estimate built, every invoice chased — without adding a single seat to payroll.</p>
+  </div>
+</section>
+
+<!-- OWNER CONTROL -->
+<section id="control" style="background:var(--surface-2);border-block:1px solid var(--border)">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Full owner control · live in seconds</span>
+      <h2>You run Mark — <span class="accent serif">down to the last detail.</span></h2>
+      <p class="muted" style="margin-inline:auto">Mark isn't a black box you email support to change. Your dashboard controls exactly how Mark talks, quotes, books and sells for your shop — self-serve, and live the moment you save. Every owner runs Mark their own way.</p>
+    </div>
+    <div class="who-for">
+      <div class="wtile"><div class="ic">🧰</div><div class="nm">Services</div><div class="sub">turn any service on/off, add your own</div></div>
+      <div class="wtile"><div class="ic">💬</div><div class="nm">Your FAQs</div><div class="sub">write &amp; edit Mark's answers</div></div>
+      <div class="wtile"><div class="ic">📝</div><div class="nm">Phone script</div><div class="sub">paste yours — Mark follows it</div></div>
+      <div class="wtile"><div class="ic">📐</div><div class="nm">Estimate rules</div><div class="sub">set how quotes get built</div></div>
+      <div class="wtile"><div class="ic">📖</div><div class="nm">Pricebook</div><div class="sub">phone-quote vs on-site, per job</div></div>
+      <div class="wtile"><div class="ic">⏱</div><div class="nm">Hours &amp; crew</div><div class="sub">set your own time &amp; crew per job</div></div>
+      <div class="wtile"><div class="ic">➕</div><div class="nm">Your own jobs</div><div class="sub">add office-only jobs anytime</div></div>
+      <div class="wtile"><div class="ic">🔤</div><div class="nm">Vocabulary</div><div class="sub">teach Mark your terms</div></div>
+      <div class="wtile"><div class="ic">↪</div><div class="nm">Transfer rules</div><div class="sub">who gets the call, and when</div></div>
+      <div class="wtile"><div class="ic">★</div><div class="nm">Membership plans</div><div class="sub">your plans, your prices</div></div>
+      <div class="wtile"><div class="ic">💳</div><div class="nm">Financing</div><div class="sub">your lenders, your terms</div></div>
+      <div class="wtile"><div class="ic">📅</div><div class="nm">Booking lengths</div><div class="sub">your defaults, per visit type</div></div>
+      <div class="wtile"><div class="ic">🎙</div><div class="nm">Voice &amp; personality</div><div class="sub">pick Mark's voice per location</div></div>
+      <div class="wtile"><div class="ic">👷</div><div class="nm">Techs &amp; PTO</div><div class="sub">add a tech in ~60 seconds</div></div>
+      <div class="wtile"><div class="ic">🎨</div><div class="nm">Branding</div><div class="sub">your colors &amp; logo</div></div>
+      <div class="wtile"><div class="ic">📊</div><div class="nm">Analytics</div><div class="sub">who booked, who sold, by source</div></div>
+    </div>
+    <div class="prob-foot" style="margin-top:36px">Edit any of it yourself — <b>live the moment you save.</b> No vendor ticket, no waiting, no “submit a request.” No other platform on the market hands owners this much control.</div>
+  </div>
+</section>
+
+<!-- WHY MARK WINS -->
+<section class="why" id="why">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow muted">Feature spotlight</span>
-      <h2 style="font-size:clamp(40px,5.5vw,60px);">Mark Mentor</h2>
-      <p style="font-size:18px;font-weight:600;color:var(--navy);margin:10px 0 14px;">Every call, coached. Not a sampled few.</p>
-      <p>Managers can only listen to a handful of calls a week. Mark Mentor scores every human-answered call against your brand's playbook — objection handling, empathy, discovery, pricing, brand, holds, and turn-taking — then hands each rep the one thing to work on next. No hours of recordings, one standard across every location.</p>
+      <span class="eyebrow">Why Mark wins</span>
+      <h2>Four things no answering service can touch.</h2>
+      <p>The funded players answer the phone. Mark runs the office.</p>
     </div>
-    <div class="diff-grid" style="margin-bottom:40px;">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
-        <h3>No more sampling</h3>
-        <p>Every human-answered call is scored — not the handful a manager has time to review. Nothing slips through.</p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M12 20v-6M12 8V4M6 12H4M20 12h-2M12 12a4 4 0 100-.01"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h3>One fix per rep</h3>
-        <p>The single weakest area is surfaced for each person, so coaching is specific instead of vague.</p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4"/></svg></div>
-        <h3>ServiceTitan-true</h3>
-        <p>Booking outcomes come straight from the CRM, not guessed from the transcript — so the scores reflect reality.</p>
-      </div>
-    </div>
-    <div style="background:var(--navy);border-radius:16px;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Source Serif 4',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">See how Mark Mentor coaches your team.</div>
-        <div style="font-size:15px;color:#A9B6D0;">The scorecard, the leaderboard, the seven dimensions, and how it runs itself in the background.</div>
-      </div>
-      <a class="btn btn-primary" href="/features/mentor.html" style="white-space:nowrap;flex:none;">See the full Mentor page →</a>
+    <div class="diff">
+      <div class="dcard"><div class="nn">01</div><h3>Built by an operator</h3><p>Designed and run inside a real home-services shop — proven on real calls and real jobs, not in a demo.</p></div>
+      <div class="dcard"><div class="nn">02</div><h3>Built on your pricebook</h3><p>Quotes off your own hours, rates and rules — with live local material pricing. Your numbers, never ours.</p></div>
+      <div class="dcard"><div class="nn">03</div><h3>The in-field agent</h3><p>A tech's voice note becomes a signed, code-compliant estimate at the door. The role nobody else has built.</p></div>
+      <div class="dcard"><div class="nn">04</div><h3>On your side</h3><p>One flat rate per location. No per-minute, no per-seat, no cut of your jobs. Mark works for you, not as a vendor taking a slice.</p></div>
     </div>
   </div>
 </section>
 
-<section id="demo" style="background:var(--white);border-top:1px solid var(--line-soft);scroll-margin-top:80px;">
+<!-- COMPARISON -->
+<section id="compare">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow muted">Feature spotlight</span>
-      <h2 style="font-size:clamp(40px,5.5vw,60px);">Hear Mark work</h2>
-      <p style="font-size:18px;font-weight:600;color:var(--navy);margin:10px 0 14px;">Don't take our word for it. Listen to a real call.</p>
-      <p>A full call, start to finish — no edits, no script-reading. Listen for how Mark schedules a crew, checks the weather before booking outdoor work, quotes a job over the phone, and sells a membership with real savings math. The parts a basic answering bot can't do.</p>
+      <span class="eyebrow">How Mark compares</span>
+      <h2>One flat rate. <span class="accent serif">Every department.</span></h2>
+      <p>Most AI answering tools meter and modularize — inbound, outbound, speed-to-lead and QA billed as separate line items, each with a minute allowance plus overage, QA charged per CSR. A busy month costs more than a slow one. Mark is one price, every department.</p>
     </div>
-    <div class="diff-grid" style="margin-bottom:40px;">
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M9 8a3 3 0 016 0v4a3 3 0 01-6 0z"/><path d="M5 11v1a7 7 0 0014 0v-1M12 19v3"/></svg></div>
-        <h3>A real conversation</h3>
-        <p>Cloned voices, a real booking flow, a live membership pitch — the actual call Mark runs, not a mockup.</p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></div>
-        <h3>Two trades, two calls</h3>
-        <p>A handyman smoke-detector job with a membership sale, and an HVAC install with crew sizing and a weather check.</p>
-      </div>
-      <div class="feat">
-        <div class="ico"><svg viewBox="0 0 24 24" style="stroke:var(--gold-soft);fill:none;stroke-width:1.7;"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h3>The work behind the call</h3>
-        <p>While Mark talks, it checks pricing, catches out-of-stock parts, and texts the owner to order them — silently.</p>
-      </div>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead>
+          <tr><th>Capability</th><th class="mk">Mark</th><th>Typical AI answering service</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>24/7 answering + ServiceTitan booking</td><td class="yes">Yes</td><td>Yes</td></tr>
+          <tr><td>Speed-to-lead &amp; outbound</td><td class="yes">Yes</td><td>Yes</td></tr>
+          <tr><td>Phone quoting off your pricebook</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>Jurisdiction permits in the quote</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>Financing shown on the estimate</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>In-field voice-note estimator</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>Sells &amp; e-signs memberships</td><td class="yes">Yes</td><td class="no">Follow-ups only</td></tr>
+          <tr><td>QuickBooks + AR collections</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>Pricing model</td><td class="yes">Flat / location</td><td class="no">Per minute / per module</td></tr>
+        </tbody>
+      </table>
     </div>
-    <div style="background:var(--navy);border-radius:16px;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Source Serif 4',serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;">Press play and hear a real call.</div>
-        <div style="font-size:15px;color:#A9B6D0;">The full audio demo — booked, dispatched, done — on the handyman call and the HVAC install.</div>
-      </div>
-      <a class="btn btn-primary" href="/demo.html" style="white-space:nowrap;flex:none;">Hear a live call →</a>
-    </div>
+    <p class="cmp-note">Compiled from vendors' own published pricing sheets and proposals. Features change — if a competitor has added one, we'll gladly correct it.</p>
   </div>
 </section>
 
-<section id="who" class="doors">
+<!-- MEMBERSHIP OPPORTUNITY -->
+<section class="member" id="memberships">
   <div class="wrap">
     <div class="sec-head">
+      <span class="eyebrow">The opportunity</span>
+      <h2>Memberships turn a one-off shop into a recurring business.</h2>
+    </div>
+    <div class="arrowline">
+      <span class="a">one-off jobs</span>
+      <span class="ar">→</span>
+      <span class="b">recurring revenue</span>
+    </div>
+    <p style="max-width:70ch;font-size:18px;color:var(--muted)">The gap between a job-by-job trade and a high-value one is the recurring-revenue model. Memberships have never been sellable at scale — until something could sell and sign them on every call. Mark is that something: it sells the plan, e-signs it live, and auto-schedules the year's visits. Every membership Mark lands expands your recurring base.</p>
+  </div>
+</section>
+
+<!-- WHO FOR -->
+<section id="who">
+  <div class="wrap">
+    <div class="sec-head center">
       <span class="eyebrow">Who it's for</span>
-      <h2>One brain. Two ways in.</h2>
-      <p>Mark fits an independent shop and a national network the same way — the brain doesn't change, only the trade knowledge loaded on top.</p>
+      <h2>Every trade that runs on the phone.</h2>
+      <p class="muted" style="margin-inline:auto">If you're on ServiceTitan and a ringing phone is your lifeblood, Mark fits — day one.</p>
     </div>
-    <div class="door-grid">
-      <div class="door">
-        <div class="label">For contractors</div>
-        <h3>Run your front office on autopilot</h3>
-        <p>Mark plugs into ServiceTitan and runs your front office — receptionist, dispatcher, and outbound caller — without adding headcount.</p>
-        <ul>
-          <li>Capture every lead, around the clock</li>
-          <li>Quote and book without picking up the phone</li>
-          <li>Turn slow days into outbound days</li>
-          <li>Keep your CSR payroll flat as you grow</li>
-        </ul>
-        <a class="btn btn-light door-cta" href="https://calendly.com/dlqueensr/mark-ai-demo-clone" target="_blank" rel="noopener">Book a demo for your shop</a>
-      </div>
-      <div class="door">
-        <div class="label">For franchise networks</div>
-        <h3>One system across every brand</h3>
-        <p>Mark was built for multi-location, multi-brand operations from day one. The same brain that runs one trade extends to the next by configuration — not a rebuild.</p>
-        <ul>
-          <li>Consistent customer experience across owners</li>
-          <li>Network-wide membership and outbound revenue</li>
-          <li>Built and proven by an operator inside the trades</li>
-          <li>Extends brand by brand as you roll out</li>
-        </ul>
-        <a class="btn btn-light door-cta" href="https://calendly.com/dlqueensr/mark-ai-demo-clone" target="_blank" rel="noopener">Talk about your network</a>
-      </div>
+    <div class="who-for">
+      <div class="wtile"><div class="ic">🔧</div><div class="nm">Plumbing</div><div class="sub">repair, drain, water heater</div></div>
+      <div class="wtile"><div class="ic">❄</div><div class="nm">HVAC</div><div class="sub">service, install, maintenance</div></div>
+      <div class="wtile"><div class="ic">⚡</div><div class="nm">Electrical</div><div class="sub">repair, panels, generators</div></div>
+      <div class="wtile"><div class="ic">🏠</div><div class="nm">Handyman</div><div class="sub">multi-trade home repair</div></div>
+      <div class="wtile"><div class="ic">💧</div><div class="nm">Restoration</div><div class="sub">water, fire, mold</div></div>
+      <div class="wtile"><div class="ic">🏚</div><div class="nm">Roofing</div><div class="sub">repair &amp; replacement</div></div>
+      <div class="wtile"><div class="ic">🚪</div><div class="nm">Garage &amp; doors</div><div class="sub">install &amp; service</div></div>
+      <div class="wtile"><div class="ic">＋</div><div class="nm">Every other trade</div><div class="sub">if it rings, Mark answers</div></div>
     </div>
+    <p class="center muted" style="margin-top:28px;font-size:15px">You control exactly what Mark services and how he answers — edit your services, FAQs and phone script yourself, live in seconds. Typical onboarding is about four weeks.</p>
   </div>
 </section>
 
-<section id="founder" style="background:var(--panel);">
-  <div class="wrap founder">
-    <div class="founder-card">
-      <div class="quote">"Mark never calls in sick. He never has a bad attitude. Always follows up, always overcomes objections, and always closes. And he always works the way an owner would — because the person who built him is one."</div>
-      <div class="sig">— David Queen, founder of Mark AI<span>Owner-operator, home-services franchise · the trades, not a startup lab</span></div>
-    </div>
-    <div>
-      <span class="eyebrow muted">Built by an owner, not a vendor</span>
-      <h2>The person who built Mark runs the same business you do.</h2>
-      <p>Mark AI wasn't dreamed up by software people guessing at how the trades work. It was built by a working home-services franchise owner — engineered, tested, and proven on real calls and real jobs in a live operation.</p>
-      <p>That's the difference you can hear in every call. Mark knows what a dispatch looks like, why an onsite estimate matters, and how a slow week turns into a full board. It's not a generic chatbot wearing a hard hat — it's a system built from the inside of the work it does.</p>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="final">
+<!-- FINAL CTA -->
+<section class="final" id="book" style="background:linear-gradient(180deg,rgba(11,17,31,.30),rgba(11,17,31,.44)),url('/assets/mark-cta.jpg') center/cover">
   <div class="wrap">
-    <span class="eyebrow">Book a demo</span>
-    <h2>Hear Mark answer a call.</h2>
-    <p>Thirty minutes. We'll walk through how Mark would handle your calls, book your jobs, and fill your slow days — on your trade, with your pricing.</p>
+    <span class="eyebrow" style="color:var(--gold)">Book a demo</span>
+    <h2 style="margin-top:14px">See Mark take a real call <span class="accent serif">on your business.</span></h2>
+    <p>About an hour. We'll run a live call, build an estimate, and show you the whole office working — on ServiceTitan, priced off your own numbers.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://calendly.com/dlqueensr/mark-ai-demo-clone" target="_blank" rel="noopener">Book a demo →</a>
+      <a href="https://bookings.cloud.microsoft/bookwithme/user/a3dada838ecf42aea1520e2a140fb444@mrhandyman.com/meetingtype/-UB3LWS1GUGy3yBY772OgQ2?anonymous&ismsaljsauthenabled&ep=mcard" target="_blank" rel="noopener" class="btn btn-gold" id="book-btn">Book a demo →</a>
+      <a href="#how" class="btn btn-ghost-light">See how it works</a>
     </div>
+    <p class="hero-note" style="justify-content:center;margin-top:16px"><span class="ck">✓</span> Built and run by a fellow home-services owner.</p>
   </div>
 </section>
 
 <footer>
-  <div class="wrap foot-row">
-    <a class="brandmark" href="#top"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
-    <div>The AI office manager for home services.</div>
-    <div>© 2026 Mark AI</div>
-  </div>
-  <div class="wrap foot-legal">
-    <nav class="foot-links" aria-label="Footer">
-      <a href="/about.html">About Us</a>
-      <a href="/contact.html">Contact Us</a>
-      <a href="/terms.html">Terms &amp; Conditions</a>
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/do-not-sell.html">Do Not Sell or Share My Personal Information</a>
-    </nav>
+  <div class="wrap">
+    <div class="foot-inner">
+      <a href="#top" class="logo"><img src="/assets/logo.png" alt="Mark ai — AI Office Manager" style="height:36px;width:auto;display:block"></a>
+      <nav class="foot-links">
+        <a href="#how">How it works</a>
+        <a href="#infield">In-Field Agent</a>
+        <a href="#outbound">Outbound</a>
+        <a href="#bookkeeper">Bookkeeper</a>
+        <a href="#why">Why Mark</a>
+        <a href="https://bookings.cloud.microsoft/bookwithme/user/a3dada838ecf42aea1520e2a140fb444@mrhandyman.com/meetingtype/-UB3LWS1GUGy3yBY772OgQ2?anonymous&ismsaljsauthenabled&ep=mcard" target="_blank" rel="noopener">Book a demo</a>
+      </nav>
+    </div>
+    <p class="foot-copy">Mark — The AI Office Manager · built on ServiceTitan for home-services businesses. One AI for the whole front office: answering, booking, in-field estimating, memberships, outbound, campaigns, bookkeeping and collections.</p>
   </div>
 </footer>
 
 <script>
-  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
-  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
-  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
-
-  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var lines=document.querySelectorAll('#transcript .line');
-  var booked=document.getElementById('booked');
-  var played=false;
-  function play(){
-    if(played)return;played=true;
-    if(reduce){lines.forEach(function(l){l.classList.add('show');});booked.classList.add('show');return;}
-    var d=400;
-    lines.forEach(function(l,i){setTimeout(function(){l.classList.add('show');},d*(i+1));});
-    setTimeout(function(){booked.classList.add('show');},d*(lines.length+1)+250);
-  }
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(en){if(en.isIntersecting)play();});
-  },{threshold:.4});
-  obs.observe(document.getElementById('console'));
+  // smooth scroll + close mobile menu
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var id=a.getAttribute('href');
+      if(id.length>1){
+        var el=document.querySelector(id);
+        if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});
+          var m=document.getElementById('navlinks'); if(m) m.classList.remove('open');}
+      }
+    });
+  });
 </script>
 
 </body>
