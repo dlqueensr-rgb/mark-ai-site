@@ -777,10 +777,10 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
         <div class="panel">
           <div class="est-head"><span class="id">Choose Mark’s voice</span></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px"><div style="font-weight:600;font-size:15px">Mark</div><div style="font-size:12.5px;color:var(--muted)">Current production voice</div><div style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></div>
-            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px"><div style="font-weight:600;font-size:15px">Blake</div><div style="font-size:12.5px;color:var(--muted)">Energetic — customer support</div><div style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></div>
-            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px"><div style="font-weight:600;font-size:15px">Santiago</div><div style="font-size:12.5px;color:var(--muted)">Latino-accented English</div><div style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></div>
-            <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px"><div style="font-weight:600;font-size:15px">Lawson</div><div style="font-size:12.5px;color:var(--muted)">Southern storyteller</div><div style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></div>
+            <button type="button" class="vtile" data-audio="/demo_clips/handyman/mark_01.mp3" style="display:block;width:100%;text-align:left;cursor:pointer;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;font-family:inherit"><div style="font-weight:600;font-size:15px;color:var(--fg)">Mark</div><div style="font-size:12.5px;color:var(--muted)">Current production voice</div><div class="vplay" style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></button>
+            <button type="button" class="vtile" data-audio="/assets/voices/blake.mp3" style="display:block;width:100%;text-align:left;cursor:pointer;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;font-family:inherit"><div style="font-weight:600;font-size:15px;color:var(--fg)">Blake</div><div style="font-size:12.5px;color:var(--muted)">Energetic — customer support</div><div class="vplay" style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></button>
+            <button type="button" class="vtile" data-audio="/assets/voices/santiago.mp3" style="display:block;width:100%;text-align:left;cursor:pointer;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;font-family:inherit"><div style="font-weight:600;font-size:15px;color:var(--fg)">Santiago</div><div style="font-size:12.5px;color:var(--muted)">Latino-accented English</div><div class="vplay" style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></button>
+            <button type="button" class="vtile" data-audio="/assets/voices/lawson.mp3" style="display:block;width:100%;text-align:left;cursor:pointer;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;font-family:inherit"><div style="font-weight:600;font-size:15px;color:var(--fg)">Lawson</div><div style="font-size:12.5px;color:var(--muted)">Southern storyteller</div><div class="vplay" style="font-size:12px;color:var(--gold-deep);font-weight:600;margin-top:7px">▶ Play sample</div></button>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
             <span style="font-size:13px;font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 12px">English</span><span style="font-size:13px;font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 12px">Español</span><span style="font-size:13px;font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 12px">Français</span><span style="font-size:13px;font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 12px">Deutsch</span><span style="font-size:13px;font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 12px">Português</span>
@@ -839,8 +839,27 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
       <div class="feat-media">
         <div class="panel">
           <div class="est-head"><span class="id">Fleet · live</span><span class="pill" style="background:var(--green-soft);color:var(--green)">● 3 online</span></div>
-          <div style="height:160px;border-radius:12px;background:linear-gradient(135deg,var(--surface-2),var(--border));border:1px solid var(--border);position:relative;overflow:hidden">
-            <span style="position:absolute;left:24%;top:38%;font-size:22px">📍</span><span style="position:absolute;left:58%;top:60%;font-size:22px">📍</span><span style="position:absolute;left:72%;top:26%;font-size:22px">📍</span>
+          <div style="height:170px;border-radius:12px;overflow:hidden;position:relative;border:1px solid var(--border)">
+            <svg viewBox="0 0 640 170" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
+              <rect width="640" height="170" fill="#e7ebe1"/>
+              <rect x="34" y="14" width="128" height="62" rx="6" fill="#d3e3c5"/>
+              <path d="M-10,128 C120,100 190,158 330,128 C470,100 540,158 660,126 L660,182 L-10,182 Z" fill="#c6d9e8"/>
+              <g fill="none" stroke="#d6dccb" stroke-linecap="round">
+                <path d="M0,58 H640" stroke-width="11"/><path d="M0,118 H640" stroke-width="9"/>
+                <path d="M232,0 V170" stroke-width="11"/><path d="M432,0 V170" stroke-width="9"/>
+                <path d="M96,0 V170" stroke-width="6"/><path d="M548,0 V170" stroke-width="6"/>
+                <path d="M352,-10 L664,150" stroke-width="10"/>
+              </g>
+              <g fill="none" stroke="#ffffff" stroke-linecap="round">
+                <path d="M0,58 H640" stroke-width="7"/><path d="M0,118 H640" stroke-width="5"/>
+                <path d="M232,0 V170" stroke-width="7"/><path d="M432,0 V170" stroke-width="5"/>
+                <path d="M96,0 V170" stroke-width="3"/><path d="M548,0 V170" stroke-width="3"/>
+                <path d="M352,-10 L664,150" stroke-width="6"/>
+              </g>
+            </svg>
+            <span style="position:absolute;font-size:24px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));left:33%;top:26%">📍</span>
+            <span style="position:absolute;font-size:24px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));left:65%;top:62%">📍</span>
+            <span style="position:absolute;font-size:24px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));left:50%;top:48%">📍</span>
           </div>
           <div class="feat-list" style="margin-top:12px">
             <div class="row"><span class="ck" style="color:var(--green)">●</span><span>Greg’s Van — en route · last ping 2 min ago</span></div>
@@ -1064,5 +1083,6 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
   });
 </script>
 
+<script>(function(){var cur=null,curEl=null;document.querySelectorAll(".vtile").forEach(function(b){b.addEventListener("click",function(){var url=b.getAttribute("data-audio"),lab=b.querySelector(".vplay");if(cur){cur.pause();}if(curEl&&curEl!==lab){curEl.textContent="▶ Play sample";}if(curEl===lab){curEl.textContent="▶ Play sample";cur=null;curEl=null;return;}var a=new Audio(url);cur=a;curEl=lab;lab.textContent="❚❚ Playing…";a.onended=function(){lab.textContent="▶ Play sample";cur=null;curEl=null;};a.onerror=function(){lab.textContent="Sample coming soon";cur=null;curEl=null;};a.play().catch(function(){lab.textContent="Sample coming soon";cur=null;curEl=null;});});});})();</script>
 </body>
 </html>
