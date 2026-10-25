@@ -170,10 +170,7 @@ section{padding:84px 0}
 /* dashboard tiles */
 .dash{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .dtile{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:16px}
-.dtile .n{font-family:var(--ff-serif);font-size:28px;font-weight:600;color:var(--navy)}
-:root[data-theme="dark"] .dtile .n,
-:root:not([data-theme="light"]) .dtile .n{color:#EAEEF6}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dtile .n{color:#EAEEF6}}
+.dtile .n{font-family:var(--ff-serif);font-size:28px;font-weight:600;color:var(--fg)}
 .dtile .l{font-size:12px;color:var(--muted);margin-top:2px}
 
 /* collections cadence */
@@ -948,6 +945,14 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
       </nav>
     </div>
     <p class="foot-copy">Mark — The AI Office Manager · built on ServiceTitan for home-services businesses. One AI for the whole front office: answering, booking, in-field estimating, memberships, outbound, campaigns, bookkeeping and collections.</p>
+    <nav class="foot-legal" style="display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:16px;font-size:13px">
+      <a href="/about.html" style="color:#AEB8CC">About Us</a>
+      <a href="/contact.html" style="color:#AEB8CC">Contact Us</a>
+      <a href="/terms.html" style="color:#AEB8CC">Terms &amp; Conditions</a>
+      <a href="/privacy.html" style="color:#AEB8CC">Privacy Policy</a>
+      <a href="/do-not-sell.html" style="color:#AEB8CC">Do Not Sell or Share My Personal Information</a>
+      <span style="color:#73809a">© 2026 Mark AI</span>
+    </nav>
   </div>
 </footer>
 
