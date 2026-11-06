@@ -325,6 +325,18 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
 .bo-grid .pillar{display:flex;flex-direction:column}
 .bo-grid .pillar ul{margin-bottom:16px}
 .bo-more{margin-top:auto;font-size:14px;font-weight:600;color:var(--gold-deep)}
+.ov-feature{max-width:860px;margin:0 auto 36px;text-align:center}
+.ov-feature blockquote{margin:0;font-family:var(--ff-serif);font-size:clamp(24px,3.2vw,36px);line-height:1.3;color:var(--fg)}
+.ov-feature blockquote b{color:var(--gold-deep);font-weight:inherit}
+.ov-by{margin-top:18px;font-size:15px;color:var(--muted)}
+.ov-by strong{color:var(--fg)}
+.ov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.ov-grid{grid-template-columns:1fr}}
+.ov-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 22px 18px;display:flex;flex-direction:column}
+.ov-card p{margin:0 0 14px;font-size:16px;line-height:1.55}
+.ov-card p:before{content:"\201C";font-family:var(--ff-serif);color:var(--gold-deep);font-size:28px;line-height:0;margin-right:2px;vertical-align:-8px}
+.ov-card .ov-tag{margin-top:auto;font-size:13px;font-weight:600;color:var(--muted)}
+.ov-note{margin-top:18px;text-align:center;font-size:13px;color:var(--muted-2)}
 .mktg-stats{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:34px}
 .mktg-stat{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
 .mktg-stat .v{font-family:var(--ff-serif);font-size:34px;font-weight:600;color:var(--fg)}
@@ -409,6 +421,31 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
   </div>
 </section>
 
+<!-- OWNER VOICES -->
+<section id="owners">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">From an owner running on Mark</span>
+      <h2>"Does this stuff actually work?"</h2>
+      <p class="muted" style="margin-inline:auto">In his own words, a franchise owner on what Mark has done for his business.</p>
+    </div>
+    <div class="ov-feature">
+      <blockquote>&ldquo;After just two weeks of implementation, our after-hours booking rate went from <b>2% to 75%</b>. Our daytime overflow booking results have been just as impressive.&rdquo;</blockquote>
+      <div class="ov-by"><strong>Rob Coughlin</strong> &middot; Franchise owner, Tampa Bay, FL</div>
+    </div>
+    <div class="ov-grid">
+      <div class="ov-card"><p>Think about the impact of responding to every new lead within one minute, including evenings and weekends&hellip; Mark responds immediately, communicates with the customer, and works to get the job booked. (In a very quiet voice, he is doing it better than my staff.)&rdquo;</p><span class="ov-tag">Speed to lead</span></div>
+      <div class="ov-card"><p>A technician can call in sick by texting Mark, and Mark can cancel the affected appointments, block the technician&rsquo;s schedule, contact customers, and work to reschedule their jobs. Think about how much office time that alone could save.&rdquo;</p><span class="ov-tag">Running the schedule</span></div>
+      <div class="ov-card"><p>I&rsquo;m not talking about what AI might be able to do someday. I&rsquo;m talking about capabilities we&rsquo;re putting to work right now.&rdquo;</p><span class="ov-tag">Working today</span></div>
+      <div class="ov-card"><p>Think Rilla on steroids, and the call review and scoring capabilities are included at no additional charge!&rdquo;</p><span class="ov-tag">Coaching</span></div>
+      <div class="ov-card"><p>When an estimate is sold and includes a permit fee, Mark automatically texts the appropriate person to begin the permitting process. He can then track permit status with the appropriate building department.&rdquo;</p><span class="ov-tag">Permits</span></div>
+      <div class="ov-card"><p>Every time I think of something else I&rsquo;d like Mark to do&hellip; more often than not, he&rsquo;s already thought about it or has a way to make it happen. If you can imagine it, there&rsquo;s a good chance David can figure out how to get Mark to do it.&rdquo;</p><span class="ov-tag">Built by an operator</span></div>
+    </div>
+    <p class="ov-note">Early results from one owner&rsquo;s business, shared with his permission. Results vary by business.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
 <!-- LIVE DEMO -->
 <section id="demo" style="background:var(--surface-2);border-block:1px solid var(--border)">
   <div class="wrap">
