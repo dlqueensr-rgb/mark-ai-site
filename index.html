@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Mark — AI Office Manager</title>
-<meta name="description" content="Mark is one AI that runs the whole home-services front office — answering, booking, in-field estimating, memberships, outbound, campaigns, bookkeeping and collections — built on ServiceTitan by an operator.">
+<meta name="description" content="Mark is one AI that runs the whole home-services front office — answering, booking, in-field estimating, memberships, outbound, campaigns, bookkeeping, payroll, H.R., insurance, permits and subcontractors — built on ServiceTitan by an operator.">
 <style>
 :root{
   --bg:#FBFAF5; --surface:#FFFFFF; --surface-2:#F4F1E8;
@@ -59,6 +59,9 @@ header.nav{position:sticky;top:0;z-index:50;background:var(--navy);color:#F7F4EC
 .logo small{display:block;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#AEB8CC;margin-top:-2px}
 .nav-links{display:flex;gap:22px;font-size:14.5px;font-weight:500;color:#D7DDEA}
 .nav-links a:hover{color:#fff}
+.nav-links a{white-space:nowrap}
+.logo{flex:none;white-space:nowrap}
+@media (max-width:1460px){.nav-links{gap:15px;font-size:13.5px}}
 .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;cursor:pointer;border:1px solid transparent;transition:transform .12s ease,background .12s ease}
 .btn:hover{transform:translateY(-1px)}
 .btn-gold{background:var(--gold);color:#1a1405}
@@ -319,6 +322,9 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
 @media(max-width:820px){.ifa-est{grid-template-columns:1fr}.ifa-flow{padding:30px 22px}}
 
 
+.bo-grid .pillar{display:flex;flex-direction:column}
+.bo-grid .pillar ul{margin-bottom:16px}
+.bo-more{margin-top:auto;font-size:14px;font-weight:600;color:var(--gold-deep)}
 .mktg-stats{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:34px}
 .mktg-stat{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
 .mktg-stat .v{font-family:var(--ff-serif);font-size:34px;font-weight:600;color:var(--fg)}
@@ -330,6 +336,7 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
 .mktg-note{font-size:13px;color:var(--muted-2);text-align:center;margin-bottom:40px}
 @media(max-width:860px){.mktg-gallery{grid-template-columns:repeat(2,1fr)}}
 
+@media (max-width:1340px){.nav-links{display:none}.menu-btn{display:block}.nav-links.open{display:flex;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--navy);padding:16px 24px;gap:16px;border-bottom:1px solid rgba(255,255,255,.1)}}
 </style>
 </head>
 <body>
@@ -351,6 +358,7 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
       <a href="#outbound">Outbound</a>
       <a href="#marketing">Campaigns</a>
       <a href="#bookkeeper">Bookkeeper</a>
+      <a href="#backoffice">Back Office</a>
       <a href="#coaching">Coaching</a>
       <a href="#control">Control</a>
       <a href="#why">Why Mark</a>
@@ -367,7 +375,7 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
     <div class="hero-grid">
       <div class="hero-copy">
         <h1>Your whole front office.<br><span class="accent serif">One AI. Built by an operator.</span></h1>
-        <p class="hero-sub">Mark answers every call, builds estimates in the field, sells memberships, runs the outbound that wins back old customers, and even keeps the books — the work of a full office and an outside sales rep, without the payroll.</p>
+        <p class="hero-sub">Mark answers every call, builds estimates in the field, sells memberships, runs the outbound that wins back old customers, keeps the books, and runs your back office — payroll, H.R., insurance and permits. The work of a full office and an outside sales rep, for the price of one CSR.</p>
         <div class="hero-cta">
           <a href="https://bookings.cloud.microsoft/book/MarkAIOfficeManager@tdgextmail.onmicrosoft.com/?ismsaljsauthenabled" target="_blank" rel="noopener" class="btn btn-gold">Book a demo →</a>
           <a href="#how" class="btn btn-ghost-light">See how it works</a>
@@ -493,8 +501,8 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">One brain · every department</span>
-      <h2>Six departments. <span class="accent serif">One flat price.</span></h2>
-      <p>Inbound, in-field, outbound, memberships, the dashboard and the books — one AI that reasons through every call, text and email in its own words. No per-minute. No per-seat. No metering.</p>
+      <h2>Every department. <span class="accent serif">One flat price.</span></h2>
+      <p>Inbound, in-field, outbound, memberships, the dashboard, the books and the back office — one AI that reasons through every call, text and email in its own words. No per-minute. No per-seat. No metering.</p>
     </div>
     <div class="pillars">
       <div class="pillar">
@@ -758,6 +766,29 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
   </div>
 </section>
 
+<!-- BACK OFFICE -->
+<div class="divider"></div>
+<section id="backoffice" style="background:var(--surface-2);border-block:1px solid var(--border)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The back office · all live</span>
+      <h2>The rest of the office — <span class="accent serif">handled too.</span></h2>
+      <p>Answering the phone is only half the job. Mark also runs the work that keeps a shop out of trouble and in the money: the late-tech texts, the morning rundown, commercial accounts, permits, insurance, payroll, job costing, H.R. and your subcontractors.</p>
+    </div>
+    <div class="pillars bo-grid">
+      <a class="pillar" href="/features/running-late.html"><div class="pic">⏰</div><h3>Running late</h3><p>Customers hear from you before they have to call.</p><ul><li>Heads-up text the moment a tech runs behind</li><li>Tech calls out? Mark reschedules that day's customers</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/morning-briefing.html"><div class="pic">☕</div><h3>Morning briefing</h3><p>Start the day knowing exactly what needs you.</p><ul><li>Overnight calls, owed call-backs, aging invoices</li><li>Jobs missing receipts, expiring documents</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/commercial-accounts.html"><div class="pic">🏢</div><h3>Commercial accounts</h3><p>Work orders handled like a dedicated account manager.</p><ul><li>Reads PO emails, gets not-to-exceed approval</li><li>Texts tenants for access; statements on the 1st</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/permit-tracking.html"><div class="pic">📋</div><h3>Permit tracking</h3><p>Every permit followed to a passed inspection.</p><ul><li>Your process: who pulls, who schedules inspection</li><li>Optional hold on the final invoice until it passes</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/insurance.html"><div class="pic">🛡</div><h3>Insurance</h3><p>Coverage watched over — and shopped for you, no commission.</p><ul><li>Workers' comp, GL, commercial auto, inland marine</li><li>Lapse alerts and certificate requests handled</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/payroll.html"><div class="pic">💵</div><h3>Payroll</h3><p>Every hour checked before it's paid.</p><ul><li>Timesheets checked against GPS and job sites</li><li>Spiffs and state rules applied; approved hours to ADP</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/job-costing.html"><div class="pic">📈</div><h3>Job costing</h3><p>Know what every job really cost you.</p><ul><li>GPS-verified labor, card fees, receipts per job</li><li>Works alongside your ServiceTitan reports</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/hr-department.html"><div class="pic">🗂</div><h3>H.R. department</h3><p>A full H.R. department, without hiring one.</p><ul><li>Write-ups you approve, state forms and handbook</li><li>Employee files, reviews, leave, OSHA log, recruiting</li></ul><span class="bo-more">Learn more →</span></a>
+      <a class="pillar" href="/features/subcontractors.html"><div class="pic">🤝</div><h3>Subcontractors</h3><p>Use subs with confidence — no extra ServiceTitan seat.</p><ul><li>Five compliance documents tracked; no dispatch unless clear</li><li>Right sub per job type, "done" by text, net 30</li></ul><span class="bo-more">Learn more →</span></a>
+    </div>
+  </div>
+</section>
+
 <div class="divider"></div>
 <!-- VOICES & LANGUAGES -->
 <section id="voices">
@@ -998,6 +1029,9 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
           <tr><td>In-field voice-note estimator</td><td class="yes">Yes</td><td class="no">No</td></tr>
           <tr><td>Sells &amp; e-signs memberships</td><td class="yes">Yes</td><td class="no">Follow-ups only</td></tr>
           <tr><td>QuickBooks + AR collections</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>Payroll review → ADP</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>H.R., insurance &amp; permit tracking</td><td class="yes">Yes</td><td class="no">No</td></tr>
+          <tr><td>Subcontractor compliance &amp; dispatch</td><td class="yes">Yes</td><td class="no">No</td></tr>
           <tr><td>Pricing model</td><td class="yes">Flat / location</td><td class="no">Per minute / per module</td></tr>
         </tbody>
       </table>
@@ -1067,11 +1101,12 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
         <a href="#infield">In-Field Agent</a>
         <a href="#outbound">Outbound</a>
         <a href="#bookkeeper">Bookkeeper</a>
+        <a href="#backoffice">Back Office</a>
         <a href="#why">Why Mark</a>
         <a href="https://bookings.cloud.microsoft/book/MarkAIOfficeManager@tdgextmail.onmicrosoft.com/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a demo</a>
       </nav>
     </div>
-    <p class="foot-copy">Mark — The AI Office Manager · built on ServiceTitan for home-services businesses. One AI for the whole front office: answering, booking, in-field estimating, memberships, outbound, campaigns, bookkeeping and collections.</p>
+    <p class="foot-copy">Mark — The AI Office Manager · built on ServiceTitan for home-services businesses. One AI for the whole front office: answering, booking, in-field estimating, memberships, outbound, campaigns, bookkeeping, collections and the back office.</p>
     <nav class="foot-legal" style="display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:16px;font-size:13px">
       <a href="/about.html" style="color:#AEB8CC">About Us</a>
       <a href="/contact.html" style="color:#AEB8CC">Contact Us</a>
