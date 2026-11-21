@@ -82,6 +82,11 @@ header.nav{position:sticky;top:0;z-index:50;background:var(--navy);color:#F7F4EC
 .hero-note{font-size:14px;color:#AEB8CC;display:flex;align-items:center;gap:8px}
 .hero-note .ck{color:var(--gold)}
 
+/* watch video (below the hero) */
+.video-sec{padding:64px 0 72px}
+.video-frame{max-width:980px;margin:34px auto 0;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 26px 70px rgba(0,0,0,.5);background:#000}
+.video-frame video{width:100%;height:auto;display:block;aspect-ratio:16/9}
+
 /* call card */
 .callcard{background:var(--navy-2);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:24px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6);color:#EAEEF6}
 .callcard-top{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:18px}
@@ -400,6 +405,23 @@ footer{background:var(--navy-2);color:#AEB8CC;padding:44px 0;border-top:1px soli
     <div class="strip-inner">
       <span class="trades">Built for <b>plumbing · HVAC · electrical · handyman · restoration · roofing · garage</b> — every trade that runs on the phone</span>
       <span>Answers every call <b>24/7</b> — no voicemail, no missed leads</span>
+    </div>
+  </div>
+</section>
+
+<!-- WATCH / VIDEO (right below the hero banner) -->
+<section class="video-sec" id="watch">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Watch</span>
+      <h2>See Mark <span class="accent serif">in action.</span></h2>
+      <p class="muted" style="margin-inline:auto">A couple of minutes with a fellow home-services owner on what Mark does for his shop.</p>
+    </div>
+    <div class="video-frame">
+      <video controls preload="none" playsinline poster="assets/video/mark-overview-poster.jpg">
+        <source src="assets/video/mark-overview.mp4" type="video/mp4">
+        Your browser doesn&rsquo;t support video — <a href="assets/video/mark-overview.mp4">watch it here</a>.
+      </video>
     </div>
   </div>
 </section>
