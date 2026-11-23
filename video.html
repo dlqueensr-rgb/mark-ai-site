@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mark AI in One Minute</title>
+<meta name="description" content="A one-minute video that explains what Mark AI, the AI office manager for home services, does for your office." />
+<meta property="og:title" content="Mark AI in One Minute" />
+<meta property="og:image" content="https://getmarkaioffice.com/assets/video/mark-one-minute-poster.jpg" />
+<link rel="icon" href="/assets/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .vid-wrap{padding:28px 0 56px}
+  .vid-frame{max-width:min(460px,calc((100vh - 120px) * 0.75));margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 26px 70px rgba(0,0,0,.35);background:#000}
+  .vid-frame video{width:100%;height:auto;display:block;aspect-ratio:3/4}
+  .vid-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:30px}
+  .vid-note{text-align:center;color:var(--muted,#5b6475);margin-top:16px;font-size:15px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brandmark" href="/"><img class="logo-mark" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/#how">How it works</a>
+      <a href="/#outbound">Outbound</a>
+      <a href="/#backoffice">Back Office</a>
+      <a href="/#why">Why Mark</a>
+      <a href="/features/in-field-agent.html">In-Field Agent</a>
+      <a href="/campaigns.html">Campaigns</a>
+      <a href="/#mentor">Mentor</a>
+      <a href="/#who">Who it's for</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="https://bookings.cloud.microsoft/book/MarkAIOfficeManager@tdgextmail.onmicrosoft.com/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a demo</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hd" style="padding:34px 0 30px">
+  <div class="wrap">
+    <span class="eyebrow">Watch</span>
+    <h1>Mark AI in one minute.</h1>
+    <p class="kick">What Mark, the AI office manager for home services, does for your office.</p>
+  </div>
+</section>
+
+<section class="vid-wrap">
+  <div class="wrap">
+    <div class="vid-frame">
+      <video id="markVid" controls autoplay playsinline preload="auto" poster="/assets/video/mark-one-minute-poster.jpg">
+        <source src="/assets/video/mark-one-minute.mp4" type="video/mp4">
+        Your browser doesn&rsquo;t support video &mdash; <a href="/assets/video/mark-one-minute.mp4">watch it here</a>.
+      </video>
+    </div>
+    <div class="vid-cta">
+      <a class="btn btn-primary" href="/">See everything Mark does &rarr;</a>
+      <a class="btn btn-ghost" href="https://bookings.cloud.microsoft/book/MarkAIOfficeManager@tdgextmail.onmicrosoft.com/?ismsaljsauthenabled" target="_blank" rel="noopener">Book a demo &rarr;</a>
+    </div>
+    <p class="vid-note">See Mark working inside your own ServiceTitan.</p>
+  </div>
+</section>
+
+<script>
+  /* Try to start with sound (they clicked to watch it); if the browser blocks that, the play button is right there. */
+  (function(){var v=document.getElementById('markVid');if(!v)return;var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){});})();
+</script>
+
+<footer>
+  <div class="wrap foot-row">
+    <a class="brandmark" href="/"><img class="logo-full" src="/assets/logo.png" alt="Mark ai — AI Office Manager"></a>
+    <div>The AI office manager for home services.</div>
+    <div>© 2026 Mark AI</div>
+  </div>
+  <div class="wrap foot-legal">
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact Us</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/do-not-sell.html">Do Not Sell or Share My Personal Information</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  var menuBtn=document.getElementById('menuBtn'),navLinks=document.getElementById('navLinks');
+  menuBtn.addEventListener('click',function(){navLinks.classList.toggle('open');});
+  navLinks.addEventListener('click',function(e){if(e.target.tagName==='A')navLinks.classList.remove('open');});
+</script>
+
+</body>
+</html>
