@@ -45,7 +45,7 @@ async function alphaInfo(page, dataUri){
     let tr=0,op=0,dark=0;
     for(let i=0;i<d.length;i+=4){ if(d[i+3]<40)tr++; else {op++; if(d[i]<70&&d[i+1]<70&&d[i+2]<70)dark++;} }
     return c.width+'x'+c.height+' transparent='+Math.round(100*tr/(tr+op))+'% darkOfOpaque='+Math.round(100*dark/Math.max(1,op))+'%';
-  }, src);
+  }, dataUri);
 }
 (async()=>{
   const targets = {
