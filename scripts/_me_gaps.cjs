@@ -42,16 +42,16 @@ const FIXES = [
     let added=0, skipped=0;
     console.log('=== ADD (brand=Mr. Electric, source=pricebook, shared) ===');
     for(const [name,cat,hrs,pu,tc,phone] of ADDS){
-      const r = await c.query(
+      const ex = await c.query(`SELECT 1 FROM master_job_hours WHERE lower(name)=lower($1) LIMIT 1`,[name]);
+      if(ex.rowCount){ skipped++; console.log(`  = SKIP (name already exists): ${name}`); continue; }
+      await c.query(
         `INSERT INTO master_job_hours
           (name,category,hours,per_unit,tech_count,phone_default,placeholder,hidden,
            source,review_status,hours_status,office_franchise_id,brand,learned_via,uses,created_at,updated_at)
-         VALUES ($1,$2,$3,$4,$5,$6,false,false,'pricebook','confirmed','book',NULL,$7,$8,0,now(),now())
-         ON CONFLICT (name) DO NOTHING RETURNING id`,
+         VALUES ($1,$2,$3,$4,$5,$6,false,false,'pricebook','confirmed','book',NULL,$7,$8,0,now(),now())`,
         [name,cat,hrs,pu,tc,phone,BRAND,VIA]
       );
-      if(r.rowCount){ added++; console.log(`  + ${name}  [${cat}]  ${hrs}h ${pu?'/unit':''} ${tc}tech ${phone?'phone':'by-estimate'}`); }
-      else { skipped++; console.log(`  = SKIP (name already exists): ${name}`); }
+      added++; console.log(`  + ${name}  [${cat}]  ${hrs}h ${pu?'/unit':''} ${tc}tech ${phone?'phone':'by-estimate'}`);
     }
 
     console.log('\n=== FIX (edits to existing Mr. Electric rows) ===');
