@@ -15,11 +15,21 @@ const getJSON = (sid, token, host, path) => new Promise(ok => {
 (async () => {
   const f = (await pool.query("SELECT id, dba_name, twilio_account_sid AS sid, pgp_sym_decrypt(twilio_auth_token_enc, $2) AS token FROM franchises WHERE slug=$1", [SLUG, process.env.MARK_CRED_ENC_KEY])).rows[0];
   if (!f) throw new Error('no franchise ' + SLUG);
-  const mg = (await pool.query("SELECT messaging_service_sid FROM franchise_phone_numbers WHERE franchise_id=$1 AND messaging_service_sid IS NOT NULL LIMIT 1", [f.id])).rows[0];
-  if (!mg) throw new Error('no messaging_service_sid on file for ' + SLUG);
-  console.log('office: ' + f.dba_name + '   service: ' + mg.messaging_service_sid + '\n');
+  // messaging service: prefer explicit MG arg, else DB column, else discover from Twilio
+  let MG = process.argv[3] || null;
+  if (!MG) {
+    const r = (await pool.query("SELECT messaging_service_sid FROM franchise_phone_numbers WHERE franchise_id=$1 AND messaging_service_sid IS NOT NULL LIMIT 1", [f.id])).rows[0];
+    MG = r && r.messaging_service_sid;
+  }
+  if (!MG) {
+    const svcs = (await getJSON(f.sid, f.token, 'messaging.twilio.com', '/v1/Services?PageSize=50')).services || [];
+    if (!svcs.length) throw new Error('no messaging service found in subaccount for ' + SLUG);
+    if (svcs.length > 1) console.log('(multiple services; using first) ' + svcs.map(s => s.sid + ' "' + s.friendly_name + '"').join(' | '));
+    MG = svcs[0].sid;
+  }
+  console.log('office: ' + f.dba_name + '   service: ' + MG + '\n');
 
-  const a2p = (await getJSON(f.sid, f.token, 'messaging.twilio.com', '/v1/Services/' + mg.messaging_service_sid + '/Compliance/Usa2p')).compliance || [];
+  const a2p = (await getJSON(f.sid, f.token, 'messaging.twilio.com', '/v1/Services/' + MG + '/Compliance/Usa2p')).compliance || [];
   if (!a2p.length) { console.log('(no us_app_to_person campaign registered on this service yet)'); await pool.end(); console.log('\nA2P_DONE'); return; }
   for (const c of a2p) {
     console.log('=== CAMPAIGN ' + c.sid + '  status=' + c.campaign_status + ' ===');
