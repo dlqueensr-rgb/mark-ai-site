@@ -4,9 +4,16 @@
 // office's numbers can be configured to match verbatim. No writes, no changes.
 // Run on the droplet: cd ~/newmark && node _mirror_office.cjs
 process.chdir('/root/newmark');
-require('/root/newmark/node_modules/dotenv').config({ path: '/root/newmark/.env' });
+try { require('/root/newmark/node_modules/dotenv').config({ path: '/root/newmark/.env' }); } catch (e) {}
 const https = require('https');
 const { Pool } = require('/root/newmark/node_modules/pg');
+
+// preflight: say exactly what's missing instead of failing blank
+const miss = ['DATABASE_URL', 'MARK_CRED_ENC_KEY'].filter(k => !process.env[k]);
+if (miss.length) {
+  console.error('MISSING ENV: ' + miss.join(', ') + '  -> run under doppler:  doppler run -- node _mirror_office.cjs');
+  process.exit(1);
+}
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 2 });
 
 const SLUG = process.argv[2] || 'southwest-minneapolis-southwest-suburbs'; // reference = Richard (live, confirmed)
@@ -57,4 +64,4 @@ function getJSON(sid, token, host, path) {
 
   await pool.end();
   console.log('\nMIRROR_DONE');
-})().catch(e => { console.error('STOPPED: ' + e.message); process.exit(1); });
+})().catch(e => { console.error('STOPPED: ' + (e && e.message ? e.message : '(no message)')); if (e && e.stack) console.error(e.stack); process.exit(1); });
