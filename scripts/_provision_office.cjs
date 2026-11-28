@@ -39,7 +39,7 @@ function req(method, sid, token, host, path, params) {
     if (params) r.write(body); r.end();
   });
 }
-const get = (sid, token, host, path) => req('GET', sid, token, host, path, null);
+const get = async (sid, token, host, path) => (await req('GET', sid, token, host, path, null)).json; // return parsed body, not the {status,json} wrapper
 const post = (sid, token, host, path, params) => req('POST', sid, token, host, path, params);
 
 (async () => {
